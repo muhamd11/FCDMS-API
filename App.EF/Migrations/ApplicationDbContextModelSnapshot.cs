@@ -215,7 +215,7 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("userProfileToken")
+                    b.Property<Guid>("userProfileDatauserProfileToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("userType")
@@ -242,7 +242,7 @@ namespace App.EF.Migrations
                     b.HasIndex("userPhone")
                         .IsUnique();
 
-                    b.HasIndex("userProfileToken");
+                    b.HasIndex("userProfileDatauserProfileToken");
 
                     b.HasIndex("userType");
 
@@ -267,7 +267,6 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("newData")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("oldData")
@@ -329,9 +328,9 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Core.Models.Buyers.UserProfile", "userProfile")
+                    b.HasOne("App.Core.Models.Buyers.UserProfile", "userProfileData")
                         .WithMany()
-                        .HasForeignKey("userProfileToken")
+                        .HasForeignKey("userProfileDatauserProfileToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -341,7 +340,7 @@ namespace App.EF.Migrations
 
                     b.Navigation("userPatientData");
 
-                    b.Navigation("userProfile");
+                    b.Navigation("userProfileData");
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>

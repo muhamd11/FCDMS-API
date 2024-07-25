@@ -15,7 +15,5 @@ namespace App.Core.Models.SystemBase.BaseClass
 
         [JsonPropertyOrder(4)]
         public string updatedDateTime { get; set; }
-
-
     }
 }

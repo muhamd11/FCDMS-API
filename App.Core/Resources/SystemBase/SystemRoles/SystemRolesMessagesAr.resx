@@ -117,97 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="actionSuccess" xml:space="preserve">
-    <value>Action success</value>
+  <data name="errorSystemRoleNameIsRequired" xml:space="preserve">
+    <value>عذرًا، يجب إدخال اسم الدور الوظيفي</value>
   </data>
-  <data name="addFailed" xml:space="preserve">
-    <value>Sorry, failed to add the data</value>
+  <data name="errorSystemRoleNameWasAdded" xml:space="preserve">
+    <value>عذرًا، تم إضافة اسم الدور الوظيفي مسبقًا</value>
   </data>
-  <data name="addSuccess" xml:space="preserve">
-    <value>The data has been registered successfully.</value>
-  </data>
-  <data name="deleteFailed" xml:space="preserve">
-    <value>Sorry, failed to delete the data</value>
-  </data>
-  <data name="deleteSuccess" xml:space="preserve">
-    <value>The data has been deleted successfully.</value>
-  </data>
-  <data name="errorActionFailed" xml:space="preserve">
-    <value>Sorry, action failed</value>
-  </data>
-  <data name="errorDataNotFound" xml:space="preserve">
-    <value>Sorry, the data was not found.</value>
-  </data>
-  <data name="errorDescriptionMaxLength" xml:space="preserve">
-    <value>Description length can't be more than {0} characters.</value>
-  </data>
-  <data name="errorIdIsRequired" xml:space="preserve">
-    <value>The id is required</value>
-  </data>
-  <data name="errorInvalidEmail" xml:space="preserve">
-    <value>Sorry, Invalid Email </value>
-  </data>
-  <data name="errorInvalidFacebookUrl" xml:space="preserve">
-    <value>Sorry, Invalid Facebook Url</value>
-  </data>
-  <data name="errorInvalidInstagramUrl" xml:space="preserve">
-    <value>Sorry, Invalid Insatgram Url</value>
-  </data>
-  <data name="errorInvalidLinkedinUrl" xml:space="preserve">
-    <value>Sorry, Invalid Linkedin Url</value>
-  </data>
-  <data name="ErrorInvalidPhoneNumber" xml:space="preserve">
-    <value>Sorry,  Phone Number Is Invalid</value>
-  </data>
-  <data name="ErrorInvalidPhoneNumbers" xml:space="preserve">
-    <value>Sorry,  Phone Number {0} Is Invalid</value>
-  </data>
-  <data name="errorInvalidTwitterUrl" xml:space="preserve">
-    <value>Sorry, Invalid Twitter Url</value>
-  </data>
-  <data name="errorInvalidWebsiteUrl" xml:space="preserve">
-    <value>Sorry, Invalid Website Url</value>
-  </data>
-  <data name="errorInvalidYoutubeUrl" xml:space="preserve">
-    <value>Sorry, Invalid Youtube Url</value>
-  </data>
-  <data name="errorIsRequiredCountryCode" xml:space="preserve">
-    <value>Sorry,  Country Code Is Required</value>
-  </data>
-  <data name="errorIsRequiredCountryCodeName" xml:space="preserve">
-    <value>Sorry,  Country Code Name Is Required</value>
-  </data>
-  <data name="errorIsRequiredDialCode" xml:space="preserve">
-    <value>Sorry,  Dial Code Is Required</value>
-  </data>
-  <data name="errorIsRequiredPhoneNumber" xml:space="preserve">
-    <value>Sorry,  Phone Number Is Required</value>
-  </data>
-  <data name="errorNameIsRequired" xml:space="preserve">
-    <value>Sorry,  Name Is Required</value>
-  </data>
-  <data name="errorNameLength" xml:space="preserve">
-    <value>Name length can't be more than {0} characters.</value>
-  </data>
-  <data name="errorNoData" xml:space="preserve">
-    <value>Please send data</value>
-  </data>
-  <data name="errorSendLoginData" xml:space="preserve">
-    <value>Please, send login data </value>
-  </data>
-  <data name="errorSomthingWrong" xml:space="preserve">
-    <value>Sorry, an error occurred, please contact the administration</value>
-  </data>
-  <data name="operationSuccess" xml:space="preserve">
-    <value>Operation Success</value>
-  </data>
-  <data name="updateFailed" xml:space="preserve">
-    <value>Sorry, failed to modify the data</value>
-  </data>
-  <data name="updateSuccess" xml:space="preserve">
-    <value>The data has been updated successfully.</value>
-  </data>
-  <data name="wasAddedBefore" xml:space="preserve">
-    <value>was Added Before</value>
+  <data name="errorSystemRoleWasNotFound" xml:space="preserve">
+    <value>عذرًا، لم يتم العثور على الدور الوظيفي</value>
   </data>
 </root>

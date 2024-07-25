@@ -1,5 +1,4 @@
-﻿using App.Core.Models.Buyers;
-using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
+﻿using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using System.Linq.Expressions;
 

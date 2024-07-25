@@ -1,10 +1,10 @@
-﻿using App.Core.Models.Buyers;
+﻿using App.Core.Consts.SystemBase;
+using App.Core.Consts.Users;
+using App.Core.Models.Buyers;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
-using App.Core.Consts.SystemBase;
-using App.Core.Consts.Users;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,8 +17,6 @@ namespace App.Core.Models.Users
     [Index(nameof(userEmail), IsUnique = true)]
     [Index(nameof(userPhone), IsUnique = true)]
     [Index(nameof(userLoginName), IsUnique = true)]
-
-
     public class User : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -34,14 +32,15 @@ namespace App.Core.Models.Users
         public string userPassword { get; set; }
         public EnumUserType userType { get; set; }
 
-        //relations 
+        //relations
         [ForeignKey(nameof(roleData))]
         public Guid systemRoleToken { get; set; }
 
         public SystemRole roleData { get; set; }
 
-        //using any user type 
+        //using any user type
         public UserProfile userProfileData { get; set; }
+
         public UserPatient userPatientData { get; set; }
         public UserEmployee userEmployeeData { get; set; }
     }

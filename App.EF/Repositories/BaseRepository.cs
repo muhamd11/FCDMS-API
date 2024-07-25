@@ -4,11 +4,7 @@ using App.Core.Models.General;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace App.EF.Repositories
 {
@@ -27,10 +23,10 @@ namespace App.EF.Repositories
         }
 
         public async Task<BaseGetDataWithPagnation<TResult>> GetAllAsync<TResult>(
-                                                                     Expression<Func<T, TResult>> selection,
-                                                                     List<Expression<Func<T, bool>>>? criteria = null,
-                                                                     PaginationRequest? paginationRequest = null,
-                                                                     List<Expression<Func<T, object>>>? includes = null)
+            Expression<Func<T, TResult>> selection,
+            List<Expression<Func<T, bool>>>? criteria = null,
+            PaginationRequest? paginationRequest = null,
+            List<Expression<Func<T, object>>>? includes = null)
         {
             Pagination pagination = new();
             paginationRequest = paginationRequest ?? new PaginationRequest();
@@ -40,16 +36,12 @@ namespace App.EF.Repositories
             IQueryable<T> query = _context.Set<T>().AsQueryable();
 
             if (criteria != null)
-            {
                 foreach (var item in criteria)
                     query = query.Where(item);
-            }
 
             if (includes != null)
-            {
                 foreach (var item in includes)
                     query = query.Include(item);
-            }
 
             result.totalItems = await query.CountAsync();
 
@@ -86,45 +78,79 @@ namespace App.EF.Repositories
             };
         }
 
-        public T FirstOrDefault(Expression<Func<T, bool>> criteria, List<Expression<Func<T, object>>>? includes = null)
+        public T FirstOrDefault(Expression<Func<T, bool>>? criteria, List<Expression<Func<T, object>>>? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
             if (includes != null)
-            {
                 foreach (var item in includes)
                     query = query.Include(item);
-            }
 
             return query.FirstOrDefault(criteria);
         }
 
-        public async Task<TResult> FirstOrDefaultAsync<TResult>(Expression<Func<T, bool>> criteria,
-            Expression<Func<T, TResult>> select, List<Expression<Func<T, object>>>? includes = null)
+        public T FirstOrDefault(List<Expression<Func<T, bool>>>? criteria, List<Expression<Func<T, object>>>? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
             if (includes != null)
-            {
                 foreach (var item in includes)
                     query = query.Include(item);
-            }
+
+            foreach (var item in criteria)
+                query = query.Where(item);
+
+            return query.FirstOrDefault();
+        }
+
+        public async Task<TResult> FirstOrDefaultAsync<TResult>(
+            Expression<Func<T, bool>>? criteria = null,
+            Expression<Func<T, TResult>>? select = null,
+            List<Expression<Func<T, object>>>? includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (includes != null)
+                foreach (var item in includes)
+                    query = query.Include(item);
 
             return await query.Where(criteria).Select(select).FirstOrDefaultAsync();
         }
 
-        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> criteria, string[] includes = null)
+        public async Task<TResult> FirstOrDefaultAsync<TResult>(
+            List<Expression<Func<T, bool>>>? criterias = null,
+            Expression<Func<T, TResult>>? select = null,
+            List<Expression<Func<T, object>>>? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
             if (includes != null)
-                foreach (var incluse in includes)
-                    query = query.Include(incluse);
+                foreach (var item in includes)
+                    query = query.Include(item);
+
+            if (criterias != null)
+                foreach (var item in criterias)
+                    query = query.Where(item);
+
+            return await query.Select(select).FirstOrDefaultAsync();
+        }
+
+        public async Task<T> FirstOrDefaultAsync(
+            Expression<Func<T, bool>>? criteria = null,
+            List<Expression<Func<T, object>>>? includes = null)
+        {
+            IQueryable<T> query = _context.Set<T>();
+
+            if (includes != null)
+                foreach (var include in includes)
+                    query = query.Include(include);
 
             return await query.FirstOrDefaultAsync(criteria);
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, string[] includes = null)
+        public IEnumerable<T> FindAll(
+            Expression<Func<T, bool>> criteria,
+            List<Expression<Func<T, object>>>? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
@@ -140,8 +166,11 @@ namespace App.EF.Repositories
             return _context.Set<T>().Where(criteria).Skip(skip).Take(take).ToList();
         }
 
-        public IEnumerable<T> FindAll(Expression<Func<T, bool>> criteria, int? skip, int? take,
-            Expression<Func<T, object>> orderBy = null)
+        public IEnumerable<T> FindAll(
+            Expression<Func<T, bool>> criteria,
+            int? skip,
+            int? take,
+            Expression<Func<T, object>>? orderBy = null)
         {
             IQueryable<T> query = _context.Set<T>().Where(criteria);
 
@@ -154,7 +183,9 @@ namespace App.EF.Repositories
             return query.ToList();
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> criteria, string[] includes = null)
+        public async Task<IEnumerable<T>> FindAllAsync(
+            Expression<Func<T, bool>> criteria,
+            List<Expression<Func<T, object>>>? includes = null)
         {
             IQueryable<T> query = _context.Set<T>();
 
@@ -170,8 +201,11 @@ namespace App.EF.Repositories
             return await _context.Set<T>().Where(criteria).Skip(skip).Take(take).ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> FindAllAsync(Expression<Func<T, bool>> criteria, int? take, int? skip,
-            Expression<Func<T, object>> orderBy = null)
+        public async Task<IEnumerable<T>> FindAllAsync(
+            Expression<Func<T, bool>> criteria,
+            int? take,
+            int? skip,
+            Expression<Func<T, object>>? orderBy = null)
         {
             IQueryable<T> query = _context.Set<T>().Where(criteria);
 
@@ -192,49 +226,12 @@ namespace App.EF.Repositories
 
         public async Task<T> AddAsync(T entity)
         {
-            // Get the entity type from the context
-            var entityType = _context.Model.FindEntityType(typeof(T));
-
-            // Get the primary key property
-            var primaryKey = entityType.FindPrimaryKey().Properties.FirstOrDefault();
-
-            if (primaryKey != null)
-            {
-                // Set the primary key value to 0
-                var propertyInfo = typeof(T).GetProperty(primaryKey.Name);
-                if (propertyInfo != null && propertyInfo.CanWrite)
-                {
-                    propertyInfo.SetValue(entity, Guid.NewGuid());
-                }
-            }
-
             await _context.Set<T>().AddAsync(entity);
             return entity;
         }
 
         public IEnumerable<T> AddRange(IEnumerable<T> entities)
         {
-            // Get the entity type from the context
-            var entityType = _context.Model.FindEntityType(typeof(T));
-
-            // Get the primary key property
-            var primaryKey = entityType.FindPrimaryKey().Properties.FirstOrDefault();
-
-            if (primaryKey != null)
-            {
-                // Loop through each entity in the collection
-                foreach (var entity in entities)
-                {
-                    // Set the primary key value to 0
-                    var propertyInfo = typeof(T).GetProperty(primaryKey.Name);
-                    if (propertyInfo != null && propertyInfo.CanWrite)
-                    {
-                        propertyInfo.SetValue(entity, 0);
-                    }
-                }
-            }
-
-            // Add the entities to the context
             _context.Set<T>().AddRange(entities);
             return entities;
         }

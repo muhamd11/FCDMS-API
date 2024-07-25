@@ -1,6 +1,5 @@
 ﻿using App.Core.Consts.Users;
 using App.Core.Models.SystemBase.BaseClass;
-using System;
 using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users

@@ -22,14 +22,14 @@ namespace App.Core.Resources.General {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class GeneralMessages {
+    public class GeneralMessagesAr {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GeneralMessages() {
+        internal GeneralMessagesAr() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace App.Core.Resources.General {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Core.Resources.General.GeneralMessages", typeof(GeneralMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Core.Resources.General.GeneralMessagesAr", typeof(GeneralMessagesAr).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Action success.
+        ///   Looks up a localized string similar to نجاح العملية.
         /// </summary>
         public static string actionSuccess {
             get {
@@ -70,7 +70,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, failed to add the data.
+        ///   Looks up a localized string similar to عذرا , فشل في اضافة البيانات.
         /// </summary>
         public static string addFailed {
             get {
@@ -79,7 +79,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The data has been registered successfully..
+        ///   Looks up a localized string similar to تم تسجيل البيانات بنجاح.
         /// </summary>
         public static string addSuccess {
             get {
@@ -88,7 +88,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, failed to delete the data.
+        ///   Looks up a localized string similar to عذرا , فشل في حذف البيانات.
         /// </summary>
         public static string deleteFailed {
             get {
@@ -97,7 +97,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The data has been deleted successfully..
+        ///   Looks up a localized string similar to تم حذف البيانات بنجاح.
         /// </summary>
         public static string deleteSuccess {
             get {
@@ -106,7 +106,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, action failed.
+        ///   Looks up a localized string similar to عملية فاشلة.
         /// </summary>
         public static string errorActionFailed {
             get {
@@ -115,7 +115,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, the data was not found..
+        ///   Looks up a localized string similar to عذرا , لا توجد بيانات.
         /// </summary>
         public static string errorDataNotFound {
             get {
@@ -124,7 +124,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Description length can&apos;t be more than {0} characters..
+        ///   Looks up a localized string similar to  الوصف لا يمكن أن يكون أطول من {0} حرف.
         /// </summary>
         public static string errorDescriptionMaxLength {
             get {
@@ -133,7 +133,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The id is required.
+        ///   Looks up a localized string similar to كود التعرف مطلوب.
         /// </summary>
         public static string errorIdIsRequired {
             get {
@@ -142,7 +142,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Email .
+        ///   Looks up a localized string similar to عذرًا، البريد الإلكتروني غير صالح.
         /// </summary>
         public static string errorInvalidEmail {
             get {
@@ -151,7 +151,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Facebook Url.
+        ///   Looks up a localized string similar to عذرًا، رابط فيسبوك غير صالح.
         /// </summary>
         public static string errorInvalidFacebookUrl {
             get {
@@ -160,7 +160,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Insatgram Url.
+        ///   Looks up a localized string similar to عذرًا، رابط انستجرام غير صالح.
         /// </summary>
         public static string errorInvalidInstagramUrl {
             get {
@@ -169,7 +169,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Linkedin Url.
+        ///   Looks up a localized string similar to عذرًا، رابط لينكدان غير صالح.
         /// </summary>
         public static string errorInvalidLinkedinUrl {
             get {
@@ -178,7 +178,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Phone Number Is Invalid.
+        ///   Looks up a localized string similar to عذرًا ، رقم الهاتف غير صالح.
         /// </summary>
         public static string ErrorInvalidPhoneNumber {
             get {
@@ -187,7 +187,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Phone Number {0} Is Invalid.
+        ///   Looks up a localized string similar to عذرًا، رقم الهاتف {0} غير صالح.
         /// </summary>
         public static string ErrorInvalidPhoneNumbers {
             get {
@@ -196,7 +196,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Twitter Url.
+        ///   Looks up a localized string similar to عذرًا، رابط تويتر غير صالح.
         /// </summary>
         public static string errorInvalidTwitterUrl {
             get {
@@ -205,7 +205,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Website Url.
+        ///   Looks up a localized string similar to عذرًا، رابط الموقع غير صالح.
         /// </summary>
         public static string errorInvalidWebsiteUrl {
             get {
@@ -214,7 +214,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, Invalid Youtube Url.
+        ///   Looks up a localized string similar to عذرًا، رابط اليوتيوب غير صالح.
         /// </summary>
         public static string errorInvalidYoutubeUrl {
             get {
@@ -223,7 +223,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Country Code Is Required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال رمز الدولة.
         /// </summary>
         public static string errorIsRequiredCountryCode {
             get {
@@ -232,7 +232,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Country Code Name Is Required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال اسم رمز الدولة.
         /// </summary>
         public static string errorIsRequiredCountryCodeName {
             get {
@@ -241,7 +241,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Dial Code Is Required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال رمز الاتصال.
         /// </summary>
         public static string errorIsRequiredDialCode {
             get {
@@ -250,7 +250,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Phone Number Is Required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال رقم الهاتف.
         /// </summary>
         public static string errorIsRequiredPhoneNumber {
             get {
@@ -259,7 +259,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry,  Name Is Required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال الاسم.
         /// </summary>
         public static string errorNameIsRequired {
             get {
@@ -268,7 +268,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name length can&apos;t be more than {0} characters..
+        ///   Looks up a localized string similar to طول الاسم لا يمكن أن يتجاوز {0} حرفًا..
         /// </summary>
         public static string errorNameLength {
             get {
@@ -277,7 +277,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please send data.
+        ///   Looks up a localized string similar to يرجى إرسال البيانات.
         /// </summary>
         public static string errorNoData {
             get {
@@ -286,7 +286,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please, send login data .
+        ///   Looks up a localized string similar to يرجى إرسال بيانات تسجيل الدخول.
         /// </summary>
         public static string errorSendLoginData {
             get {
@@ -295,7 +295,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, an error occurred, please contact the administration.
+        ///   Looks up a localized string similar to عذرًا، حدث خطأ، يرجى الاتصال بالإدارة.
         /// </summary>
         public static string errorSomthingWrong {
             get {
@@ -304,7 +304,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation Success.
+        ///   Looks up a localized string similar to عملية ناجحة.
         /// </summary>
         public static string operationSuccess {
             get {
@@ -313,7 +313,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, failed to modify the data.
+        ///   Looks up a localized string similar to عذرًا، فشل تعديل البيانات.
         /// </summary>
         public static string updateFailed {
             get {
@@ -322,7 +322,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The data has been updated successfully..
+        ///   Looks up a localized string similar to تم تحديث البيانات بنجاح..
         /// </summary>
         public static string updateSuccess {
             get {
@@ -331,7 +331,7 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to was Added Before.
+        ///   Looks up a localized string similar to تم إضافته مسبقًا..
         /// </summary>
         public static string wasAddedBefore {
             get {

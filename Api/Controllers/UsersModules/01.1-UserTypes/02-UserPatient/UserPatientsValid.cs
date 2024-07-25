@@ -1,7 +1,6 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
-using App.Core.Models.Buyers;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.Core.Resources.General;
@@ -31,10 +30,10 @@ namespace Api.Controllers.UsersModule.Users
         {
             if (inputModel is not null)
             {
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         #endregion Methods

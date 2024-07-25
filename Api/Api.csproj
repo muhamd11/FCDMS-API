@@ -21,8 +21,4 @@
     <ProjectReference Include="..\App.EF\App.EF.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\UsersModules\01.2-UserAuthentications\01.0-UsersLogin\" />
-  </ItemGroup>
-
 </Project>

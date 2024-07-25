@@ -118,36 +118,48 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="errorEmailIsRequired" xml:space="preserve">
-    <value>Sorry, user email is required</value>
+    <value>عذرًا، يجب إدخال بريد المستخدم الإلكتروني</value>
+  </data>
+  <data name="errorInvalidLoginData" xml:space="preserve">
+    <value>يرجى إدخال رقم الهاتف أو البريد الإلكتروني أو اسم المستخدم لتسجيل الدخول.</value>
+  </data>
+  <data name="errorInvalidUserLoginData" xml:space="preserve">
+    <value>عذرًا، بيانات تسجيل الدخول غير صالحة.</value>
   </data>
   <data name="errorPhoneNumberIsRequired" xml:space="preserve">
-    <value>The phone number is required addded before</value>
+    <value>رقم الهاتف مطلوب</value>
   </data>
   <data name="errorUserContactEmailWasAdded" xml:space="preserve">
-    <value>The user contact email is already added</value>
+    <value>بريد الاتصال بالمستخدم قد تم إضافته بالفعل</value>
   </data>
   <data name="errorUserDoesNotExists" xml:space="preserve">
-    <value>Sorry, user doesn't exist</value>
+    <value>عذرًا، المستخدم غير موجود</value>
   </data>
   <data name="errorUserEmailWasAdded" xml:space="preserve">
-    <value>The user email is already added</value>
+    <value>بريد المستخدم الإلكتروني قد تم إضافته بالفعل</value>
   </data>
   <data name="errorUserLoginNameIsRequired" xml:space="preserve">
-    <value>Sorry, user login name is required</value>
+    <value>عذرًا، يجب إدخال اسم تسجيل الدخول للمستخدم</value>
   </data>
   <data name="errorUserLoginNameWasAdded" xml:space="preserve">
-    <value>The user login name is already added</value>
+    <value>اسم تسجيل الدخول للمستخدم قد تم إضافته بالفعل</value>
   </data>
   <data name="errorUsernameIsRequired" xml:space="preserve">
-    <value>Sorry, username is required</value>
+    <value>عذرًا، يجب إدخال اسم المستخدم</value>
   </data>
   <data name="errorUsernameWasAdded" xml:space="preserve">
-    <value>The username is already added</value>
+    <value>اسم المستخدم قد تم إضافته بالفعل</value>
+  </data>
+  <data name="errorUserPasswordIsRequired" xml:space="preserve">
+    <value>يرجى إدخال كلمة السر .</value>
   </data>
   <data name="errorUserPhoneNumberWasAdded" xml:space="preserve">
-    <value>The phone number was addded before</value>
+    <value>رقم الهاتف قد تم إضافته مسبقًا</value>
   </data>
   <data name="errorUserTypeInvalid" xml:space="preserve">
-    <value>Sorry, user type is invalid</value>
+    <value>عذرًا، نوع المستخدم غير صالح</value>
+  </data>
+  <data name="loginSuccess" xml:space="preserve">
+    <value>تم تسجيل الدخول بنجاح</value>
   </data>
 </root>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App.Core.Models.UsersModule.LogActionsModel.DTO
+﻿namespace App.Core.Models.UsersModule.LogActionsModel.DTO
 {
     public class LogActionAddOrUpdateDTO
     {

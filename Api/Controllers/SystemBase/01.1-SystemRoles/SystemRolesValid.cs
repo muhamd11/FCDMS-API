@@ -45,10 +45,10 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
                 #endregion elemetId?
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
@@ -59,10 +59,10 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 if (isValidSystemRoleToken.Status != EnumStatus.success)
                     return isValidSystemRoleToken;
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidAddOrUpdate(SystemRoleAddOrUpdateDTO inputModel, bool isUpdate)
@@ -83,11 +83,11 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 #region systemRoleName *
 
                 if (!ValidationClass.IsValidString(inputModel.systemRoleName))
-                    return BaseValid.createBaseValid(SystemRolesMessages.errorSystemRoleNameIsRequired, EnumStatus.error);
+                    return BaseValid.createBaseValid(SystemRolesMessagesAr.errorSystemRoleNameIsRequired, EnumStatus.error);
 
                 int nameMaxLength = (int)EnumMaxLength.nameMaxLength;
                 if (!ValidationClass.IsValidStringLength(inputModel.systemRoleName, nameMaxLength))
-                    return BaseValid.createBaseValid(string.Format(GeneralMessages.errorNameLength, nameMaxLength), EnumStatus.error);
+                    return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.errorNameLength, nameMaxLength), EnumStatus.error);
 
                 #endregion systemRoleName *
 
@@ -100,10 +100,10 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
                 #endregion ValidateSystemRole
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)
@@ -114,19 +114,19 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 if (isValidSystemRoleToken.Status != EnumStatus.success)
                     return isValidSystemRoleToken;
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidSystemRoleToken(Guid systemRoleToken)
         {
             var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleToken == systemRoleToken);
             if (systemRole is not null)
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             else
-                return BaseValid.createBaseValid(SystemRolesMessages.errorSystemRoleWasNotFound, EnumStatus.error);
+                return BaseValid.createBaseValid(SystemRolesMessagesAr.errorSystemRoleWasNotFound, EnumStatus.error);
         }
 
         public BaseValid IsValidSystemRole(SystemRoleAddOrUpdateDTO inputModel)
@@ -135,9 +135,9 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
             existingSystemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleName == inputModel.systemRoleName);
             if (existingSystemRole is not null && existingSystemRole.systemRoleToken != inputModel.systemRoleToken)
-                return BaseValid.createBaseValid(SystemRolesMessages.errorSystemRoleNameWasAdded, EnumStatus.error);
+                return BaseValid.createBaseValid(SystemRolesMessagesAr.errorSystemRoleNameWasAdded, EnumStatus.error);
 
-            return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         #endregion Methods

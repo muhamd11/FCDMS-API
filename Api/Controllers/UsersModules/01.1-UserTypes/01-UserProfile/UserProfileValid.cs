@@ -31,21 +31,21 @@ namespace Api.Controllers.UsersModules._01._1_UserTypes._01_UserProfile
         {
             if (IsValidPhoneNumberSet(inputModel.userPhoneCC_2, inputModel.userPhoneDialCode_2, inputModel.userPhone_2))
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_2, inputModel.userPhoneDialCode_2, inputModel.userPhone_2))
-                    return BaseValid.createBaseValid(string.Format(GeneralMessages.ErrorInvalidPhoneNumbers, "2"), EnumStatus.error);
+                    return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "2"), EnumStatus.error);
 
             if (IsValidPhoneNumberSet(inputModel.userPhoneCC_3, inputModel.userPhoneDialCode_3, inputModel.userPhone_3))
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_3, inputModel.userPhoneDialCode_3, inputModel.userPhone_3))
-                    return BaseValid.createBaseValid(string.Format(GeneralMessages.ErrorInvalidPhoneNumbers, "3"), EnumStatus.error);
+                    return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "3"), EnumStatus.error);
 
             if (IsValidPhoneNumberSet(inputModel.userPhoneCC_4, inputModel.userPhoneDialCode_4, inputModel.userPhone_4))
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_4, inputModel.userPhoneDialCode_4, inputModel.userPhone_4))
-                    return BaseValid.createBaseValid(string.Format(GeneralMessages.ErrorInvalidPhoneNumbers, "4"), EnumStatus.error);
+                    return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "4"), EnumStatus.error);
 
             if (inputModel.userContactEmail is not null)
                 if (!ValidationClass.IsValidEmail(inputModel.userContactEmail))
-                    return BaseValid.createBaseValid(GeneralMessages.errorInvalidEmail, EnumStatus.error);
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
 
-            return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         private bool IsValidPhoneNumberSet(string countryCode, string dialCode, string phoneNumber)

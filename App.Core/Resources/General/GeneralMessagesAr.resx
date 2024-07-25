@@ -117,7 +117,97 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="errorUserProfileIdWasNotFound" xml:space="preserve">
-    <value>Sorry, user profile id was not found</value>
+  <data name="actionSuccess" xml:space="preserve">
+    <value>نجاح العملية</value>
+  </data>
+  <data name="addFailed" xml:space="preserve">
+    <value>عذرا , فشل في اضافة البيانات</value>
+  </data>
+  <data name="addSuccess" xml:space="preserve">
+    <value>تم تسجيل البيانات بنجاح</value>
+  </data>
+  <data name="deleteFailed" xml:space="preserve">
+    <value>عذرا , فشل في حذف البيانات</value>
+  </data>
+  <data name="deleteSuccess" xml:space="preserve">
+    <value>تم حذف البيانات بنجاح</value>
+  </data>
+  <data name="errorActionFailed" xml:space="preserve">
+    <value>عملية فاشلة</value>
+  </data>
+  <data name="errorDataNotFound" xml:space="preserve">
+    <value>عذرا , لا توجد بيانات</value>
+  </data>
+  <data name="errorDescriptionMaxLength" xml:space="preserve">
+    <value> الوصف لا يمكن أن يكون أطول من {0} حرف</value>
+  </data>
+  <data name="errorIdIsRequired" xml:space="preserve">
+    <value>كود التعرف مطلوب</value>
+  </data>
+  <data name="errorInvalidEmail" xml:space="preserve">
+    <value>عذرًا، البريد الإلكتروني غير صالح</value>
+  </data>
+  <data name="errorInvalidFacebookUrl" xml:space="preserve">
+    <value>عذرًا، رابط فيسبوك غير صالح</value>
+  </data>
+  <data name="errorInvalidInstagramUrl" xml:space="preserve">
+    <value>عذرًا، رابط انستجرام غير صالح</value>
+  </data>
+  <data name="errorInvalidLinkedinUrl" xml:space="preserve">
+    <value>عذرًا، رابط لينكدان غير صالح</value>
+  </data>
+  <data name="ErrorInvalidPhoneNumber" xml:space="preserve">
+    <value>عذرًا ، رقم الهاتف غير صالح</value>
+  </data>
+  <data name="ErrorInvalidPhoneNumbers" xml:space="preserve">
+    <value>عذرًا، رقم الهاتف {0} غير صالح</value>
+  </data>
+  <data name="errorInvalidTwitterUrl" xml:space="preserve">
+    <value>عذرًا، رابط تويتر غير صالح</value>
+  </data>
+  <data name="errorInvalidWebsiteUrl" xml:space="preserve">
+    <value>عذرًا، رابط الموقع غير صالح</value>
+  </data>
+  <data name="errorInvalidYoutubeUrl" xml:space="preserve">
+    <value>عذرًا، رابط اليوتيوب غير صالح</value>
+  </data>
+  <data name="errorIsRequiredCountryCode" xml:space="preserve">
+    <value>عذرًا، يجب إدخال رمز الدولة</value>
+  </data>
+  <data name="errorIsRequiredCountryCodeName" xml:space="preserve">
+    <value>عذرًا، يجب إدخال اسم رمز الدولة</value>
+  </data>
+  <data name="errorIsRequiredDialCode" xml:space="preserve">
+    <value>عذرًا، يجب إدخال رمز الاتصال</value>
+  </data>
+  <data name="errorIsRequiredPhoneNumber" xml:space="preserve">
+    <value>عذرًا، يجب إدخال رقم الهاتف</value>
+  </data>
+  <data name="errorNameIsRequired" xml:space="preserve">
+    <value>عذرًا، يجب إدخال الاسم</value>
+  </data>
+  <data name="errorNameLength" xml:space="preserve">
+    <value>طول الاسم لا يمكن أن يتجاوز {0} حرفًا.</value>
+  </data>
+  <data name="errorNoData" xml:space="preserve">
+    <value>يرجى إرسال البيانات</value>
+  </data>
+  <data name="errorSendLoginData" xml:space="preserve">
+    <value>يرجى إرسال بيانات تسجيل الدخول</value>
+  </data>
+  <data name="errorSomthingWrong" xml:space="preserve">
+    <value>عذرًا، حدث خطأ، يرجى الاتصال بالإدارة</value>
+  </data>
+  <data name="operationSuccess" xml:space="preserve">
+    <value>عملية ناجحة</value>
+  </data>
+  <data name="updateFailed" xml:space="preserve">
+    <value>عذرًا، فشل تعديل البيانات</value>
+  </data>
+  <data name="updateSuccess" xml:space="preserve">
+    <value>تم تحديث البيانات بنجاح.</value>
+  </data>
+  <data name="wasAddedBefore" xml:space="preserve">
+    <value>تم إضافته مسبقًا.</value>
   </data>
 </root>

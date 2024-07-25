@@ -17,7 +17,6 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions = new List<SystemRoleFunction>();
             //AdditionsModules
 
-
             //PlacesModules
             //systemRoleFunctions.AddRange(GetPrivilageModuleBranches());
             //systemRoleFunctions.AddRange(GetPrivilageModuleStores());
@@ -25,10 +24,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             return systemRoleFunctions;
         }
 
-        #region AdditionsModules
 
-
-        #endregion AdditionsModules
 
         #region PlacesModules
 

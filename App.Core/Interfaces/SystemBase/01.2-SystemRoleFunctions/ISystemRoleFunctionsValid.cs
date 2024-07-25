@@ -1,7 +1,6 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
-using System;
 
 namespace Api.Controllers.SystemBase.LogActions.Interfaces
 {

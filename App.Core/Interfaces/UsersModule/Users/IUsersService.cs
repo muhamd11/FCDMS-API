@@ -2,7 +2,6 @@
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
-using System.Threading.Tasks;
 
 namespace App.Core.Interfaces.UsersModule.Users
 {

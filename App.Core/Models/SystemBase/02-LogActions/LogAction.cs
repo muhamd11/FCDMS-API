@@ -1,5 +1,4 @@
 ﻿using App.Core.Consts.SystemBase;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +16,6 @@ namespace App.Core.Models.UsersModule.LogActionsModel
         public DateTimeOffset actionDate { get; set; } = DateTime.UtcNow;
         public string actionType { get; set; }
         public string? oldData { get; set; }
-        public string newData { get; set; }
+        public string? newData { get; set; }
     }
 }

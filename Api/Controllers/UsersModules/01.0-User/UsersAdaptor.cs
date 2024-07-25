@@ -7,7 +7,7 @@ namespace Api.Controllers.UsersModule.Users
 {
     public static class UsersAdaptor
     {
-        public static Expression<Func<User, UserInfo>> SelectExpressionUserClientInfo()
+        public static Expression<Func<User, UserInfo>> SelectExpressionUserInfo()
         {
             return user => new UserInfo
             {
@@ -22,7 +22,7 @@ namespace Api.Controllers.UsersModule.Users
             };
         }
 
-        public static Expression<Func<User, UserInfoDetails>> SelectExpressionUserClientDetails()
+        public static Expression<Func<User, UserInfoDetails>> SelectExpressionUserInfoDetails()
         {
             return user => new UserInfoDetails
             {
@@ -34,14 +34,13 @@ namespace Api.Controllers.UsersModule.Users
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
-                systemRoleToken = user.systemRoleToken,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
                 userProfile = user.userProfileData,
                 userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),
             };
         }
 
-        public static UserInfo SelectExpressionUserClientInfo(User user)
+        public static UserInfo SelectExpressionUserInfo(User user)
         {
             if (user == null)
                 return null;
@@ -59,7 +58,7 @@ namespace Api.Controllers.UsersModule.Users
             };
         }
 
-        public static UserInfoDetails SelectExpressionUserClientDetails(User user)
+        public static UserInfoDetails SelectExpressionUserInfoDetails(User user)
         {
             if (user == null)
                 return null;
@@ -73,7 +72,6 @@ namespace Api.Controllers.UsersModule.Users
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
-                systemRoleToken = user.systemRoleToken,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
                 userProfile = user.userProfileData,
                 userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),

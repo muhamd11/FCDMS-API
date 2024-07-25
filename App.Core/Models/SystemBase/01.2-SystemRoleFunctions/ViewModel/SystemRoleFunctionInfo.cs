@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel
+﻿namespace App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel
 {
     public class SystemRoleFunctionInfo
     {

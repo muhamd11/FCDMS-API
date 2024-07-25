@@ -1,11 +1,10 @@
-﻿using App.Core.Models.GeneralModels.BaseRequstModules;
-using Microsoft.AspNetCore.Mvc;
-namespace App.Core.Models.General.PaginationModule
+﻿namespace App.Core.Models.General.PaginationModule
 {
-    public class PaginationRequest : GeneralOperation
+    public class PaginationRequest
     {
         //TODO: Change General Operation At PaginationRequest  to BaseRequstModules
-        [FromQuery]  public long pageSize { get; set; }
-        [FromQuery] public long page { get; set; }
+        public long pageSize { get; set; }
+
+        public long page { get; set; }
     }
 }

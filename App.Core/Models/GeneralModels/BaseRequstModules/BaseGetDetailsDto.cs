@@ -1,11 +1,7 @@
-﻿using App.Core.Models.GeneralModels.BaseRequstModules;
-using Microsoft.AspNetCore.Mvc;
-using System;
-
-namespace App.Core.Models.General.BaseRequstModules
+﻿namespace App.Core.Models.General.BaseRequstModules
 {
-    public class BaseGetDetailsDto : GeneralOperation
+    public class BaseGetDetailsDto
     {
-        [FromQuery] public Guid elementToken { get; set; }
+        public Guid elementToken { get; set; }
     }
 }

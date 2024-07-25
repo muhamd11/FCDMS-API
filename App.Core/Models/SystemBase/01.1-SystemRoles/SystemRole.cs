@@ -2,8 +2,6 @@
 using App.Core.Consts.Users;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.Users;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

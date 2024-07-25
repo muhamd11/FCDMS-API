@@ -1,5 +1,4 @@
 ﻿using App.Core.Models.Users;
-using System;
 
 namespace App.Core.Models.UsersModule.LogActionsModel.ViewModel
 {

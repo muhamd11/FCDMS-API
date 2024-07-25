@@ -35,7 +35,7 @@ namespace Api.Controllers.UsersModule.Users
 
         public async Task<BaseGetDataWithPagnation<UserInfo>> GetAllAsync(UserSearchDto inputModel)
         {
-            var select = UsersAdaptor.SelectExpressionUserClientInfo();
+            var select = UsersAdaptor.SelectExpressionUserInfo();
 
             var criteria = GenrateCriteria(inputModel);
 
@@ -58,6 +58,9 @@ namespace Api.Controllers.UsersModule.Users
                 x.userName.Contains(inputModel.textSearch));
             }
 
+            if (inputModel.fullCode is not null)
+                criteria.Add(x => x.fullCode.Contains(inputModel.fullCode));
+
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.userToken == inputModel.elementToken);
 
@@ -66,23 +69,31 @@ namespace Api.Controllers.UsersModule.Users
 
         public async Task<UserInfoDetails> GetDetails(BaseGetDetailsDto inputModel)
         {
-            var select = UsersAdaptor.SelectExpressionUserClientDetails();
+            var select = UsersAdaptor.SelectExpressionUserInfoDetails();
 
             Expression<Func<User, bool>> criteria = (x) => x.userToken == inputModel.elementToken;
 
-            List<Expression<Func<User, object>>> includes = [];
-
-            includes.Add(x => x.roleData);
-            includes.Add(x => x.userProfileData);
+            var includes = GenerateIncludes();
 
             var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(criteria, select, includes);
 
             return userInfo;
         }
 
+        private static List<Expression<Func<User, object>>> GenerateIncludes()
+        {
+            List<Expression<Func<User, object>>> includes = [];
+
+            includes.Add(x => x.roleData);
+            includes.Add(x => x.userProfileData);
+            return includes;
+        }
+
         public async Task<BaseActionDone<UserInfo>> AddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate)
         {
             var user = _mapper.Map<User>(inputModel);
+
+            user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
 
             if (isUpdate)
             {
@@ -97,13 +108,13 @@ namespace Api.Controllers.UsersModule.Users
             if (isDone > 0)
                 SyncProfiles(user.userToken, inputModel);
 
-            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserClientInfo());
+            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserInfo());
 
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }
 
         private async void SyncProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
-        { 
+        {
             //userProfile scope
             {
                 //null save
@@ -142,6 +153,7 @@ namespace Api.Controllers.UsersModule.Users
             _unitOfWork.UserEmployees.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
             await _unitOfWork.CommitAsync();
         }
+
         public async Task<BaseActionDone<UserInfo>> DeleteAsync(BaseDeleteDto inputModel)
         {
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == inputModel.elementToken);
@@ -150,7 +162,7 @@ namespace Api.Controllers.UsersModule.Users
 
             var isDone = await _unitOfWork.CommitAsync();
 
-            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserClientInfo());
+            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserInfo());
 
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }

@@ -1,5 +1,4 @@
-﻿
-using App.Core.Interfaces.General;
+﻿using App.Core.Interfaces.General;
 using App.Core.Models.Buyers;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
@@ -13,11 +12,6 @@ namespace App.Core
 {
     public interface IUnitOfWork : IDisposable
     {
-
-        #region PlacesModules
-
-        #endregion PlacesModules
-
         #region SystemBase
 
         IBaseRepository<SystemRole> SystemRoles { get; }

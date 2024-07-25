@@ -14,7 +14,7 @@ namespace App.Core.Models.General.LocalModels
             return new BaseActionDone<T>()
             {
                 Status = countRowEffectInDB > 0 ? EnumStatus.success : EnumStatus.error,
-                Message = countRowEffectInDB > 0 ? GeneralMessages.actionSuccess : GeneralMessages.errorActionFailed,
+                Message = countRowEffectInDB > 0 ? GeneralMessagesAr.actionSuccess : GeneralMessagesAr.errorActionFailed,
                 Data = data,
             };
         }

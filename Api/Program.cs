@@ -1,5 +1,5 @@
-using App.Core.Interfaces.General.Scrutor;
 using App.Core;
+using App.Core.Interfaces.General.Scrutor;
 using App.EF;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +36,6 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
     options.SuppressModelStateInvalidFilter = true; // Disable automatic model state validation
 });
-
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

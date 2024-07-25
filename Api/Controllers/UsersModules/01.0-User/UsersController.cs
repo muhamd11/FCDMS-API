@@ -2,7 +2,6 @@
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -43,7 +42,7 @@ namespace Api.Controllers.UsersModules.Users
         #region Methods
 
         [HttpGet("GetUserDetails")]
-        public async Task<IActionResult> GetUserDetails(BaseGetDetailsDto inputModel)
+        public async Task<IActionResult> GetUserDetails([FromQuery] BaseGetDetailsDto inputModel)
         {
             BaseGetDetailsResponse<UserInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
@@ -72,7 +71,7 @@ namespace Api.Controllers.UsersModules.Users
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll(UserSearchDto inputModel)
+        public async Task<IActionResult> GetAll([FromQuery] UserSearchDto inputModel)
         {
             BaseGetAllResponse<UserInfo> response = new();
             var watch = Stopwatch.StartNew();
@@ -161,7 +160,7 @@ namespace Api.Controllers.UsersModules.Users
         }
 
         [HttpPost("DeleteUserClient")]
-        public async Task<IActionResult> DeleteUser(BaseDeleteDto inputModel)
+        public async Task<IActionResult> DeleteUser([FromQuery] BaseDeleteDto inputModel)
         {
             BaseActionResponse<UserInfo> response = new();
             var watch = Stopwatch.StartNew();

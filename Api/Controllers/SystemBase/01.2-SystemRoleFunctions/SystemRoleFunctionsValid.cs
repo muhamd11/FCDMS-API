@@ -36,7 +36,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             if (isValidSystemRoleToken.Status != EnumStatus.success)
                 return isValidSystemRoleToken;
 
-            return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         public BaseValid ValidUpdatePrivilege(SystemRoleFunctionDto inputModel)
@@ -48,10 +48,10 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
                 if (isValidSystemRoleToken.Status != EnumStatus.success)
                     return isValidSystemRoleToken;
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         #endregion Methods

@@ -56,10 +56,10 @@ namespace Api.Controllers.UsersModule.Users
 
                 #endregion elemetId?
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
@@ -70,10 +70,10 @@ namespace Api.Controllers.UsersModule.Users
                 if (isValidUserToken.Status != EnumStatus.success)
                     return isValidUserToken;
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidAddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate)
@@ -96,7 +96,7 @@ namespace Api.Controllers.UsersModule.Users
                 #region userName &&  userLoginName && userEmail
 
                 if (string.IsNullOrEmpty(inputModel.userName) && string.IsNullOrEmpty(inputModel.userEmail) && string.IsNullOrEmpty(inputModel.userPhone))
-                    return BaseValid.createBaseValidError(GeneralMessages.errorSendLoginData);
+                    return BaseValid.createBaseValidError(GeneralMessagesAr.errorSendLoginData);
 
                 #endregion userName &&  userLoginName && userEmail
 
@@ -106,7 +106,7 @@ namespace Api.Controllers.UsersModule.Users
                 {
                     int nameMaxLength = (int)EnumMaxLength.nameMaxLength;
                     if (!ValidationClass.IsValidStringLength(inputModel.userName, nameMaxLength))
-                        return BaseValid.createBaseValid(string.Format(GeneralMessages.errorNameLength, nameMaxLength), EnumStatus.error);
+                        return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.errorNameLength, nameMaxLength), EnumStatus.error);
                 }
 
                 #endregion userName ?
@@ -116,7 +116,7 @@ namespace Api.Controllers.UsersModule.Users
                 if (!string.IsNullOrEmpty(inputModel.userLoginName))
                 {
                     if (!ValidationClass.IsValidString(inputModel.userLoginName))
-                        return BaseValid.createBaseValid(UsersMessages.errorUserLoginNameIsRequired, EnumStatus.error);
+                        return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameIsRequired, EnumStatus.error);
                 }
 
                 #endregion userLoginName ?
@@ -126,7 +126,7 @@ namespace Api.Controllers.UsersModule.Users
                 if (!string.IsNullOrEmpty(inputModel.userEmail))
                 {
                     if (!ValidationClass.IsValidEmail(inputModel.userEmail))
-                        return BaseValid.createBaseValid(GeneralMessages.errorInvalidEmail, EnumStatus.error);
+                        return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
                 }
 
                 #endregion userEmail ?
@@ -134,17 +134,17 @@ namespace Api.Controllers.UsersModule.Users
                 #region userPhoneNumber *
 
                 if (!ValidationClass.IsValidString(inputModel.userPhone))
-                    return BaseValid.createBaseValid(UsersMessages.errorPhoneNumberIsRequired, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorPhoneNumberIsRequired, EnumStatus.error);
 
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC, inputModel.userPhoneDialCode, inputModel.userPhone))
-                    return BaseValid.createBaseValid(GeneralMessages.ErrorInvalidPhoneNumber, EnumStatus.error);
+                    return BaseValid.createBaseValid(GeneralMessagesAr.ErrorInvalidPhoneNumber, EnumStatus.error);
 
                 #endregion userPhoneNumber *
 
                 #region userType *
 
                 if (!ValidationClass.IsEnumValue<EnumUserType>(inputModel.userType))
-                    return BaseValid.createBaseValid(UsersMessages.errorUserTypeInvalid, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserTypeInvalid, EnumStatus.error);
 
                 #endregion userType *
 
@@ -164,16 +164,16 @@ namespace Api.Controllers.UsersModule.Users
                  || x.userLoginName == inputModel.userLoginName);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userLoginName == inputModel.userLoginName)
-                    return BaseValid.createBaseValid(UsersMessages.errorUsernameWasAdded, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUsernameWasAdded, EnumStatus.error);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userEmail == inputModel.userEmail)
-                    return BaseValid.createBaseValid(UsersMessages.errorUserEmailWasAdded, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserEmailWasAdded, EnumStatus.error);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userPhone == inputModel.userPhone)
-                    return BaseValid.createBaseValid(UsersMessages.errorUserPhoneNumberWasAdded, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserPhoneNumberWasAdded, EnumStatus.error);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userLoginName == inputModel.userLoginName)
-                    return BaseValid.createBaseValid(UsersMessages.errorUserLoginNameWasAdded, EnumStatus.error);
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameWasAdded, EnumStatus.error);
 
                 #endregion validUserWasAddedBefore
 
@@ -188,10 +188,10 @@ namespace Api.Controllers.UsersModule.Users
 
                 #endregion validUserProfile
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)
@@ -202,19 +202,19 @@ namespace Api.Controllers.UsersModule.Users
                 if (isValidUserToken.Status != EnumStatus.success)
                     return isValidUserToken;
 
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorNoData, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid IsValidUserToken(Guid userToken)
         {
             var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userToken);
             if (user is not null)
-                return BaseValid.createBaseValid(GeneralMessages.operationSuccess, EnumStatus.success);
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             else
-                return BaseValid.createBaseValid(GeneralMessages.errorDataNotFound, EnumStatus.error);
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorDataNotFound, EnumStatus.error);
         }
 
         #endregion Methods

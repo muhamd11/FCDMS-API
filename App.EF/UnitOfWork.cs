@@ -1,14 +1,13 @@
-﻿using App.EF.Repositories;
-using App.Core;
+﻿using App.Core;
 using App.Core.Interfaces.General;
 using App.Core.Models.Buyers;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
-using App.Core.Models.UsersModule.LogActionsModel;
-using System.Threading.Tasks;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
+using App.Core.Models.UsersModule.LogActionsModel;
+using App.EF.Repositories;
 
 namespace App.EF
 {
@@ -17,9 +16,6 @@ namespace App.EF
         private readonly ApplicationDbContext _context;
 
 
-        #region PlacesModules
-
-        #endregion PlacesModules
 
         #region SystemBase
 
@@ -43,9 +39,6 @@ namespace App.EF
             _context = context;
 
 
-            #region PlacesModules
-
-            #endregion PlacesModules
 
             #region SystemBase
 

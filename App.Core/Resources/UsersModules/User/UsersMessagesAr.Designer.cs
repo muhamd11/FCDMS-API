@@ -22,14 +22,14 @@ namespace App.Core.Resources.UsersModules.User {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class UsersMessages {
+    public class UsersMessagesAr {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal UsersMessages() {
+        internal UsersMessagesAr() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace App.Core.Resources.UsersModules.User {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Core.Resources.UsersModules.User.UsersMessages", typeof(UsersMessages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("App.Core.Resources.UsersModules.User.UsersMessagesAr", typeof(UsersMessagesAr).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, user email is required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال بريد المستخدم الإلكتروني.
         /// </summary>
         public static string errorEmailIsRequired {
             get {
@@ -70,7 +70,25 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The phone number is required addded before.
+        ///   Looks up a localized string similar to يرجى إدخال رقم الهاتف أو البريد الإلكتروني أو اسم المستخدم لتسجيل الدخول..
+        /// </summary>
+        public static string errorInvalidLoginData {
+            get {
+                return ResourceManager.GetString("errorInvalidLoginData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to عذرًا، بيانات تسجيل الدخول غير صالحة..
+        /// </summary>
+        public static string errorInvalidUserLoginData {
+            get {
+                return ResourceManager.GetString("errorInvalidUserLoginData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رقم الهاتف مطلوب.
         /// </summary>
         public static string errorPhoneNumberIsRequired {
             get {
@@ -79,7 +97,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user contact email is already added.
+        ///   Looks up a localized string similar to بريد الاتصال بالمستخدم قد تم إضافته بالفعل.
         /// </summary>
         public static string errorUserContactEmailWasAdded {
             get {
@@ -88,7 +106,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, user doesn&apos;t exist.
+        ///   Looks up a localized string similar to عذرًا، المستخدم غير موجود.
         /// </summary>
         public static string errorUserDoesNotExists {
             get {
@@ -97,7 +115,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user email is already added.
+        ///   Looks up a localized string similar to بريد المستخدم الإلكتروني قد تم إضافته بالفعل.
         /// </summary>
         public static string errorUserEmailWasAdded {
             get {
@@ -106,7 +124,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, user login name is required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال اسم تسجيل الدخول للمستخدم.
         /// </summary>
         public static string errorUserLoginNameIsRequired {
             get {
@@ -115,7 +133,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The user login name is already added.
+        ///   Looks up a localized string similar to اسم تسجيل الدخول للمستخدم قد تم إضافته بالفعل.
         /// </summary>
         public static string errorUserLoginNameWasAdded {
             get {
@@ -124,7 +142,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, username is required.
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال اسم المستخدم.
         /// </summary>
         public static string errorUsernameIsRequired {
             get {
@@ -133,7 +151,7 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The username is already added.
+        ///   Looks up a localized string similar to اسم المستخدم قد تم إضافته بالفعل.
         /// </summary>
         public static string errorUsernameWasAdded {
             get {
@@ -142,7 +160,16 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The phone number was addded before.
+        ///   Looks up a localized string similar to يرجى إدخال كلمة السر ..
+        /// </summary>
+        public static string errorUserPasswordIsRequired {
+            get {
+                return ResourceManager.GetString("errorUserPasswordIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to رقم الهاتف قد تم إضافته مسبقًا.
         /// </summary>
         public static string errorUserPhoneNumberWasAdded {
             get {
@@ -151,11 +178,20 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sorry, user type is invalid.
+        ///   Looks up a localized string similar to عذرًا، نوع المستخدم غير صالح.
         /// </summary>
         public static string errorUserTypeInvalid {
             get {
                 return ResourceManager.GetString("errorUserTypeInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تم تسجيل الدخول بنجاح.
+        /// </summary>
+        public static string loginSuccess {
+            get {
+                return ResourceManager.GetString("loginSuccess", resourceCulture);
             }
         }
     }

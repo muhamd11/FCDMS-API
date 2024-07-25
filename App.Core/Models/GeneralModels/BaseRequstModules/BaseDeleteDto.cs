@@ -1,10 +1,8 @@
-﻿using App.Core.Models.GeneralModels.BaseRequstModules;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace App.Core.Models.General.BaseRequstModules
 {
-    public class BaseDeleteDto : GeneralOperation
+    public class BaseDeleteDto
     {
         [FromQuery] public Guid elementToken { get; set; }
     }

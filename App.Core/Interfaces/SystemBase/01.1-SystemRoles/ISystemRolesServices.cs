@@ -3,7 +3,6 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Models.SystemBase.Roles.ViewModel;
-using System.Threading.Tasks;
 
 namespace App.Core.Interfaces.SystemBase.SystemRoles
 {

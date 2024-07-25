@@ -1,7 +1,6 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.General;
-using System.Collections.Generic;
 
 public class BaseActionResponse<T> : Dictionary<string, object>
 {
@@ -48,7 +47,7 @@ public class BaseActionResponse<T> : Dictionary<string, object>
     {
         var response = new BaseActionResponse<T>
         {
-            Message = GeneralMessages.errorSomthingWrong,
+            Message = GeneralMessagesAr.errorSomthingWrong,
             Status = EnumStatus.catchStatus,
         };
         response[nameof(Status)] = response.Status;

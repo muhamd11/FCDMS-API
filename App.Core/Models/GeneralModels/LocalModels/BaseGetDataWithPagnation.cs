@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace App.Core.Models.General.LocalModels
+﻿namespace App.Core.Models.General.LocalModels
 {
     public class BaseGetDataWithPagnation<T>
     {

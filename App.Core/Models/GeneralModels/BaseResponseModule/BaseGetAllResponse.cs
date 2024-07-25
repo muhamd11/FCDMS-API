@@ -2,8 +2,6 @@
 using App.Core.Models.General;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.General;
-using System.Collections.Generic;
-using System.Linq;
 
 public class BaseGetAllResponse<T> : Dictionary<string, object>
 {
@@ -18,11 +16,11 @@ public class BaseGetAllResponse<T> : Dictionary<string, object>
         BaseGetAllResponse<T> response = null;
         //when no data found
         if (!inputModel.Data.Any())
-            response = new BaseGetAllResponse<T> { Message = GeneralMessages.errorDataNotFound, Status = EnumStatus.noContent };
+            response = new BaseGetAllResponse<T> { Message = GeneralMessagesAr.errorDataNotFound, Status = EnumStatus.noContent };
         else //when data found
             response = new BaseGetAllResponse<T>
             {
-                Message = GeneralMessages.operationSuccess,
+                Message = GeneralMessagesAr.operationSuccess,
                 Status = EnumStatus.success,
                 Pagination = inputModel.Pagination,
                 Data = inputModel.Data
@@ -59,7 +57,7 @@ public class BaseGetAllResponse<T> : Dictionary<string, object>
     {
         var response = new BaseGetAllResponse<T>
         {
-            Message = GeneralMessages.errorSomthingWrong,
+            Message = GeneralMessagesAr.errorSomthingWrong,
             Status = EnumStatus.catchStatus,
         };
         response[nameof(Status)] = response.Status;

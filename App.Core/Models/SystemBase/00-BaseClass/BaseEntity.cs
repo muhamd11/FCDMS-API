@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace App.Core.Models.SystemBase.BaseClass
+﻿namespace App.Core.Models.SystemBase.BaseClass
 {
     public class BaseEntity
     {

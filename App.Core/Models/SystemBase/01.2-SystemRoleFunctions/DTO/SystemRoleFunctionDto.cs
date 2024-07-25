@@ -1,10 +1,8 @@
-﻿using App.Core.Models.GeneralModels.BaseRequstModules;
-using System;
-using System.Collections.Generic;
+﻿using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 
 namespace App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO
 {
-    public class SystemRoleFunctionDto : GeneralOperation
+    public class SystemRoleFunctionDto : BaseRequestHeaders
     {
         public SystemRoleFunctionDto()
         {

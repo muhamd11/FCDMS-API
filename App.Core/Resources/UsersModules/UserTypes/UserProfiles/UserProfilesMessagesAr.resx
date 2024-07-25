@@ -117,13 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="errorSystemRoleNameIsRequired" xml:space="preserve">
-    <value>Sorry, role name is required</value>
-  </data>
-  <data name="errorSystemRoleNameWasAdded" xml:space="preserve">
-    <value>Sorry, role name was added before</value>
-  </data>
-  <data name="errorSystemRoleWasNotFound" xml:space="preserve">
-    <value>Sorry, role was not found</value>
+  <data name="errorUserProfileIdWasNotFound" xml:space="preserve">
+    <value>عذرًا، لا يوجد معرف ملف المستخدم</value>
   </data>
 </root>
