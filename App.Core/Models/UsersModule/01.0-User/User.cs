@@ -41,12 +41,8 @@ namespace App.Core.Models.Users
         public SystemRole roleData { get; set; }
 
         //using any user type 
-        public UserProfile userProfile { get; set; }
-
-        //using if user type is patient
+        public UserProfile userProfileData { get; set; }
         public UserPatient userPatientData { get; set; }
-
-        //using if user type is employee
         public UserEmployee userEmployeeData { get; set; }
     }
 }

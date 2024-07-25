@@ -73,7 +73,7 @@ namespace Api.Controllers.UsersModule.Users
             List<Expression<Func<User, object>>> includes = [];
 
             includes.Add(x => x.roleData);
-            includes.Add(x => x.userProfile);
+            includes.Add(x => x.userProfileData);
 
             var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(criteria, select, includes);
 
@@ -85,7 +85,10 @@ namespace Api.Controllers.UsersModule.Users
             var user = _mapper.Map<User>(inputModel);
 
             if (isUpdate)
-                _unitOfWork.Users.Update(user);
+            {
+                DeleteAllOldProfile(user.userToken);
+                user = _unitOfWork.Users.Update(user);
+            }
             else
                 user = await _unitOfWork.Users.AddAsync(user);
 
@@ -100,14 +103,7 @@ namespace Api.Controllers.UsersModule.Users
         }
 
         private async void SyncProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
-        {
-            //delete
-            _unitOfWork.UserProfiles.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
-            _unitOfWork.UserPatients.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
-            _unitOfWork.UserEmployees.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
-            await _unitOfWork.CommitAsync();
-            //add
-
+        { 
             //userProfile scope
             {
                 //null save
@@ -135,6 +131,17 @@ namespace Api.Controllers.UsersModule.Users
             }
         }
 
+        private async void DeleteAllOldProfile(Guid? userToken)
+        {
+            if (userToken == null)
+                return;
+
+            //delete
+            _unitOfWork.UserProfiles.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
+            _unitOfWork.UserPatients.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
+            _unitOfWork.UserEmployees.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
+            await _unitOfWork.CommitAsync();
+        }
         public async Task<BaseActionDone<UserInfo>> DeleteAsync(BaseDeleteDto inputModel)
         {
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == inputModel.elementToken);

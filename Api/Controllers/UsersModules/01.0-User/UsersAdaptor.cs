@@ -36,7 +36,7 @@ namespace Api.Controllers.UsersModule.Users
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 systemRoleToken = user.systemRoleToken,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfile = user.userProfile,
+                userProfile = user.userProfileData,
                 userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),
             };
         }
@@ -75,7 +75,7 @@ namespace Api.Controllers.UsersModule.Users
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 systemRoleToken = user.systemRoleToken,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfile = user.userProfile,
+                userProfile = user.userProfileData,
                 userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),
             };
         }
