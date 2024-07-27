@@ -2,7 +2,6 @@
 using App.Core.Consts.GeneralModels;
 using App.Core.Helper;
 using App.Core.Helper.Validations;
-using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Interfaces.UsersModule.UsersAuthentications.UsersLogin;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
@@ -21,6 +20,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
         {
             _unitOfWork = unitOfWork;
         }
+
         public BaseValid IsValidLogin(UserLoginDto inputModel)
         {
             if (inputModel is not null)
@@ -39,7 +39,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 if (!ValidationClass.IsValidString(inputModel.userPassword))
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUserPasswordIsRequired, EnumStatus.error);
 
-                #endregion
+                #endregion userPasswordText *
 
                 #region ValidLoginData *
 
@@ -47,7 +47,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 if (isValidLoginData.Status != EnumStatus.success)
                     return isValidLoginData;
 
-                #endregion
+                #endregion ValidLoginData *
+
                 return BaseValid.createBaseValid(UsersMessagesAr.loginSuccess, EnumStatus.success);
             }
             else
@@ -65,6 +66,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             else
                 return BaseValid.createBaseValid(UsersMessagesAr.errorInvalidUserLoginData, EnumStatus.error);
         }
+
         private static List<Expression<Func<User, bool>>> GetCriteria(UserLoginDto inputModel, string hashedPassword)
         {
             var criteria = new List<Expression<Func<User, bool>>>()

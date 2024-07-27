@@ -159,7 +159,7 @@ namespace Api.Controllers.UsersModules.Users
             return Ok(response);
         }
 
-        [HttpPost("DeleteUserClient")]
+        [HttpPost("DeleteUser")]
         public async Task<IActionResult> DeleteUser([FromQuery] BaseDeleteDto inputModel)
         {
             BaseActionResponse<UserInfo> response = new();

@@ -2,8 +2,8 @@
 using App.Core.Consts.GeneralModels;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
-using App.Core.Models.Buyers;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Resources.General;
 
 namespace Api.Controllers.UsersModules._01._1_UserTypes._01_UserProfile
@@ -29,6 +29,16 @@ namespace Api.Controllers.UsersModules._01._1_UserTypes._01_UserProfile
 
         public BaseValid IsValidUserProfile(UserProfile inputModel)
         {
+            var isValidProfileData = CheckProfileData(inputModel);
+
+            if (isValidProfileData.Status != EnumStatus.success)
+                return isValidProfileData;
+
+            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+        }
+
+        private BaseValid CheckProfileData(UserProfile inputModel)
+        {
             if (IsValidPhoneNumberSet(inputModel.userPhoneCC_2, inputModel.userPhoneDialCode_2, inputModel.userPhone_2))
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_2, inputModel.userPhoneDialCode_2, inputModel.userPhone_2))
                     return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "2"), EnumStatus.error);
@@ -41,9 +51,9 @@ namespace Api.Controllers.UsersModules._01._1_UserTypes._01_UserProfile
                 if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_4, inputModel.userPhoneDialCode_4, inputModel.userPhone_4))
                     return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "4"), EnumStatus.error);
 
-            if (inputModel.userContactEmail is not null)
+            if (ValidationClass.IsValidString(inputModel.userContactEmail))
                 if (!ValidationClass.IsValidEmail(inputModel.userContactEmail))
-                    return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidContactEmail, EnumStatus.error);
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }

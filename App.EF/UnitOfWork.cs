@@ -1,10 +1,12 @@
 ﻿using App.Core;
 using App.Core.Interfaces.General;
-using App.Core.Models.Buyers;
+using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
+using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.Core.Models.UsersModule.LogActionsModel;
 using App.EF.Repositories;
@@ -14,8 +16,6 @@ namespace App.EF
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext _context;
-
-
 
         #region SystemBase
 
@@ -31,14 +31,19 @@ namespace App.EF
         public IBaseRepository<UserProfile> UserProfiles { get; private set; }
         public IBaseRepository<UserPatient> UserPatients { get; private set; }
         public IBaseRepository<UserEmployee> UserEmployees { get; private set; }
+        public IBaseRepository<UserDoctor> UserDoctors { get; private set; }
 
         #endregion UsersModule
+
+        #region ClinicModules
+
+        public IBaseRepository<Operation> Operations { get; private set; }
+
+        #endregion ClinicModules
 
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-
-
 
             #region SystemBase
 
@@ -54,8 +59,15 @@ namespace App.EF
             UserProfiles = new BaseRepository<UserProfile>(_context);
             UserPatients = new BaseRepository<UserPatient>(_context);
             UserEmployees = new BaseRepository<UserEmployee>(_context);
+            UserDoctors = new BaseRepository<UserDoctor>(_context);
 
             #endregion UsersModule
+
+            #region ClinicModules
+
+            Operations = new BaseRepository<Operation>(_context);
+
+            #endregion ClinicModules
         }
 
         public async Task<int> CommitAsync()

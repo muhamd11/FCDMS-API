@@ -1,8 +1,10 @@
-﻿using App.Core.Models.Buyers;
+﻿using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
+using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.Core.Models.UsersModule.LogActionsModel;
 using Microsoft.EntityFrameworkCore;
@@ -113,8 +115,6 @@ namespace App.EF
 
         #region DB Tables
 
-
-
         #region SystemBase
 
         public DbSet<SystemRole> SystemRoles { get; set; }
@@ -129,8 +129,15 @@ namespace App.EF
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserPatient> UserPatients { get; set; }
         public DbSet<UserEmployee> UserEmployees { get; set; }
+        public DbSet<UserDoctor> UserDoctors { get; set; }
 
         #endregion UsersModule
+
+        #region ClinicModules
+
+        public DbSet<Operation> Operations { get; set; }
+
+        #endregion ClinicModules
 
         #endregion DB Tables
     }

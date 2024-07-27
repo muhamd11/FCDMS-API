@@ -1,7 +1,6 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
-using App.Core.Consts.Users;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
@@ -91,18 +90,16 @@ namespace Api.Controllers.UsersModule.Users
 
                 #endregion userId?
 
-                //TODO: Refactor and Cleanup User Validation Class
-
                 #region userName &&  userLoginName && userEmail
 
-                if (string.IsNullOrEmpty(inputModel.userName) && string.IsNullOrEmpty(inputModel.userEmail) && string.IsNullOrEmpty(inputModel.userPhone))
+                if (!ValidationClass.IsValidString(inputModel.userLoginName) && !ValidationClass.IsValidString(inputModel.userEmail) && !ValidationClass.IsValidString(inputModel.userPhone))
                     return BaseValid.createBaseValidError(GeneralMessagesAr.errorSendLoginData);
 
                 #endregion userName &&  userLoginName && userEmail
 
                 #region userName ?
 
-                if (!string.IsNullOrEmpty(inputModel.userName))
+                if (!ValidationClass.IsValidString(inputModel.userName))
                 {
                     int nameMaxLength = (int)EnumMaxLength.nameMaxLength;
                     if (!ValidationClass.IsValidStringLength(inputModel.userName, nameMaxLength))
@@ -113,21 +110,15 @@ namespace Api.Controllers.UsersModule.Users
 
                 #region userLoginName ?
 
-                if (!string.IsNullOrEmpty(inputModel.userLoginName))
-                {
-                    if (!ValidationClass.IsValidString(inputModel.userLoginName))
-                        return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameIsRequired, EnumStatus.error);
-                }
+                if (!ValidationClass.IsValidString(inputModel.userLoginName))
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameIsRequired, EnumStatus.error);
 
                 #endregion userLoginName ?
 
                 #region userEmail ?
 
-                if (!string.IsNullOrEmpty(inputModel.userEmail))
-                {
-                    if (!ValidationClass.IsValidEmail(inputModel.userEmail))
-                        return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
-                }
+                if (!ValidationClass.IsValidEmail(inputModel.userEmail))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
 
                 #endregion userEmail ?
 
@@ -143,7 +134,7 @@ namespace Api.Controllers.UsersModule.Users
 
                 #region userType *
 
-                if (!ValidationClass.IsEnumValue<EnumUserType>(inputModel.userType))
+                if (!ValidationClass.IsEnumValue(inputModel.userType))
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUserTypeInvalid, EnumStatus.error);
 
                 #endregion userType *
@@ -159,11 +150,11 @@ namespace Api.Controllers.UsersModule.Users
                 #region validUserWasAddedBefore
 
                 var existingUser = _unitOfWork.Users.FirstOrDefault(x => x.userName == inputModel.userName
-                 || x.userEmail == inputModel.userEmail
-                 || x.userPhone == inputModel.userPhone
-                 || x.userLoginName == inputModel.userLoginName);
+                                    || x.userEmail == inputModel.userEmail
+                                    || x.userPhone == inputModel.userPhone
+                                    || x.userLoginName == inputModel.userLoginName);
 
-                if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userLoginName == inputModel.userLoginName)
+                if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userName == inputModel.userName)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUsernameWasAdded, EnumStatus.error);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userEmail == inputModel.userEmail)

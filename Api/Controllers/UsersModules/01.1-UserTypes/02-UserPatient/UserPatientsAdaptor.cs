@@ -6,22 +6,26 @@ namespace Api.Controllers.UsersModule.Users
 {
     public static class UserPatientsAdaptor
     {
-        public static Expression<Func<UserPatient, UserPatientInfo>> SelectExpressionUserClientInfo()
+        public static Expression<Func<UserPatient, UserPatientInfo>> SelectExpressionUserPatientInfo()
         {
             return user => new UserPatientInfo
             {
-                //TODO: Add Whislist Adaptor
+                userPatientAge = user.userPatientAge,
+                userPatientBloodType = user.userPatientBloodType,
+                userPatientChildrenCount = user.userPatientChildrenCount
             };
         }
 
-        public static UserPatientInfo SelectExpressionUserClientInfo(UserPatient user)
+        public static UserPatientInfo SelectExpressionUserPatientInfo(UserPatient user)
         {
             if (user == null)
                 return null;
 
             return new UserPatientInfo
             {
-                //TODO: Add Whislist Adaptor
+                userPatientAge = user.userPatientAge,
+                userPatientBloodType = user.userPatientBloodType,
+                userPatientChildrenCount = user.userPatientChildrenCount
             };
         }
     }

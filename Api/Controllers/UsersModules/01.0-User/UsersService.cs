@@ -86,38 +86,41 @@ namespace Api.Controllers.UsersModule.Users
 
             includes.Add(x => x.roleData);
             includes.Add(x => x.userProfileData);
+            includes.Add(x => x.userPatientData);
+            includes.Add(x => x.userEmployeeData);
+            includes.Add(x => x.userDoctorData);
             return includes;
         }
 
         public async Task<BaseActionDone<UserInfo>> AddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate)
         {
-            var user = _mapper.Map<User>(inputModel);
+            var userOnly = _mapper.Map<User>(inputModel);
 
-            user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
+            userOnly = GetUserOnlyWithoutProfiles(userOnly);
 
             if (isUpdate)
             {
-                DeleteAllOldProfile(user.userToken);
-                user = _unitOfWork.Users.Update(user);
+                await DeleteAllOldProfile(userOnly.userToken);
+                userOnly = _unitOfWork.Users.Update(userOnly);
             }
             else
-                user = await _unitOfWork.Users.AddAsync(user);
+                userOnly = await _unitOfWork.Users.AddAsync(userOnly);
 
             var isDone = await _unitOfWork.CommitAsync();
 
             if (isDone > 0)
-                SyncProfiles(user.userToken, inputModel);
+                await AddNewProfiles(userOnly.userToken, inputModel);
 
-            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserInfo());
+            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == userOnly.userToken, UsersAdaptor.SelectExpressionUserInfo());
 
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }
 
-        private async void SyncProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
+        private async Task AddNewProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
         {
             //userProfile scope
             {
-                //null save
+                //null safe
                 inputModel.userProfileData = inputModel.userProfileData ?? new();
                 inputModel.userProfileData.userToken = userToken;
                 await _unitOfWork.UserProfiles.AddAsync(inputModel.userProfileData);
@@ -126,7 +129,7 @@ namespace Api.Controllers.UsersModule.Users
 
             if (inputModel.userType == EnumUserType.Patient)
             {
-                //null save
+                //null safe
                 inputModel.userPatientData = inputModel.userPatientData ?? new();
                 inputModel.userPatientData.userToken = userToken;
                 await _unitOfWork.UserPatients.AddAsync(inputModel.userPatientData);
@@ -134,15 +137,33 @@ namespace Api.Controllers.UsersModule.Users
             }
             else if (inputModel.userType == EnumUserType.Employee)
             {
-                //null save
+                //null safe
                 inputModel.userEmployeeData = inputModel.userEmployeeData ?? new();
                 inputModel.userEmployeeData.userToken = userToken;
                 await _unitOfWork.UserEmployees.AddAsync(inputModel.userEmployeeData);
                 await _unitOfWork.CommitAsync();
             }
+            else if (inputModel.userType == EnumUserType.Doctor)
+            {
+                //null safe
+                inputModel.userDoctorData = inputModel.userDoctorData ?? new();
+                inputModel.userDoctorData.userToken = userToken;
+                await _unitOfWork.UserDoctors.AddAsync(inputModel.userDoctorData);
+                await _unitOfWork.CommitAsync();
+            }
         }
 
-        private async void DeleteAllOldProfile(Guid? userToken)
+        private User GetUserOnlyWithoutProfiles(User user)
+        {
+            user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
+            user.userProfileData = null;
+            user.userPatientData = null;
+            user.userEmployeeData = null;
+            user.userDoctorData = null;
+            return user;
+        }
+
+        private async Task DeleteAllOldProfile(Guid? userToken)
         {
             if (userToken == null)
                 return;
@@ -151,6 +172,7 @@ namespace Api.Controllers.UsersModule.Users
             _unitOfWork.UserProfiles.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
             _unitOfWork.UserPatients.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
             _unitOfWork.UserEmployees.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
+            _unitOfWork.UserDoctors.AsQueryable().Where(x => x.userToken == userToken).ExecuteDelete();
             await _unitOfWork.CommitAsync();
         }
 
@@ -158,13 +180,13 @@ namespace Api.Controllers.UsersModule.Users
         {
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == inputModel.elementToken);
 
+            await DeleteAllOldProfile(user.userToken);
+
             _unitOfWork.Users.Delete(user);
 
             var isDone = await _unitOfWork.CommitAsync();
 
-            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, UsersAdaptor.SelectExpressionUserInfo());
-
-            return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
+            return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, UsersAdaptor.SelectExpressionUserInfo(user));
         }
 
         #endregion Methods

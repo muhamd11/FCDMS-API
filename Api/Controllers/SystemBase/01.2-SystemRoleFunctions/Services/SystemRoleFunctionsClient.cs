@@ -24,8 +24,6 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             return systemRoleFunctions;
         }
 
-
-
         #region PlacesModules
 
         //private IEnumerable<SystemRoleFunction> GetPrivilageModuleBranches()

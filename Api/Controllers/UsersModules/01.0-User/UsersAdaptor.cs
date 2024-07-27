@@ -16,6 +16,7 @@ namespace Api.Controllers.UsersModule.Users
                 userEmail = user.userEmail,
                 userPhone = user.userPhone,
                 userType = user.userType,
+                fullCode = user.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
@@ -31,12 +32,13 @@ namespace Api.Controllers.UsersModule.Users
                 userEmail = user.userEmail,
                 userPhone = user.userPhone,
                 userType = user.userType,
+                fullCode = user.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfile = user.userProfileData,
-                userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),
+                userProfileData = user.userProfileData,
+                userPatientInfoData = user.userPatientData != null ? UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData) : new(),
             };
         }
 
@@ -52,6 +54,7 @@ namespace Api.Controllers.UsersModule.Users
                 userEmail = user.userEmail,
                 userPhone = user.userPhone,
                 userType = user.userType,
+                fullCode = user.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
@@ -69,12 +72,13 @@ namespace Api.Controllers.UsersModule.Users
                 userEmail = user.userEmail,
                 userPhone = user.userPhone,
                 userType = user.userType,
+                fullCode = user.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfile = user.userProfileData,
-                userPatientInfo = UserPatientsAdaptor.SelectExpressionUserClientInfo(user.userPatientData),
+                userProfileData = user.userProfileData,
+                userPatientInfoData = user.userPatientData != null ? UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData) : new(),
             };
         }
     }

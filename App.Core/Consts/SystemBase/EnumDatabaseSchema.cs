@@ -4,6 +4,7 @@
     {
         Users,
         SystemBase,
+        ClinicManagement,
         Places,
         Core,
     }

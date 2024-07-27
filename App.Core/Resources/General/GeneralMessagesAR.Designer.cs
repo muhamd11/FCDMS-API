@@ -142,6 +142,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عذرًا، البريد الإلكتروني للتواصل غير صالح.
+        /// </summary>
+        public static string errorInvalidContactEmail {
+            get {
+                return ResourceManager.GetString("errorInvalidContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرًا، البريد الإلكتروني غير صالح.
         /// </summary>
         public static string errorInvalidEmail {

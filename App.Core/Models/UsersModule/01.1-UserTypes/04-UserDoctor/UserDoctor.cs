@@ -4,16 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee
+namespace App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor
 {
-    [Table($"{nameof(UserEmployee)}s", Schema = nameof(EnumDatabaseSchema.Users))]
-    public class UserEmployee
+    [Table($"{nameof(UserDoctor)}s", Schema = nameof(EnumDatabaseSchema.Users))]
+    public class UserDoctor
     {
         [JsonIgnore, Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid userEmployeeToken { get; set; }
+        public Guid userDoctorToken { get; set; }
 
         //relations
-        [JsonIgnore, ForeignKey(nameof(User))]
+        [JsonIgnore, ForeignKey(nameof(userData))]
         public Guid userToken { get; set; }
+
+        [JsonIgnore]
+        public User userData { get; set; }
     }
 }

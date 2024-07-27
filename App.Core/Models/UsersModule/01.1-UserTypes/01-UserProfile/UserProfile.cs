@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace App.Core.Models.Buyers
+namespace App.Core.Models.UsersModule._01_1_UserTypes
 {
     [Table($"{nameof(UserProfile)}s", Schema = nameof(EnumDatabaseSchema.Users))]
     public class UserProfile
@@ -37,7 +37,10 @@ namespace App.Core.Models.Buyers
         public DateOnly userBirthDate { get; set; }
 
         //relations
-        [JsonIgnore, ForeignKey(nameof(User))]
-        public Guid userToken { get; set; }
+        [JsonIgnore, ForeignKey(nameof(userData))]
+        public Guid? userToken { get; set; }
+
+        [JsonIgnore]
+        public User userData { get; set; }
     }
 }

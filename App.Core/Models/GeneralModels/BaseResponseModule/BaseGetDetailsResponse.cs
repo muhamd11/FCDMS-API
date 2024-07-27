@@ -1,6 +1,5 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Models.General.LocalModels;
-using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.ViewModel;
 using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;

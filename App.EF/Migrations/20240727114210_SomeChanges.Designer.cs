@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240725094806_InitializeDB")]
-    partial class InitializeDB
+    [Migration("20240727114210_SomeChanges")]
+    partial class SomeChanges
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,12 +86,55 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userProfileToken");
 
                     b.ToTable("UserProfiles", "Users");
+                });
+
+            modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
+                {
+                    b.Property<Guid>("operationToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("createdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("fullCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("operationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("operationName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTimeOffset?>("updatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("operationToken");
+
+                    b.HasIndex("fullCode")
+                        .IsUnique()
+                        .HasFilter("[fullCode] IS NOT NULL");
+
+                    b.HasIndex("operationDate");
+
+                    b.HasIndex("operationName");
+
+                    b.HasIndex("userToken");
+
+                    b.ToTable("Operations", "ClinicManagement");
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
@@ -165,6 +208,9 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("UserDoctorDatauserDoctorToken")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
@@ -218,13 +264,15 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("userProfileToken")
+                    b.Property<Guid>("userProfileDatauserProfileToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("userType")
                         .HasColumnType("int");
 
                     b.HasKey("userToken");
+
+                    b.HasIndex("UserDoctorDatauserDoctorToken");
 
                     b.HasIndex("fullCode")
                         .IsUnique()
@@ -245,7 +293,7 @@ namespace App.EF.Migrations
                     b.HasIndex("userPhone")
                         .IsUnique();
 
-                    b.HasIndex("userProfileToken");
+                    b.HasIndex("userProfileDatauserProfileToken");
 
                     b.HasIndex("userType");
 
@@ -270,7 +318,6 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("newData")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("oldData")
@@ -290,12 +337,26 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userEmployeeToken");
 
                     b.ToTable("UserEmployees", "Users");
+                });
+
+            modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", b =>
+                {
+                    b.Property<Guid>("userDoctorToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("userDoctorToken");
+
+                    b.ToTable("UserDoctors", "Users");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", b =>
@@ -304,7 +365,16 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<int>("userPatientAge")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userPatientBloodType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userPatientChildrenCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userPatientToken");
@@ -312,8 +382,25 @@ namespace App.EF.Migrations
                     b.ToTable("UserPatients", "Users");
                 });
 
+            modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithMany("operationsData")
+                        .HasForeignKey("userToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("userData");
+                });
+
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
+                    b.HasOne("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", "UserDoctorData")
+                        .WithMany()
+                        .HasForeignKey("UserDoctorDatauserDoctorToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("App.Core.Models.SystemBase.Roles.SystemRole", "roleData")
                         .WithMany("usersData")
                         .HasForeignKey("systemRoleToken")
@@ -332,11 +419,13 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Core.Models.Buyers.UserProfile", "userProfile")
+                    b.HasOne("App.Core.Models.Buyers.UserProfile", "userProfileData")
                         .WithMany()
-                        .HasForeignKey("userProfileToken")
+                        .HasForeignKey("userProfileDatauserProfileToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("UserDoctorData");
 
                     b.Navigation("roleData");
 
@@ -344,12 +433,17 @@ namespace App.EF.Migrations
 
                     b.Navigation("userPatientData");
 
-                    b.Navigation("userProfile");
+                    b.Navigation("userProfileData");
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
                 {
                     b.Navigation("usersData");
+                });
+
+            modelBuilder.Entity("App.Core.Models.Users.User", b =>
+                {
+                    b.Navigation("operationsData");
                 });
 #pragma warning restore 612, 618
         }

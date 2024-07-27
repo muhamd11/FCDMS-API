@@ -1,6 +1,7 @@
 ﻿using App.Core.Consts.Users;
-using App.Core.Models.Buyers;
+using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 
 namespace App.Core.Models.Users
@@ -23,5 +24,6 @@ namespace App.Core.Models.Users
         public UserProfile userProfileData { get; set; } = new();
         public UserPatient userPatientData { get; set; } = new();
         public UserEmployee userEmployeeData { get; set; } = new();
+        public UserDoctor userDoctorData { get; set; } = new();
     }
 }

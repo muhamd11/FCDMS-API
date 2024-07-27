@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240725102557_ChangeOldDataToNullable")]
-    partial class ChangeOldDataToNullable
+    [Migration("20240727121815_SomeChanges3")]
+    partial class SomeChanges3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,73 +25,47 @@ namespace App.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("App.Core.Models.Buyers.UserProfile", b =>
+            modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
-                    b.Property<Guid>("userProfileToken")
+                    b.Property<Guid>("operationToken")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateOnly>("userBirthDate")
-                        .HasColumnType("date");
+                    b.Property<DateTimeOffset>("createdDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("userContactEmail")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("fullCode")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("userPhoneCCName_2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<string>("userPhoneCCName_3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTimeOffset>("operationDate")
+                        .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("userPhoneCCName_4")
+                    b.Property<string>("operationName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("userPhoneCC_2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhoneCC_3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhoneCC_4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhoneDialCode_2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhoneDialCode_3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhoneDialCode_4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTimeOffset?>("updatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<Guid>("userToken")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("userProfileToken");
+                    b.HasKey("operationToken");
 
-                    b.ToTable("UserProfiles", "Users");
+                    b.HasIndex("fullCode")
+                        .IsUnique()
+                        .HasFilter("[fullCode] IS NOT NULL");
+
+                    b.HasIndex("operationDate");
+
+                    b.HasIndex("operationName");
+
+                    b.HasIndex("userToken");
+
+                    b.ToTable("Operations", "ClinicManagement");
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
@@ -180,11 +154,14 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<Guid?>("userDoctorDatauserDoctorToken")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("userEmail")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("userEmployeeDatauserEmployeeToken")
+                    b.Property<Guid?>("userEmployeeDatauserEmployeeToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("userLoginName")
@@ -198,9 +175,6 @@ namespace App.EF.Migrations
                     b.Property<string>("userPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("userPatientDatauserPatientToken")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("userPhone")
                         .IsRequired()
@@ -218,7 +192,7 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("userProfileDatauserProfileToken")
+                    b.Property<Guid?>("userProfileDatauserProfileToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("userType")
@@ -232,6 +206,8 @@ namespace App.EF.Migrations
 
                     b.HasIndex("systemRoleToken");
 
+                    b.HasIndex("userDoctorDatauserDoctorToken");
+
                     b.HasIndex("userEmail")
                         .IsUnique();
 
@@ -239,8 +215,6 @@ namespace App.EF.Migrations
 
                     b.HasIndex("userLoginName")
                         .IsUnique();
-
-                    b.HasIndex("userPatientDatauserPatientToken");
 
                     b.HasIndex("userPhone")
                         .IsUnique();
@@ -289,12 +263,95 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userEmployeeToken");
 
                     b.ToTable("UserEmployees", "Users");
+                });
+
+            modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", b =>
+                {
+                    b.Property<Guid>("userDoctorToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("userDoctorToken");
+
+                    b.ToTable("UserDoctors", "Users");
+                });
+
+            modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", b =>
+                {
+                    b.Property<Guid>("userProfileToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("userBirthDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("userContactEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCCName_2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCCName_3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCCName_4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCC_2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCC_3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneCC_4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneDialCode_2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneDialCode_3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhoneDialCode_4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhone_2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhone_3")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userPhone_4")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("userProfileToken");
+
+                    b.ToTable("UserProfiles", "Users");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", b =>
@@ -303,12 +360,36 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<int>("userPatientAge")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userPatientBloodType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("userPatientChildrenCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userPatientToken");
 
+                    b.HasIndex("userToken")
+                        .IsUnique()
+                        .HasFilter("[userToken] IS NOT NULL");
+
                     b.ToTable("UserPatients", "Users");
+                });
+
+            modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithMany("operationsData")
+                        .HasForeignKey("userToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("userData");
                 });
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
@@ -319,36 +400,46 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", "userDoctorData")
+                        .WithMany()
+                        .HasForeignKey("userDoctorDatauserDoctorToken");
+
                     b.HasOne("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", "userEmployeeData")
                         .WithMany()
-                        .HasForeignKey("userEmployeeDatauserEmployeeToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("userEmployeeDatauserEmployeeToken");
 
-                    b.HasOne("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", "userPatientData")
+                    b.HasOne("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", "userProfileData")
                         .WithMany()
-                        .HasForeignKey("userPatientDatauserPatientToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("App.Core.Models.Buyers.UserProfile", "userProfileData")
-                        .WithMany()
-                        .HasForeignKey("userProfileDatauserProfileToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("userProfileDatauserProfileToken");
 
                     b.Navigation("roleData");
 
+                    b.Navigation("userDoctorData");
+
                     b.Navigation("userEmployeeData");
 
-                    b.Navigation("userPatientData");
-
                     b.Navigation("userProfileData");
+                });
+
+            modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithOne("userPatientData")
+                        .HasForeignKey("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", "userToken");
+
+                    b.Navigation("userData");
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
                 {
                     b.Navigation("usersData");
+                });
+
+            modelBuilder.Entity("App.Core.Models.Users.User", b =>
+                {
+                    b.Navigation("operationsData");
+
+                    b.Navigation("userPatientData");
                 });
 #pragma warning restore 612, 618
         }

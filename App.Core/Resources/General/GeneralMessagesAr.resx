@@ -144,6 +144,9 @@
   <data name="errorIdIsRequired" xml:space="preserve">
     <value>كود التعرف مطلوب</value>
   </data>
+  <data name="errorInvalidContactEmail" xml:space="preserve">
+    <value>عذرًا، البريد الإلكتروني للتواصل غير صالح</value>
+  </data>
   <data name="errorInvalidEmail" xml:space="preserve">
     <value>عذرًا، البريد الإلكتروني غير صالح</value>
   </data>

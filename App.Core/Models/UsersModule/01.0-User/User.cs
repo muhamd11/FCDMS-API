@@ -1,13 +1,16 @@
 ﻿using App.Core.Consts.SystemBase;
 using App.Core.Consts.Users;
-using App.Core.Models.Buyers;
+using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.SystemBase.Roles;
+using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users
 {
@@ -19,6 +22,11 @@ namespace App.Core.Models.Users
     [Index(nameof(userLoginName), IsUnique = true)]
     public class User : BaseEntity
     {
+        public User()
+        {
+            operationsData = new HashSet<Operation>();
+        }
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid userToken { get; set; }
 
@@ -38,10 +46,14 @@ namespace App.Core.Models.Users
 
         public SystemRole roleData { get; set; }
 
-        //using any user type
-        public UserProfile userProfileData { get; set; }
+        [JsonIgnore]
+        public ICollection<Operation> operationsData { get; set; }
 
-        public UserPatient userPatientData { get; set; }
-        public UserEmployee userEmployeeData { get; set; }
+        //using any user type
+        public UserProfile? userProfileData { get; set; }
+
+        public UserPatient? userPatientData { get; set; }
+        public UserEmployee? userEmployeeData { get; set; }
+        public UserDoctor? userDoctorData { get; set; }
     }
 }
