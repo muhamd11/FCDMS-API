@@ -96,11 +96,10 @@ namespace Api.Controllers.UsersModule.Users
 
                 #region userPassword *
 
-                if(!ValidationClass.IsValidString(inputModel.userPassword))
+                if (!ValidationClass.IsValidString(inputModel.userPassword))
                     return BaseValid.createBaseValid(GeneralMessagesAr.errorPasswordRequired, EnumStatus.error);
 
                 #endregion userPassword *
-
 
                 #region userName ?
 
@@ -121,7 +120,6 @@ namespace Api.Controllers.UsersModule.Users
                 #endregion userEmail ?
 
                 #region userPhoneNumber *
-
 
                 if (ValidationClass.IsValidString(inputModel.userPhone) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC, inputModel.userPhone))
                     return BaseValid.createBaseValid(GeneralMessagesAr.ErrorInvalidPhoneNumber, EnumStatus.error);
@@ -148,7 +146,7 @@ namespace Api.Controllers.UsersModule.Users
                 var existingUser = _unitOfWork.Users.FirstOrDefault(x => x.userName == inputModel.userName
                                     || x.userEmail == inputModel.userEmail
                                     || x.userPhone == inputModel.userPhone
-                                    || x.userLoginName == inputModel.userLoginName 
+                                    || x.userLoginName == inputModel.userLoginName
                                     || x.fullCode == inputModel.fullCode);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userName == inputModel.userName)
