@@ -121,13 +121,14 @@ namespace Api.Controllers.UsersModule.Users
 
         private static void ClearInvalidUserFields(User userOnly)
         {
-            if (!ValidationClass.IsValidString(userOnly.userEmail) || !ValidationClass.IsValidString(userOnly.userPhone) || !ValidationClass.IsValidString(userOnly.userLoginName) || !ValidationClass.IsValidString(userOnly.fullCode))
-            {
+            if (!ValidationClass.IsValidString(userOnly.userEmail))
                 userOnly.userEmail = null;
-                userOnly.userPhone = null;
+            if (!ValidationClass.IsValidString(userOnly.userLoginName))
                 userOnly.userLoginName = null;
+            if (!ValidationClass.IsValidString(userOnly.userPhone))
+                userOnly.userPhone = null;
+            if (!ValidationClass.IsValidString(userOnly.userPassword))
                 userOnly.fullCode = null;
-            }
         }
 
         private async Task AddNewProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
