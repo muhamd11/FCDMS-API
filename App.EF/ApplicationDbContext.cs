@@ -1,5 +1,6 @@
 ﻿using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
+using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
@@ -13,6 +14,7 @@ namespace App.EF
 {
     public class ApplicationDbContext : DbContext
     {
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
@@ -25,12 +27,6 @@ namespace App.EF
         }
 
         #region override SaveChanges
-
-        //public override int SaveChanges()
-        //{
-        //    LogChanges();
-        //    return base.SaveChanges();
-        //}
 
         //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         //{

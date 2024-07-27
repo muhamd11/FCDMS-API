@@ -133,6 +133,15 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to كود التعريف للمستخدم قد تم إضافته بالفعل.
+        /// </summary>
+        public static string errorUserFullCodeWasAdded {
+            get {
+                return ResourceManager.GetString("errorUserFullCodeWasAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرًا، يجب إدخال اسم تسجيل الدخول للمستخدم.
         /// </summary>
         public static string errorUserLoginNameIsRequired {

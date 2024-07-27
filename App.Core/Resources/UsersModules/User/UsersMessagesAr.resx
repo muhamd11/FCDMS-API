@@ -141,6 +141,9 @@
   <data name="errorUserEmailWasAdded" xml:space="preserve">
     <value>بريد المستخدم الإلكتروني قد تم إضافته بالفعل</value>
   </data>
+  <data name="errorUserFullCodeWasAdded" xml:space="preserve">
+    <value>كود التعريف للمستخدم قد تم إضافته بالفعل</value>
+  </data>
   <data name="errorUserLoginNameIsRequired" xml:space="preserve">
     <value>عذرًا، يجب إدخال اسم تسجيل الدخول للمستخدم</value>
   </data>

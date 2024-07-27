@@ -1,6 +1,7 @@
 ﻿using App.Core;
 using App.Core.Consts.Users;
 using App.Core.Helper;
+using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
@@ -96,6 +97,8 @@ namespace Api.Controllers.UsersModule.Users
         {
             var userOnly = _mapper.Map<User>(inputModel);
 
+            ClearInvalidUserFields(userOnly);
+
             userOnly = GetUserOnlyWithoutProfiles(userOnly);
 
             if (isUpdate)
@@ -114,6 +117,17 @@ namespace Api.Controllers.UsersModule.Users
             var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == userOnly.userToken, UsersAdaptor.SelectExpressionUserInfo());
 
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
+        }
+
+        private static void ClearInvalidUserFields(User userOnly)
+        {
+            if (!ValidationClass.IsValidString(userOnly.userEmail) || !ValidationClass.IsValidString(userOnly.userPhone) || !ValidationClass.IsValidString(userOnly.userLoginName) || !ValidationClass.IsValidString(userOnly.fullCode))
+            {
+                userOnly.userEmail = null;
+                userOnly.userPhone = null;
+                userOnly.userLoginName = null;
+                userOnly.fullCode = null;
+            }
         }
 
         private async Task AddNewProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)

@@ -2,6 +2,7 @@
 {
     public class BaseEntity
     {
+
         public string? fullCode { get; set; }
         public bool? isDeleted { get; set; }
         public DateTimeOffset createdDate { get; set; } = DateTimeOffset.Now;

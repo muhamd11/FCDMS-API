@@ -148,7 +148,8 @@ namespace Api.Controllers.UsersModule.Users
                 var existingUser = _unitOfWork.Users.FirstOrDefault(x => x.userName == inputModel.userName
                                     || x.userEmail == inputModel.userEmail
                                     || x.userPhone == inputModel.userPhone
-                                    || x.userLoginName == inputModel.userLoginName);
+                                    || x.userLoginName == inputModel.userLoginName 
+                                    || x.fullCode == inputModel.fullCode);
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userName == inputModel.userName)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUsernameWasAdded, EnumStatus.error);
@@ -161,6 +162,9 @@ namespace Api.Controllers.UsersModule.Users
 
                 if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userLoginName == inputModel.userLoginName)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameWasAdded, EnumStatus.error);
+
+                if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.fullCode == inputModel.fullCode)
+                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserFullCodeWasAdded, EnumStatus.error);
 
                 #endregion validUserWasAddedBefore
 
