@@ -64,18 +64,16 @@ namespace App.Core.Helper.Validations
             return true;
         }
 
-        public static bool IsValidPhoneNumber(string countryCode, string dialingCode, string phoneNumber)
+        public static bool IsValidPhoneNumber(string countryCode, string phoneNumber)
         {
             var phoneNumberUtil = PhoneNumberUtil.GetInstance();
+
             try
             {
+                // Parse the phone number using the provided country code
                 var numberProto = phoneNumberUtil.Parse(phoneNumber, countryCode);
-                var expectedDialingCode = "+" + dialingCode;
-                var actualDialingCode = phoneNumberUtil.Format(numberProto, PhoneNumberFormat.INTERNATIONAL).Split(' ')[0];
 
-                if (expectedDialingCode != actualDialingCode)
-                    return false;
-
+                // Check if the phone number is valid
                 return phoneNumberUtil.IsValidNumber(numberProto);
             }
             catch (NumberParseException)

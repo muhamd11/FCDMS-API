@@ -195,6 +195,9 @@
   <data name="errorNoData" xml:space="preserve">
     <value>يرجى إرسال البيانات</value>
   </data>
+  <data name="errorPasswordRequired" xml:space="preserve">
+    <value>عذرًا ، يجب ادخال كلمة السر</value>
+  </data>
   <data name="errorSendLoginData" xml:space="preserve">
     <value>يرجى إرسال بيانات تسجيل الدخول</value>
   </data>

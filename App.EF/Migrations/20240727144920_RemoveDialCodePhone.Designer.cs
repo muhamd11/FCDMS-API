@@ -4,6 +4,7 @@ using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240727144920_RemoveDialCodePhone")]
+    partial class RemoveDialCodePhone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,15 +171,19 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhone")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("userPhoneCC")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhoneCCName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhoneDialCode")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("userType")
@@ -197,8 +204,7 @@ namespace App.EF.Migrations
                         .IsUnique();
 
                     b.HasIndex("userPhone")
-                        .IsUnique()
-                        .HasFilter("[userPhone] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("userType");
 

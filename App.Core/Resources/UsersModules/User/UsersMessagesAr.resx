@@ -126,6 +126,9 @@
   <data name="errorInvalidUserLoginData" xml:space="preserve">
     <value>عذرًا، بيانات تسجيل الدخول غير صالحة.</value>
   </data>
+  <data name="errorPasswordRequired" xml:space="preserve">
+    <value>عذرًا، يجب إدخال كلمة السر</value>
+  </data>
   <data name="errorPhoneNumberIsRequired" xml:space="preserve">
     <value>رقم الهاتف مطلوب</value>
   </data>

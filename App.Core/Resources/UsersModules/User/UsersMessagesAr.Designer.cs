@@ -88,6 +88,15 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عذرًا، يجب إدخال كلمة السر.
+        /// </summary>
+        public static string errorPasswordRequired {
+            get {
+                return ResourceManager.GetString("errorPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to رقم الهاتف مطلوب.
         /// </summary>
         public static string errorPhoneNumberIsRequired {

@@ -295,6 +295,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عذرًا ، يجب ادخال كلمة السر.
+        /// </summary>
+        public static string errorPasswordRequired {
+            get {
+                return ResourceManager.GetString("errorPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يرجى إرسال بيانات تسجيل الدخول.
         /// </summary>
         public static string errorSendLoginData {

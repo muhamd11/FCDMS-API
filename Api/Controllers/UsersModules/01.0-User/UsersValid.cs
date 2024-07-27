@@ -19,7 +19,6 @@ namespace Api.Controllers.UsersModule.Users
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
-        private readonly IUserPatientsValid _userClientValid;
 
         #endregion Members
 
@@ -27,13 +26,11 @@ namespace Api.Controllers.UsersModule.Users
 
         public UsersValid(IUnitOfWork unitOfWork,
                          ISystemRolesValid systemRolesValid,
-                         IUserProfileValid userProfileValid,
-                         IUserPatientsValid userClientValid)
+                         IUserProfileValid userProfileValid)
         {
             _unitOfWork = unitOfWork;
             _systemRolesValid = systemRolesValid;
             _userProfileValid = userProfileValid;
-            _userClientValid = userClientValid;
         }
 
         #endregion Constructor
@@ -97,6 +94,14 @@ namespace Api.Controllers.UsersModule.Users
 
                 #endregion userName &&  userLoginName && userEmail
 
+                #region userPassword *
+
+                if(!ValidationClass.IsValidString(inputModel.userPassword))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorPasswordRequired, EnumStatus.error);
+
+                #endregion userPassword *
+
+
                 #region userName ?
 
                 if (!ValidationClass.IsValidString(inputModel.userName))
@@ -108,26 +113,17 @@ namespace Api.Controllers.UsersModule.Users
 
                 #endregion userName ?
 
-                #region userLoginName ?
-
-                if (!ValidationClass.IsValidString(inputModel.userLoginName))
-                    return BaseValid.createBaseValid(UsersMessagesAr.errorUserLoginNameIsRequired, EnumStatus.error);
-
-                #endregion userLoginName ?
-
                 #region userEmail ?
 
-                if (!ValidationClass.IsValidEmail(inputModel.userEmail))
+                if (ValidationClass.IsValidString(inputModel.userEmail) && !ValidationClass.IsValidEmail(inputModel.userEmail))
                     return BaseValid.createBaseValid(GeneralMessagesAr.errorInvalidEmail, EnumStatus.error);
 
                 #endregion userEmail ?
 
                 #region userPhoneNumber *
 
-                if (!ValidationClass.IsValidString(inputModel.userPhone))
-                    return BaseValid.createBaseValid(UsersMessagesAr.errorPhoneNumberIsRequired, EnumStatus.error);
 
-                if (!ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC, inputModel.userPhoneDialCode, inputModel.userPhone))
+                if (ValidationClass.IsValidString(inputModel.userPhone) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC, inputModel.userPhone))
                     return BaseValid.createBaseValid(GeneralMessagesAr.ErrorInvalidPhoneNumber, EnumStatus.error);
 
                 #endregion userPhoneNumber *
