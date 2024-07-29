@@ -110,9 +110,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
             var isDone = await _unitOfWork.CommitAsync();
 
-            var nutritionalImprovementInfo = await _unitOfWork.NutritionalImprovements.FirstOrDefaultAsync(x => x.nutritionalImprovementToken == nutritionalImprovement.nutritionalImprovementToken, NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo());
-
-            return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, nutritionalImprovementInfo);
+            return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo(nutritionalImprovement));
         }
 
 

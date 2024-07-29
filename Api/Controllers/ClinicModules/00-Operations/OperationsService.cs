@@ -97,9 +97,7 @@ namespace Api.Controllers.SystemBase.Operations
 
             var isDone = await _unitOfWork.CommitAsync();
 
-            var operationInfo = await _unitOfWork.Operations.FirstOrDefaultAsync(x => x.operationToken == operation.operationToken, OperationsAdaptor.SelectExpressionOperationInfo());
-
-            return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, operationInfo);
+            return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, OperationsAdaptor.SelectExpressionOperationInfo(operation));
         }
 
 
