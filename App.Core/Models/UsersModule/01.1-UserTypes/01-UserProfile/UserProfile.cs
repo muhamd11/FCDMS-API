@@ -13,25 +13,25 @@ namespace App.Core.Models.UsersModule._01_1_UserTypes
         public Guid userProfileToken { get; set; }
 
         //phone-4
-        public string userPhone2 { get; set; }
+        public string? userPhone2 { get; set; }
 
-        public string userPhoneCC2 { get; set; }
-        public string userPhoneCCName2 { get; set; }
-
-        //phone-4
-        public string userPhone3 { get; set; }
-
-        public string userPhoneCC3 { get; set; }
-        public string userPhoneCCName3 { get; set; }
+        public string? userPhoneCC2 { get; set; }
+        public string? userPhoneCCName2 { get; set; }
 
         //phone-4
-        public string userPhone4 { get; set; }
+        public string? userPhone3 { get; set; }
 
-        public string userPhoneCC4 { get; set; }
-        public string userPhoneCCName4 { get; set; }
+        public string? userPhoneCC3 { get; set; }
+        public string? userPhoneCCName3 { get; set; }
 
-        public string userContactEmail { get; set; }
-        public DateOnly userBirthDate { get; set; }
+        //phone-4
+        public string? userPhone4 { get; set; }
+
+        public string? userPhoneCC4 { get; set; }
+        public string? userPhoneCCName4 { get; set; }
+
+        public string? userContactEmail { get; set; }
+        public DateOnly? userBirthDate { get; set; }
 
         //relations
         [JsonIgnore, ForeignKey(nameof(userData))]

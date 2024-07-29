@@ -127,7 +127,7 @@ namespace Api.Controllers.UsersModule.Users
                 userOnly.userLoginName = null;
             if (!ValidationClass.IsValidString(userOnly.userPhone))
                 userOnly.userPhone = null;
-            if (!ValidationClass.IsValidString(userOnly.userPassword))
+            if (!ValidationClass.IsValidString(userOnly.fullCode))
                 userOnly.fullCode = null;
         }
 
