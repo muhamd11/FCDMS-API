@@ -22,11 +22,6 @@ namespace App.Core.Models.Users
     [Index(nameof(userLoginName), IsUnique = true)]
     public class User : BaseEntity
     {
-        public User()
-        {
-            operationsData = new HashSet<Operation>();
-        }
-
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid userToken { get; set; }
 
@@ -45,9 +40,6 @@ namespace App.Core.Models.Users
         public Guid systemRoleToken { get; set; }
 
         public SystemRole roleData { get; set; }
-
-        [JsonIgnore]
-        public ICollection<Operation> operationsData { get; set; }
 
         //using any user type
         public UserProfile? userProfileData { get; set; }

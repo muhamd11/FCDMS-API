@@ -5,7 +5,7 @@
         public Guid operationToken { get; set; }
         public string operationName { get; set; }
         public DateTimeOffset operationDate { get; set; }
-        public Guid userToken { get; set; }
+        public Guid userPatientToken { get; set; }
         public string fullCode { get; set; }
     }
 }

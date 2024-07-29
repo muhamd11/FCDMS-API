@@ -4,9 +4,9 @@ using App.Core.Resources.General;
 
 public class BaseActionResponse<T> : Dictionary<string, object>
 {
-    public EnumStatus Status { get; set; }
-    public string Message { get; set; }
-    public decimal ExecutionTimeMilliseconds { get; set; }
+    public EnumStatus status { get; set; }
+    public string msg { get; set; }
+    public decimal executionTimeMilliseconds { get; set; }
     public T Data { get; set; }
 
     public BaseActionResponse<T> CreateResponse(BaseActionDone<T> inputModel, string moduleName)
@@ -14,13 +14,13 @@ public class BaseActionResponse<T> : Dictionary<string, object>
         BaseActionResponse<T> response = null;
         //when no data found
         if (inputModel.Data is null)
-            response = new BaseActionResponse<T> { Message = inputModel.Message, Status = inputModel.Status };
+            response = new BaseActionResponse<T> { msg = inputModel.Message, status = inputModel.Status };
         else //when data found
-            response = new BaseActionResponse<T> { Message = inputModel.Message, Status = inputModel.Status, Data = inputModel.Data };
+            response = new BaseActionResponse<T> { msg = inputModel.Message, status = inputModel.Status, Data = inputModel.Data };
 
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
         // Add the data with the module name as the key
         response[moduleName] = inputModel.Data;
 
@@ -31,12 +31,12 @@ public class BaseActionResponse<T> : Dictionary<string, object>
     {
         var response = new BaseActionResponse<T>
         {
-            Message = baseValid.Message,
-            Status = baseValid.Status,
+            msg = baseValid.Message,
+            status = baseValid.Status,
         };
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
         // Add the data with the module name as the key
         response[moduleName] = null;
 
@@ -47,12 +47,12 @@ public class BaseActionResponse<T> : Dictionary<string, object>
     {
         var response = new BaseActionResponse<T>
         {
-            Message = GeneralMessagesAr.errorSomthingWrong,
-            Status = EnumStatus.catchStatus,
+            msg = GeneralMessagesAr.errorSomthingWrong,
+            status = EnumStatus.catchStatus,
         };
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
         // Add the data with the module name as the key
         response[moduleName] = null;
 

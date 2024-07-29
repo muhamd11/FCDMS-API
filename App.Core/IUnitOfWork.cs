@@ -1,4 +1,5 @@
 ﻿using App.Core.Interfaces.General;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
@@ -12,7 +13,7 @@ using App.Core.Models.UsersModule.LogActionsModel;
 namespace App.Core
 
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable 
     {
         #region SystemBase
 
@@ -35,6 +36,7 @@ namespace App.Core
         #region ClinicModules
 
         IBaseRepository<Operation> Operations { get; }
+        IBaseRepository<NutritionalImprovement> NutritionalImprovements { get; }
 
         #endregion ClinicModules
 

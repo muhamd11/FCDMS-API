@@ -6,21 +6,24 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace App.Core.Models.ClinicModules.OperationsModules
+namespace App.Core.Models.ClinicModules.NutritionalImprovementsModules
 {
-    [Table($"{nameof(Operation)}s", Schema = nameof(EnumDatabaseSchema.ClinicManagement))]
+    [Table($"{nameof(NutritionalImprovement)}s", Schema = nameof(EnumDatabaseSchema.ClinicManagement))]
     [Index(nameof(fullCode), IsUnique = true)]
-    [Index(nameof(operationName))]
-    [Index(nameof(operationDate))]
+    [Index(nameof(createdDate))]
     [Index(nameof(userPatientToken))]
-    public class Operation : BaseEntity
+    public class NutritionalImprovement : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid operationToken { get; set; }
+        public Guid nutritionalImprovementToken { get; set; }
 
-        public string operationName { get; set; }
-        public DateTimeOffset operationDate { get; set; }
+        public decimal patientHeightInCm { get; set; }
 
+        public decimal patientWeightInKg { get; set; }
+
+        public decimal patientBmr { get; set; }
+
+        // Relations
         [ForeignKey(nameof(userPatientData))]
         public Guid? userPatientToken { get; set; }
 

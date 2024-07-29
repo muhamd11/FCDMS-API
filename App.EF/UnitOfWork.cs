@@ -1,5 +1,6 @@
 ﻿using App.Core;
 using App.Core.Interfaces.General;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
@@ -38,6 +39,7 @@ namespace App.EF
         #region ClinicModules
 
         public IBaseRepository<Operation> Operations { get; private set; }
+        public IBaseRepository<NutritionalImprovement> NutritionalImprovements { get; private set; }
 
         #endregion ClinicModules
 
@@ -66,6 +68,8 @@ namespace App.EF
             #region ClinicModules
 
             Operations = new BaseRepository<Operation>(_context);
+
+            NutritionalImprovements = new BaseRepository<NutritionalImprovement>(_context);
 
             #endregion ClinicModules
         }

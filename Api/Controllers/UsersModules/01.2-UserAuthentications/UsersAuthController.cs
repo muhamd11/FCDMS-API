@@ -57,7 +57,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240727121815_SomeChanges3")]
-    partial class SomeChanges3
+    [Migration("20240728164506_InitializeDB")]
+    partial class InitializeDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,7 +50,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<Guid?>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("operationToken");
@@ -63,7 +63,7 @@ namespace App.EF.Migrations
 
                     b.HasIndex("operationName");
 
-                    b.HasIndex("userToken");
+                    b.HasIndex("userPatientToken");
 
                     b.ToTable("Operations", "ClinicManagement");
                 });
@@ -154,18 +154,10 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userDoctorDatauserDoctorToken")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("userEmail")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid?>("userEmployeeDatauserEmployeeToken")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("userLoginName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("userName")
@@ -177,23 +169,16 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("userPhoneCC")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhoneCCName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhoneDialCode")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("userProfileDatauserProfileToken")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("userType")
                         .HasColumnType("int");
@@ -206,20 +191,17 @@ namespace App.EF.Migrations
 
                     b.HasIndex("systemRoleToken");
 
-                    b.HasIndex("userDoctorDatauserDoctorToken");
-
                     b.HasIndex("userEmail")
-                        .IsUnique();
-
-                    b.HasIndex("userEmployeeDatauserEmployeeToken");
+                        .IsUnique()
+                        .HasFilter("[userEmail] IS NOT NULL");
 
                     b.HasIndex("userLoginName")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[userLoginName] IS NOT NULL");
 
                     b.HasIndex("userPhone")
-                        .IsUnique();
-
-                    b.HasIndex("userProfileDatauserProfileToken");
+                        .IsUnique()
+                        .HasFilter("[userPhone] IS NOT NULL");
 
                     b.HasIndex("userType");
 
@@ -268,6 +250,10 @@ namespace App.EF.Migrations
 
                     b.HasKey("userEmployeeToken");
 
+                    b.HasIndex("userToken")
+                        .IsUnique()
+                        .HasFilter("[userToken] IS NOT NULL");
+
                     b.ToTable("UserEmployees", "Users");
                 });
 
@@ -281,6 +267,9 @@ namespace App.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userDoctorToken");
+
+                    b.HasIndex("userToken")
+                        .IsUnique();
 
                     b.ToTable("UserDoctors", "Users");
                 });
@@ -298,51 +287,39 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_2")
+                    b.Property<string>("userPhone2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_3")
+                    b.Property<string>("userPhone3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_4")
+                    b.Property<string>("userPhone4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_2")
+                    b.Property<string>("userPhoneCC2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_3")
+                    b.Property<string>("userPhoneCC3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_4")
+                    b.Property<string>("userPhoneCC4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneDialCode_2")
+                    b.Property<string>("userPhoneCCName2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneDialCode_3")
+                    b.Property<string>("userPhoneCCName3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneDialCode_4")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_2")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_3")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("userPhone_4")
+                    b.Property<string>("userPhoneCCName4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -350,6 +327,10 @@ namespace App.EF.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("userProfileToken");
+
+                    b.HasIndex("userToken")
+                        .IsUnique()
+                        .HasFilter("[userToken] IS NOT NULL");
 
                     b.ToTable("UserProfiles", "Users");
                 });
@@ -383,13 +364,11 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
-                    b.HasOne("App.Core.Models.Users.User", "userData")
-                        .WithMany("operationsData")
-                        .HasForeignKey("userToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("App.Core.Models.Users.User", "userPatientData")
+                        .WithMany()
+                        .HasForeignKey("userPatientToken");
 
-                    b.Navigation("userData");
+                    b.Navigation("userPatientData");
                 });
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
@@ -400,25 +379,36 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", "userDoctorData")
-                        .WithMany()
-                        .HasForeignKey("userDoctorDatauserDoctorToken");
-
-                    b.HasOne("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", "userEmployeeData")
-                        .WithMany()
-                        .HasForeignKey("userEmployeeDatauserEmployeeToken");
-
-                    b.HasOne("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", "userProfileData")
-                        .WithMany()
-                        .HasForeignKey("userProfileDatauserProfileToken");
-
                     b.Navigation("roleData");
+                });
 
-                    b.Navigation("userDoctorData");
+            modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithOne("userEmployeeData")
+                        .HasForeignKey("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", "userToken");
 
-                    b.Navigation("userEmployeeData");
+                    b.Navigation("userData");
+                });
 
-                    b.Navigation("userProfileData");
+            modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithOne("userDoctorData")
+                        .HasForeignKey("App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor.UserDoctor", "userToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("userData");
+                });
+
+            modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithOne("userProfileData")
+                        .HasForeignKey("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", "userToken");
+
+                    b.Navigation("userData");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData.UserPatient", b =>
@@ -437,9 +427,13 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
-                    b.Navigation("operationsData");
+                    b.Navigation("userDoctorData");
+
+                    b.Navigation("userEmployeeData");
 
                     b.Navigation("userPatientData");
+
+                    b.Navigation("userProfileData");
                 });
 #pragma warning restore 612, 618
         }

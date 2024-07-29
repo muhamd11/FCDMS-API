@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -75,16 +76,81 @@ namespace App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Users",
+                schema: "Users",
+                columns: table => new
+                {
+                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userEmail = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    userPhone = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    userPhoneDialCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCC = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCCName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userLoginName = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userType = table.Column<int>(type: "int", nullable: false),
+                    systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.userToken);
+                    table.ForeignKey(
+                        name: "FK_Users_SystemRoles_systemRoleToken",
+                        column: x => x.systemRoleToken,
+                        principalSchema: "SystemBase",
+                        principalTable: "SystemRoles",
+                        principalColumn: "systemRoleToken",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Operations",
+                schema: "ClinicManagement",
+                columns: table => new
+                {
+                    operationToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    operationName = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    operationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Operations", x => x.operationToken);
+                    table.ForeignKey(
+                        name: "FK_Operations_Users_userPatientToken",
+                        column: x => x.userPatientToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserDoctors",
                 schema: "Users",
                 columns: table => new
                 {
                     userDoctorToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserDoctors", x => x.userDoctorToken);
+                    table.ForeignKey(
+                        name: "FK_UserDoctors_Users_userToken",
+                        column: x => x.userToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,6 +164,12 @@ namespace App.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserEmployees", x => x.userEmployeeToken);
+                    table.ForeignKey(
+                        name: "FK_UserEmployees_Users_userToken",
+                        column: x => x.userToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken");
                 });
 
             migrationBuilder.CreateTable(
@@ -114,6 +186,12 @@ namespace App.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserPatients", x => x.userPatientToken);
+                    table.ForeignKey(
+                        name: "FK_UserPatients_Users_userToken",
+                        column: x => x.userToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken");
                 });
 
             migrationBuilder.CreateTable(
@@ -122,18 +200,15 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     userProfileToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userPhone_2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneDialCode_2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC_2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName_2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhone_3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneDialCode_3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC_3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName_3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhone_4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneDialCode_4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC_4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName_4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhone2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCC2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCCName2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhone3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCC3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCCName3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhone4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCC4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userPhoneCCName4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userBirthDate = table.Column<DateOnly>(type: "date", nullable: false),
                     userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
@@ -141,97 +216,12 @@ namespace App.EF.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_UserProfiles", x => x.userProfileToken);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Users",
-                schema: "Users",
-                columns: table => new
-                {
-                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userEmail = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    userPhone = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    userPhoneDialCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userLoginName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userType = table.Column<int>(type: "int", nullable: false),
-                    systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userProfileDatauserProfileToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userPatientDatauserPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userEmployeeDatauserEmployeeToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserDoctorDatauserDoctorToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
-                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.userToken);
                     table.ForeignKey(
-                        name: "FK_Users_SystemRoles_systemRoleToken",
-                        column: x => x.systemRoleToken,
-                        principalSchema: "SystemBase",
-                        principalTable: "SystemRoles",
-                        principalColumn: "systemRoleToken",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_UserDoctors_UserDoctorDatauserDoctorToken",
-                        column: x => x.UserDoctorDatauserDoctorToken,
-                        principalSchema: "Users",
-                        principalTable: "UserDoctors",
-                        principalColumn: "userDoctorToken",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_UserEmployees_userEmployeeDatauserEmployeeToken",
-                        column: x => x.userEmployeeDatauserEmployeeToken,
-                        principalSchema: "Users",
-                        principalTable: "UserEmployees",
-                        principalColumn: "userEmployeeToken",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_UserPatients_userPatientDatauserPatientToken",
-                        column: x => x.userPatientDatauserPatientToken,
-                        principalSchema: "Users",
-                        principalTable: "UserPatients",
-                        principalColumn: "userPatientToken",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Users_UserProfiles_userProfileDatauserProfileToken",
-                        column: x => x.userProfileDatauserProfileToken,
-                        principalSchema: "Users",
-                        principalTable: "UserProfiles",
-                        principalColumn: "userProfileToken",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Operations",
-                schema: "ClinicManagement",
-                columns: table => new
-                {
-                    operationToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    operationName = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    operationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
-                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Operations", x => x.operationToken);
-                    table.ForeignKey(
-                        name: "FK_Operations_Users_userToken",
+                        name: "FK_UserProfiles_Users_userToken",
                         column: x => x.userToken,
                         principalSchema: "Users",
                         principalTable: "Users",
-                        principalColumn: "userToken",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "userToken");
                 });
 
             migrationBuilder.CreateIndex(
@@ -255,10 +245,41 @@ namespace App.EF.Migrations
                 column: "operationName");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Operations_userToken",
+                name: "IX_Operations_userPatientToken",
                 schema: "ClinicManagement",
                 table: "Operations",
-                column: "userToken");
+                column: "userPatientToken");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDoctors_userToken",
+                schema: "Users",
+                table: "UserDoctors",
+                column: "userToken",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserEmployees_userToken",
+                schema: "Users",
+                table: "UserEmployees",
+                column: "userToken",
+                unique: true,
+                filter: "[userToken] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserPatients_userToken",
+                schema: "Users",
+                table: "UserPatients",
+                column: "userToken",
+                unique: true,
+                filter: "[userToken] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProfiles_userToken",
+                schema: "Users",
+                table: "UserProfiles",
+                column: "userToken",
+                unique: true,
+                filter: "[userToken] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_fullCode",
@@ -275,49 +296,28 @@ namespace App.EF.Migrations
                 column: "systemRoleToken");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_UserDoctorDatauserDoctorToken",
-                schema: "Users",
-                table: "Users",
-                column: "UserDoctorDatauserDoctorToken");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Users_userEmail",
                 schema: "Users",
                 table: "Users",
                 column: "userEmail",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userEmployeeDatauserEmployeeToken",
-                schema: "Users",
-                table: "Users",
-                column: "userEmployeeDatauserEmployeeToken");
+                unique: true,
+                filter: "[userEmail] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_userLoginName",
                 schema: "Users",
                 table: "Users",
                 column: "userLoginName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userPatientDatauserPatientToken",
-                schema: "Users",
-                table: "Users",
-                column: "userPatientDatauserPatientToken");
+                unique: true,
+                filter: "[userLoginName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_userPhone",
                 schema: "Users",
                 table: "Users",
                 column: "userPhone",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userProfileDatauserProfileToken",
-                schema: "Users",
-                table: "Users",
-                column: "userProfileDatauserProfileToken");
+                unique: true,
+                filter: "[userPhone] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_userType",
@@ -342,14 +342,6 @@ namespace App.EF.Migrations
                 schema: "SystemBase");
 
             migrationBuilder.DropTable(
-                name: "Users",
-                schema: "Users");
-
-            migrationBuilder.DropTable(
-                name: "SystemRoles",
-                schema: "SystemBase");
-
-            migrationBuilder.DropTable(
                 name: "UserDoctors",
                 schema: "Users");
 
@@ -364,6 +356,14 @@ namespace App.EF.Migrations
             migrationBuilder.DropTable(
                 name: "UserProfiles",
                 schema: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Users",
+                schema: "Users");
+
+            migrationBuilder.DropTable(
+                name: "SystemRoles",
+                schema: "SystemBase");
         }
     }
 }

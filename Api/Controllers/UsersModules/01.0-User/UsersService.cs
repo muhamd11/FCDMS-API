@@ -7,6 +7,7 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using App.Core.Models.Users;
+using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -76,7 +77,7 @@ namespace Api.Controllers.UsersModule.Users
 
             var includes = GenerateIncludes();
 
-            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(criteria, select, includes);
+            var userInfo = await _unitOfWork.Users.FirstOrDefaultAsync(criteria, select);
 
             return userInfo;
         }
@@ -92,7 +93,6 @@ namespace Api.Controllers.UsersModule.Users
             includes.Add(x => x.userDoctorData);
             return includes;
         }
-
         public async Task<BaseActionDone<UserInfo>> AddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate)
         {
             var userOnly = _mapper.Map<User>(inputModel);

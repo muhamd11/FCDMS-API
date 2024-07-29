@@ -1,4 +1,5 @@
-﻿using App.Core.Models.ClinicModules.OperationsModules;
+﻿using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
+using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
@@ -130,6 +131,7 @@ namespace App.EF
         #region ClinicModules
 
         public DbSet<Operation> Operations { get; set; }
+        public DbSet<NutritionalImprovement> NutritionalImprovements { get; set; }
 
         #endregion ClinicModules
 

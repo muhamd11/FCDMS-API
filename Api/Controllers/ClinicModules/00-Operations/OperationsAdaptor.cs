@@ -8,32 +8,33 @@ namespace Api.Controllers.SystemBase.Operations
 {
     public static class OperationsAdaptor
     {
-        public static Expression<Func<Operation, OperationInfo>> SelectExpressionOperationInfo()
+        public static Expression<Func<Operation, OperationInfo>> SelectExpressionOperationInfo(bool includeUserPatientInfoData = false)
         {
             return operation => new OperationInfo
             {
                 operationToken = operation.operationToken,
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
+                userPatientInfo = includeUserPatientInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(operation.userPatientData),
                 fullCode = operation.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
-                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime
+                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
             };
         }
 
-        public static Expression<Func<Operation, OperationInfoDetails>> SelectExpressionOperationDetails()
+        public static Expression<Func<Operation, OperationInfoDetails>> SelectExpressionOperationInfoDetails()
         {
             return operation => new OperationInfoDetails
             {
                 operationToken = operation.operationToken,
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
-                userInfoData = UsersAdaptor.SelectExpressionUserInfo(operation.userData),
                 fullCode = operation.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
-                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime
+                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
+                userPatientInfo = UsersAdaptor.SelectExpressionUserInfo(operation.userPatientData)
             };
         }
 
@@ -54,7 +55,7 @@ namespace Api.Controllers.SystemBase.Operations
             };
         }
 
-        public static OperationInfoDetails SelectExpressionSystemRoleDetails(Operation operation)
+        public static OperationInfoDetails SelectExpressionOperationInfoDetails(Operation operation)
         {
             if (operation == null)
                 return null;
@@ -64,11 +65,11 @@ namespace Api.Controllers.SystemBase.Operations
                 operationToken = operation.operationToken,
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
-                userInfoData = UsersAdaptor.SelectExpressionUserInfo(operation.userData),
                 fullCode = operation.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
-                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime
+                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
+                //userPatientInfoDetails =  UsersAdaptor.SelectExpressionUserInfoDetails(operation.userPatientData) 
             };
         }
     }

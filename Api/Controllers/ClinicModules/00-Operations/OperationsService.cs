@@ -32,12 +32,23 @@ namespace Api.Controllers.SystemBase.Operations
 
         #region Methods
 
+        public async Task<OperationInfoDetails> GetDetails(OperationGetDetailsDTO inputModel)
+        {
+            var select = OperationsAdaptor.SelectExpressionOperationInfoDetails();
+
+            Expression<Func<Operation, bool>> criteria = (x) => x.operationToken == inputModel.elementToken;
+
+            var operationInfo = await _unitOfWork.Operations.FirstOrDefaultAsync(criteria, select);
+
+            return operationInfo;
+        }
+
         public async Task<BaseGetDataWithPagnation<OperationInfo>> GetAllAsync(OperationSearchDTO inputModel)
         {
-            var select = OperationsAdaptor.SelectExpressionOperationInfo();
+            var select = OperationsAdaptor.SelectExpressionOperationInfo(inputModel.includeUserPatientInfoData);
 
             var criteria = GenrateCriteria(inputModel);
-
+             
             PaginationRequest paginationRequest = inputModel;
 
             return await _unitOfWork.Operations.GetAllAsync(select, criteria, paginationRequest);
@@ -48,35 +59,18 @@ namespace Api.Controllers.SystemBase.Operations
             List<Expression<Func<Operation, bool>>> criteria = [];
 
             if (inputModel.textSearch is not null)
-            {
-                criteria.Add(x =>
-                x.operationName.Contains(inputModel.textSearch) ||
-                x.userData.userName.Contains(inputModel.textSearch) ||
-                x.userData.fullCode.Contains(inputModel.textSearch));
-            }
+                criteria.Add(x => x.operationName.Contains(inputModel.textSearch));
 
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.operationToken == inputModel.elementToken);
+
+            if(inputModel.userPatientToken != null)
+                criteria.Add(x => x.userPatientToken == inputModel.userPatientToken);
 
             if (inputModel.fullCode is not null)
                 criteria.Add(x => x.fullCode == inputModel.fullCode);
 
             return criteria;
-        }
-
-        public async Task<OperationInfoDetails> GetDetails(BaseGetDetailsDto inputModel)
-        {
-            var select = OperationsAdaptor.SelectExpressionOperationDetails();
-
-            Expression<Func<Operation, bool>> criteria = (x) => x.operationToken == inputModel.elementToken;
-
-            List<Expression<Func<Operation, object>>> includes = [];
-
-            includes.Add(x => x.userData);
-
-            var operationInfo = await _unitOfWork.Operations.FirstOrDefaultAsync(criteria, select, includes);
-
-            return operationInfo;
         }
 
         public async Task<BaseActionDone<OperationInfo>> AddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate)
@@ -107,6 +101,7 @@ namespace Api.Controllers.SystemBase.Operations
 
             return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, operationInfo);
         }
+
 
         #endregion Methods
     }

@@ -22,6 +22,49 @@ namespace App.EF.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("App.Core.Models.ClinicModules.NutritionalImprovementsModules.NutritionalImprovement", b =>
+                {
+                    b.Property<Guid>("nutritionalImprovementToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("createdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("fullCode")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("patientBmr")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("patientHeightInCm")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("patientWeightInKg")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset?>("updatedDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("userPatientToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("nutritionalImprovementToken");
+
+                    b.HasIndex("createdDate");
+
+                    b.HasIndex("fullCode")
+                        .IsUnique()
+                        .HasFilter("[fullCode] IS NOT NULL");
+
+                    b.HasIndex("userPatientToken");
+
+                    b.ToTable("NutritionalImprovements", "ClinicManagement");
+                });
+
             modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
                     b.Property<Guid>("operationToken")
@@ -47,7 +90,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid>("userToken")
+                    b.Property<Guid?>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("operationToken");
@@ -60,7 +103,7 @@ namespace App.EF.Migrations
 
                     b.HasIndex("operationName");
 
-                    b.HasIndex("userToken");
+                    b.HasIndex("userPatientToken");
 
                     b.ToTable("Operations", "ClinicManagement");
                 });
@@ -284,39 +327,39 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_2")
+                    b.Property<string>("userPhone2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_3")
+                    b.Property<string>("userPhone3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCCName_4")
+                    b.Property<string>("userPhone4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_2")
+                    b.Property<string>("userPhoneCC2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_3")
+                    b.Property<string>("userPhoneCC3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhoneCC_4")
+                    b.Property<string>("userPhoneCC4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhone_2")
+                    b.Property<string>("userPhoneCCName2")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhone_3")
+                    b.Property<string>("userPhoneCCName3")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("userPhone_4")
+                    b.Property<string>("userPhoneCCName4")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -359,15 +402,22 @@ namespace App.EF.Migrations
                     b.ToTable("UserPatients", "Users");
                 });
 
+            modelBuilder.Entity("App.Core.Models.ClinicModules.NutritionalImprovementsModules.NutritionalImprovement", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userPatientData")
+                        .WithMany()
+                        .HasForeignKey("userPatientToken");
+
+                    b.Navigation("userPatientData");
+                });
+
             modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
-                    b.HasOne("App.Core.Models.Users.User", "userData")
-                        .WithMany("operationsData")
-                        .HasForeignKey("userToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("App.Core.Models.Users.User", "userPatientData")
+                        .WithMany()
+                        .HasForeignKey("userPatientToken");
 
-                    b.Navigation("userData");
+                    b.Navigation("userPatientData");
                 });
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
@@ -426,8 +476,6 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
-                    b.Navigation("operationsData");
-
                     b.Navigation("userDoctorData");
 
                     b.Navigation("userEmployeeData");

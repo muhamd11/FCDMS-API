@@ -60,7 +60,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -90,7 +90,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }

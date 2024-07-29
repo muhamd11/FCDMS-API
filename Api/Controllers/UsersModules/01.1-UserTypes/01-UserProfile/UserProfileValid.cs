@@ -39,13 +39,13 @@ namespace Api.Controllers.UsersModules._01._1_UserTypes._01_UserProfile
 
         private BaseValid CheckProfileData(UserProfile inputModel)
         {
-            if (IsValidPhoneNumberSet(inputModel.userPhoneCC_2, inputModel.userPhone_2) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_2, inputModel.userPhone_2))
+            if (IsValidPhoneNumberSet(inputModel.userPhoneCC2, inputModel.userPhone2) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC2, inputModel.userPhone2))
                 return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "2"), EnumStatus.error);
 
-            if (IsValidPhoneNumberSet(inputModel.userPhoneCC_3, inputModel.userPhone_3) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_3, inputModel.userPhone_3))
+            if (IsValidPhoneNumberSet(inputModel.userPhoneCC3, inputModel.userPhone3) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC3, inputModel.userPhone3))
                 return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "3"), EnumStatus.error);
 
-            if (IsValidPhoneNumberSet(inputModel.userPhoneCC_4, inputModel.userPhone_4) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC_4, inputModel.userPhone_4))
+            if (IsValidPhoneNumberSet(inputModel.userPhoneCC4, inputModel.userPhone4) && !ValidationClass.IsValidPhoneNumber(inputModel.userPhoneCC4, inputModel.userPhone4))
                 return BaseValid.createBaseValid(string.Format(GeneralMessagesAr.ErrorInvalidPhoneNumbers, "4"), EnumStatus.error);
 
             if (ValidationClass.IsValidString(inputModel.userContactEmail) && !ValidationClass.IsValidEmail(inputModel.userContactEmail))

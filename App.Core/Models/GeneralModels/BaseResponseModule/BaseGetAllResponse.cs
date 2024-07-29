@@ -5,10 +5,10 @@ using App.Core.Resources.General;
 
 public class BaseGetAllResponse<T> : Dictionary<string, object>
 {
-    public EnumStatus Status { get; set; }
-    public string Message { get; set; }
-    public decimal ExecutionTimeMilliseconds { get; set; } = 0;
-    public Pagination Pagination { get; set; }
+    public EnumStatus status { get; set; }
+    public string msg { get; set; }
+    public decimal executionTimeMilliseconds { get; set; } = 0;
+    public Pagination pagination { get; set; }
     public IEnumerable<T> Data { get; set; }
 
     public BaseGetAllResponse<T> CreateResponseSuccessOrNoContent(BaseGetDataWithPagnation<T> inputModel, string moduleName)
@@ -16,20 +16,20 @@ public class BaseGetAllResponse<T> : Dictionary<string, object>
         BaseGetAllResponse<T> response = null;
         //when no data found
         if (!inputModel.Data.Any())
-            response = new BaseGetAllResponse<T> { Message = GeneralMessagesAr.errorDataNotFound, Status = EnumStatus.noContent };
+            response = new BaseGetAllResponse<T> { msg = GeneralMessagesAr.errorDataNotFound, status = EnumStatus.noContent };
         else //when data found
             response = new BaseGetAllResponse<T>
             {
-                Message = GeneralMessagesAr.operationSuccess,
-                Status = EnumStatus.success,
-                Pagination = inputModel.Pagination,
+                msg = GeneralMessagesAr.operationSuccess,
+                status = EnumStatus.success,
+                pagination = inputModel.Pagination,
                 Data = inputModel.Data
             };
 
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
-        response[nameof(Pagination)] = response.Pagination;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
+        response["pagination"] = response.pagination;
         // Add the data with the module name as the key
         response[moduleName] = inputModel.Data;
 
@@ -40,13 +40,13 @@ public class BaseGetAllResponse<T> : Dictionary<string, object>
     {
         var response = new BaseGetAllResponse<T>
         {
-            Message = baseValid.Message,
-            Status = baseValid.Status,
+            msg = baseValid.Message,
+            status = baseValid.Status,
         };
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
-        response[nameof(Pagination)] = response.Pagination;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
+        response["pagination"] = response.pagination;
         // Add the data with the module name as the key
         response[moduleName] = null;
 
@@ -57,13 +57,13 @@ public class BaseGetAllResponse<T> : Dictionary<string, object>
     {
         var response = new BaseGetAllResponse<T>
         {
-            Message = GeneralMessagesAr.errorSomthingWrong,
-            Status = EnumStatus.catchStatus,
+            msg = GeneralMessagesAr.errorSomthingWrong,
+            status = EnumStatus.catchStatus,
         };
-        response[nameof(Status)] = response.Status;
-        response[nameof(Message)] = response.Message;
-        response[nameof(ExecutionTimeMilliseconds)] = response.ExecutionTimeMilliseconds;
-        response[nameof(Pagination)] = response.Pagination;
+        response[nameof(status)] = response.status;
+        response[nameof(msg)] = response.msg;
+        response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
+        response["pagination"] = response.pagination;
         // Add the data with the module name as the key
         response[moduleName] = null;
 

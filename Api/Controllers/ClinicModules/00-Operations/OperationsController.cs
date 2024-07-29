@@ -42,7 +42,7 @@ namespace Api.Controllers.SystemBase.Operations
         #region Methods
 
         [HttpGet("GetOperationDetails")]
-        public async Task<IActionResult> GetOperationDetails([FromQuery] BaseGetDetailsDto inputModel)
+        public async Task<IActionResult> GetOperationDetails([FromQuery] OperationGetDetailsDTO inputModel)
         {
             BaseGetDetailsResponse<OperationInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
@@ -65,7 +65,7 @@ namespace Api.Controllers.SystemBase.Operations
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -94,7 +94,7 @@ namespace Api.Controllers.SystemBase.Operations
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -124,7 +124,7 @@ namespace Api.Controllers.SystemBase.Operations
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -154,7 +154,7 @@ namespace Api.Controllers.SystemBase.Operations
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -185,7 +185,7 @@ namespace Api.Controllers.SystemBase.Operations
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }

@@ -5,6 +5,7 @@ using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace App.EF.Repositories
 {
@@ -40,11 +41,28 @@ namespace App.EF.Repositories
                     query = query.Where(item);
 
             if (includes != null)
+            {
                 foreach (var item in includes)
-                    query = query.Include(item);
+                    query = query.Include(item).AsNoTracking();
+            }
 
             result.totalItems = await query.CountAsync();
 
+            var skip = GetSkipForPagination(paginationRequest, result);
+
+            query = query.Skip((int)skip).Take((int)paginationRequest.pageSize);
+
+            var fullData = await query.Select(selection).ToListAsync();
+
+            return new BaseGetDataWithPagnation<TResult>()
+            {
+                Data = fullData,
+                Pagination = result
+            };
+        }
+
+        private static long GetSkipForPagination(PaginationRequest? paginationRequest, Pagination result)
+        {
             paginationRequest.pageSize = paginationRequest.pageSize <= 0 || paginationRequest.pageSize > (int)EnumMaxLength.pageMaxSize ? (int)EnumMaxLength.pageMaxSize : paginationRequest.pageSize;
 
             result.countItemsInPage = paginationRequest.pageSize;
@@ -57,7 +75,6 @@ namespace App.EF.Repositories
 
             var skip = (paginationRequest.page - 1) * paginationRequest.pageSize;
 
-            query = query.Skip((int)skip).Take((int)paginationRequest.pageSize);
 
             result.selfPage = paginationRequest.page;
 
@@ -68,14 +85,7 @@ namespace App.EF.Repositories
             result.prevPage = (result.selfPage > result.firstPage ? (result.selfPage - 1) : result.firstPage);
 
             result.lastPage = result.totalPages;
-
-            var fullData = await query.Select(selection).ToListAsync();
-
-            return new BaseGetDataWithPagnation<TResult>()
-            {
-                Data = fullData,
-                Pagination = result
-            };
+            return skip;
         }
 
         public T FirstOrDefault(Expression<Func<T, bool>>? criteria, List<Expression<Func<T, object>>>? includes = null)
@@ -114,6 +124,8 @@ namespace App.EF.Repositories
                 foreach (var item in includes)
                     query = query.Include(item);
 
+
+
             return await query.Where(criteria).Select(select).FirstOrDefaultAsync();
         }
 
@@ -127,6 +139,7 @@ namespace App.EF.Repositories
             if (includes != null)
                 foreach (var item in includes)
                     query = query.Include(item);
+
 
             if (criterias != null)
                 foreach (var item in criterias)
@@ -142,8 +155,9 @@ namespace App.EF.Repositories
             IQueryable<T> query = _context.Set<T>();
 
             if (includes != null)
-                foreach (var include in includes)
-                    query = query.Include(include);
+                foreach (var item in includes)
+                    query = query.Include(item);
+
 
             return await query.FirstOrDefaultAsync(criteria);
         }

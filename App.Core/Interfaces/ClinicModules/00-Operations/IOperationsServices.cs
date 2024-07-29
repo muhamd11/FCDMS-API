@@ -10,7 +10,7 @@ namespace App.Core.Interfaces.SystemBase.Operations
     {
         Task<BaseGetDataWithPagnation<OperationInfo>> GetAllAsync(OperationSearchDTO inputModel);
 
-        Task<OperationInfoDetails> GetDetails(BaseGetDetailsDto inputModel);
+        Task<OperationInfoDetails> GetDetails(OperationGetDetailsDTO inputModel);
 
         Task<BaseActionDone<OperationInfo>> AddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate);
 

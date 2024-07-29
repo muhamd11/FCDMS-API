@@ -1,4 +1,7 @@
-﻿using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
+﻿using Api.Controllers.SystemBase.Operations;
+using App.Core.Models.ClinicModules.OperationsModules.ViewModel;
+using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
+using App.Core.Models.UsersModule._01._1_UserTypes._02_UserPatientData.ViewModel;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using System.Linq.Expressions;
 
@@ -12,7 +15,7 @@ namespace Api.Controllers.UsersModule.Users
             {
                 userPatientAge = user.userPatientAge,
                 userPatientBloodType = user.userPatientBloodType,
-                userPatientChildrenCount = user.userPatientChildrenCount
+                userPatientChildrenCount = user.userPatientChildrenCount,
             };
         }
 
@@ -25,7 +28,7 @@ namespace Api.Controllers.UsersModule.Users
             {
                 userPatientAge = user.userPatientAge,
                 userPatientBloodType = user.userPatientBloodType,
-                userPatientChildrenCount = user.userPatientChildrenCount
+                userPatientChildrenCount = user.userPatientChildrenCount,
             };
         }
     }

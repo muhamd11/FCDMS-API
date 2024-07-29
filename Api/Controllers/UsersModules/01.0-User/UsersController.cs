@@ -65,7 +65,7 @@ namespace Api.Controllers.UsersModules.Users
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -94,7 +94,7 @@ namespace Api.Controllers.UsersModules.Users
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -124,7 +124,7 @@ namespace Api.Controllers.UsersModules.Users
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -154,7 +154,7 @@ namespace Api.Controllers.UsersModules.Users
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }
@@ -185,7 +185,7 @@ namespace Api.Controllers.UsersModules.Users
             finally
             {
                 watch.Stop();
-                response["ExecutionTimeMilliseconds"] = watch.ElapsedMilliseconds;
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }

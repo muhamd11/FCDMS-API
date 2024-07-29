@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\ClinicModules\NutritionalImprovements\NutritionalImprovementsMessagesAr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NutritionalImprovementsMessagesAr.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ClinicModules\Operations\OperationsMessagesAr.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -48,6 +53,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\ClinicModules\NutritionalImprovements\NutritionalImprovementsMessagesAr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>NutritionalImprovementsMessagesAr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ClinicModules\Operations\OperationsMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OperationsMessagesAr.Designer.cs</LastGenOutput>
