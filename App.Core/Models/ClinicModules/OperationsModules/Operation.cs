@@ -4,7 +4,6 @@ using App.Core.Models.Users;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace App.Core.Models.ClinicModules.OperationsModules
 {

@@ -5,7 +5,6 @@ using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
 
 namespace App.EF.Repositories
 {
@@ -75,7 +74,6 @@ namespace App.EF.Repositories
 
             var skip = (paginationRequest.page - 1) * paginationRequest.pageSize;
 
-
             result.selfPage = paginationRequest.page;
 
             result.firstPage = 1;
@@ -124,8 +122,6 @@ namespace App.EF.Repositories
                 foreach (var item in includes)
                     query = query.Include(item);
 
-
-
             return await query.Where(criteria).Select(select).FirstOrDefaultAsync();
         }
 
@@ -139,7 +135,6 @@ namespace App.EF.Repositories
             if (includes != null)
                 foreach (var item in includes)
                     query = query.Include(item);
-
 
             if (criterias != null)
                 foreach (var item in criterias)
@@ -157,7 +152,6 @@ namespace App.EF.Repositories
             if (includes != null)
                 foreach (var item in includes)
                     query = query.Include(item);
-
 
             return await query.FirstOrDefaultAsync(criteria);
         }

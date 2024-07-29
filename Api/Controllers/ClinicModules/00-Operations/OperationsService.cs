@@ -48,7 +48,7 @@ namespace Api.Controllers.SystemBase.Operations
             var select = OperationsAdaptor.SelectExpressionOperationInfo(inputModel.includeUserPatientInfoData);
 
             var criteria = GenrateCriteria(inputModel);
-             
+
             PaginationRequest paginationRequest = inputModel;
 
             return await _unitOfWork.Operations.GetAllAsync(select, criteria, paginationRequest);
@@ -64,7 +64,7 @@ namespace Api.Controllers.SystemBase.Operations
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.operationToken == inputModel.elementToken);
 
-            if(inputModel.userPatientToken != null)
+            if (inputModel.userPatientToken != null)
                 criteria.Add(x => x.userPatientToken == inputModel.userPatientToken);
 
             if (inputModel.fullCode is not null)
@@ -99,7 +99,6 @@ namespace Api.Controllers.SystemBase.Operations
 
             return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, OperationsAdaptor.SelectExpressionOperationInfo(operation));
         }
-
 
         #endregion Methods
     }

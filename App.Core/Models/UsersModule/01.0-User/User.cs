@@ -1,6 +1,5 @@
 ﻿using App.Core.Consts.SystemBase;
 using App.Core.Consts.Users;
-using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
@@ -10,7 +9,6 @@ using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users
 {

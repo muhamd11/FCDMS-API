@@ -69,7 +69,7 @@ namespace Api.Controllers.SystemBase.Operations
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
-                //userPatientInfoDetails =  UsersAdaptor.SelectExpressionUserInfoDetails(operation.userPatientData) 
+                //userPatientInfoDetails =  UsersAdaptor.SelectExpressionUserInfoDetails(operation.userPatientData)
             };
         }
     }

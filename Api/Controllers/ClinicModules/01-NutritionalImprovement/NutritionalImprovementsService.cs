@@ -49,7 +49,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var select = NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo(inputModel.includeUserPatientInfoData);
 
             var criteria = GenrateCriteria(inputModel);
-             
+
             PaginationRequest paginationRequest = inputModel;
 
             return await _unitOfWork.NutritionalImprovements.GetAllAsync(select, criteria, paginationRequest);
@@ -112,7 +112,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
             return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo(nutritionalImprovement));
         }
-
 
         #endregion Methods
     }

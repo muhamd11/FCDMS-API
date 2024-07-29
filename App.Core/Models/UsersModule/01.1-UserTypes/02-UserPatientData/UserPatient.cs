@@ -1,6 +1,5 @@
 ﻿using App.Core.Consts.ClinicModules;
 using App.Core.Consts.SystemBase;
-using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -26,6 +25,5 @@ namespace App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData
         public int userPatientChildrenCount { get; set; }
 
         public int userPatientAge { get; set; }
-
     }
 }

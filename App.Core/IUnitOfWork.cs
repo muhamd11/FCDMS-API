@@ -13,7 +13,7 @@ using App.Core.Models.UsersModule.LogActionsModel;
 namespace App.Core
 
 {
-    public interface IUnitOfWork : IDisposable 
+    public interface IUnitOfWork : IDisposable
     {
         #region SystemBase
 
