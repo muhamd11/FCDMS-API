@@ -15,6 +15,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resources\ClinicModules\MedicalHistories\MedicalHistoriesMessagesAr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>MedicalHistoriesMessagesAr.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\ClinicModules\NutritionalImprovements\NutritionalImprovementsMessagesAr.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -24,6 +29,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>OperationsMessagesAr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\ClinicModules\Visits\VisitsMessagesAr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>VisitsMessagesAr.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\General\GeneralMessagesAR.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -53,6 +63,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resources\ClinicModules\MedicalHistories\MedicalHistoriesMessagesAr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>MedicalHistoriesMessagesAr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\ClinicModules\NutritionalImprovements\NutritionalImprovementsMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>NutritionalImprovementsMessagesAr.Designer.cs</LastGenOutput>
@@ -60,6 +74,10 @@
     <EmbeddedResource Update="Resources\ClinicModules\Operations\OperationsMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OperationsMessagesAr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\ClinicModules\Visits\VisitsMessagesAr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>VisitsMessagesAr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\General\GeneralMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

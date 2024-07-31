@@ -2,7 +2,7 @@
 
 namespace App.Core.Models.ClinicModules.VisitsModules
 {
-    public class OperationInfoDetails : OperationInfo
+    public class VisitInfoDetails : VisitInfo
     {
         public UserInfo userPatientInfo { get; set; }
     }

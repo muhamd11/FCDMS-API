@@ -4,6 +4,7 @@ using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240731111604_AddVisitsAndMedicalHistory")]
+    partial class AddVisitsAndMedicalHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -549,11 +552,14 @@ namespace App.EF.Migrations
                                 .HasForeignKey("medicalHistoryToken");
                         });
 
-                    b.Navigation("patientBloodPressureMeasurement");
+                    b.Navigation("patientBloodPressureMeasurement")
+                        .IsRequired();
 
-                    b.Navigation("patientSugarMeasurement");
+                    b.Navigation("patientSugarMeasurement")
+                        .IsRequired();
 
-                    b.Navigation("patientThyroidSensitivityMeasurement");
+                    b.Navigation("patientThyroidSensitivityMeasurement")
+                        .IsRequired();
 
                     b.Navigation("userPatientData");
                 });

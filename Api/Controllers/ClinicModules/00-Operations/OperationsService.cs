@@ -2,7 +2,7 @@
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
-using App.Core.Models.ClinicModules.OperationsModules.ViewModel;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;

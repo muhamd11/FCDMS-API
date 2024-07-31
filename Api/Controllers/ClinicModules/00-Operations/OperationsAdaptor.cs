@@ -1,7 +1,7 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.UsersModule.Users;
 using App.Core.Models.ClinicModules.OperationsModules;
-using App.Core.Models.ClinicModules.OperationsModules.ViewModel;
+using App.Core.Models.ClinicModules.VisitsModules;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase.Operations

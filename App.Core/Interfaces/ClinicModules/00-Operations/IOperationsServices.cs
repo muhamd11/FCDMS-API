@@ -1,6 +1,6 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
-using App.Core.Models.ClinicModules.OperationsModules.ViewModel;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 

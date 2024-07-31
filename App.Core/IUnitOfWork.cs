@@ -1,6 +1,8 @@
 ﻿using App.Core.Interfaces.General;
+using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
@@ -37,6 +39,8 @@ namespace App.Core
 
         IBaseRepository<Operation> Operations { get; }
         IBaseRepository<NutritionalImprovement> NutritionalImprovements { get; }
+        IBaseRepository<Visit> Visits { get; }
+        IBaseRepository<MedicalHistory> MedicalHistories { get; }
 
         #endregion ClinicModules
 
