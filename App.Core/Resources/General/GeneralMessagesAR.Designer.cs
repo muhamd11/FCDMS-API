@@ -133,6 +133,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قم بارسال Request Header.
+        /// </summary>
+        public static string errorHeaderNotFound {
+            get {
+                return ResourceManager.GetString("errorHeaderNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to كود التعرف مطلوب.
         /// </summary>
         public static string errorIdIsRequired {

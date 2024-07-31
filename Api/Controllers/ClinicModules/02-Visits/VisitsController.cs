@@ -1,12 +1,15 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Models.ClinicModules.VisitsModules;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Api.Controllers.SystemBase.Visits
+namespace Api.Controllers.ClinicModules.Visits
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -19,6 +22,7 @@ namespace Api.Controllers.SystemBase.Visits
 
         private readonly IVisitsValid _visitsValid;
         private readonly IVisitsServices _visitsServices;
+        private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string visitInfoData = "visitInfoData";
@@ -30,11 +34,12 @@ namespace Api.Controllers.SystemBase.Visits
 
         #region Constructor
 
-        public VisitsController(IVisitsValid visitsValid, IVisitsServices visitsServices, ILogger<VisitsController> logger)
+        public VisitsController(IVisitsValid visitsValid, IVisitsServices visitsServices, ILogger<VisitsController> logger, IUserAuthValid userAuthValid)
         {
             _logger = logger;
             _visitsValid = visitsValid;
             _visitsServices = visitsServices;
+            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor
@@ -42,19 +47,25 @@ namespace Api.Controllers.SystemBase.Visits
         #region Methods
 
         [HttpGet("GetVisitDetails")]
-        public async Task<IActionResult> GetVisitDetails([FromQuery] VisitGetDetailsDTO inputModel)
+        public async Task<IActionResult> GetVisitDetails([FromQuery] VisitGetDetailsDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetDetailsResponse<VisitInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidVisit = _visitsValid.ValidGetDetails(inputModel);
-                if (isValidVisit.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidVisit, visitInfoDetails);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, visitInfoDetails);
                 else
                 {
-                    var visitDetails = await _visitsServices.GetDetails(inputModel);
-                    response = response.CreateResponse(visitDetails, visitInfoDetails);
+                    var isValidVisit = _visitsValid.ValidGetDetails(inputModel);
+                    if (isValidVisit.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidVisit, visitInfoDetails);
+                    else
+                    {
+                        var visitDetails = await _visitsServices.GetDetails(inputModel);
+                        response = response.CreateResponse(visitDetails, visitInfoDetails);
+                    }
                 }
             }
             catch (Exception ex)
@@ -71,20 +82,27 @@ namespace Api.Controllers.SystemBase.Visits
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] VisitSearchDTO inputModel)
+        public async Task<IActionResult> GetAll([FromQuery] VisitSearchDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetAllResponse<VisitInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidVisit = _visitsValid.ValidGetAll(inputModel);
-                if (isValidVisit.Status != EnumStatus.success)
-                    response = response.CreateResponseError(isValidVisit, visitsInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponseError(isAuthenticated, visitInfoDetails);
                 else
                 {
-                    var visit = await _visitsServices.GetAllAsync(inputModel);
-                    response = response.CreateResponseSuccessOrNoContent(visit, visitsInfoData);
+                    var isValidVisit = _visitsValid.ValidGetAll(inputModel);
+                    if (isValidVisit.Status != EnumStatus.success)
+                        response = response.CreateResponseError(isValidVisit, visitsInfoData);
+                    else
+                    {
+                        var visit = await _visitsServices.GetAllAsync(inputModel);
+                        response = response.CreateResponseSuccessOrNoContent(visit, visitsInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -100,21 +118,28 @@ namespace Api.Controllers.SystemBase.Visits
         }
 
         [HttpPost("AddVisit")]
-        public async Task<IActionResult> AddVisit([FromBody] VisitAddOrUpdateDTO inputModel)
+        public async Task<IActionResult> AddVisit([FromBody] VisitAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             string visitInfoData = "visitInfoData";
             BaseActionResponse<VisitInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidVisit = _visitsValid.ValidAddOrUpdate(inputModel, false);
-                if (isValidVisit.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidVisit, visitInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, visitInfoDetails);
                 else
                 {
-                    var visitData = await _visitsServices.AddOrUpdate(inputModel, false);
-                    response = response.CreateResponse(visitData, visitInfoData);
+                    var isValidVisit = _visitsValid.ValidAddOrUpdate(inputModel, false);
+                    if (isValidVisit.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidVisit, visitInfoData);
+                    else
+                    {
+                        var visitData = await _visitsServices.AddOrUpdate(inputModel, false);
+                        response = response.CreateResponse(visitData, visitInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -130,21 +155,28 @@ namespace Api.Controllers.SystemBase.Visits
         }
 
         [HttpPost("UpdateVisit")]
-        public async Task<IActionResult> UpdateVisit([FromBody] VisitAddOrUpdateDTO inputModel)
+        public async Task<IActionResult> UpdateVisit([FromBody] VisitAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             string visitInfoData = "visitInfoData";
             BaseActionResponse<VisitInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidVisit = _visitsValid.ValidAddOrUpdate(inputModel, true);
-                if (isValidVisit.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidVisit, visitInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, visitInfoDetails);
                 else
                 {
-                    var visitData = await _visitsServices.AddOrUpdate(inputModel, true);
-                    response = response.CreateResponse(visitData, visitInfoData);
+                    var isValidVisit = _visitsValid.ValidAddOrUpdate(inputModel, true);
+                    if (isValidVisit.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidVisit, visitInfoData);
+                    else
+                    {
+                        var visitData = await _visitsServices.AddOrUpdate(inputModel, true);
+                        response = response.CreateResponse(visitData, visitInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -160,21 +192,27 @@ namespace Api.Controllers.SystemBase.Visits
         }
 
         [HttpPost("DeleteVisit")]
-        public async Task<IActionResult> DeleteVisit([FromQuery] BaseDeleteDto inputModel)
+        public async Task<IActionResult> DeleteVisit([FromQuery] BaseDeleteDto inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseActionResponse<VisitInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidVisit = _visitsValid.ValidDelete(inputModel);
-                if (isValidVisit.Status != EnumStatus.success)
-                {
-                    response = response.CreateResponse(isValidVisit, visitInfoData);
-                }
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, visitInfoDetails);
                 else
                 {
-                    var deletedVisit = await _visitsServices.DeleteAsync(inputModel);
-                    response = response.CreateResponse(deletedVisit, visitInfoData);
+                    var isValidVisit = _visitsValid.ValidDelete(inputModel);
+                    if (isValidVisit.Status != EnumStatus.success)
+                    {
+                        response = response.CreateResponse(isValidVisit, visitInfoData);
+                    }
+                    else
+                    {
+                        var deletedVisit = await _visitsServices.DeleteAsync(inputModel);
+                        response = response.CreateResponse(deletedVisit, visitInfoData);
+                    }
                 }
             }
             catch (Exception ex)

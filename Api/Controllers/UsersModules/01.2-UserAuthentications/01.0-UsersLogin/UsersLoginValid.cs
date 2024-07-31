@@ -2,7 +2,7 @@
 using App.Core.Consts.GeneralModels;
 using App.Core.Helper;
 using App.Core.Helper.Validations;
-using App.Core.Interfaces.UsersModule.UsersAuthentications.UsersLogin;
+using App.Core.Interfaces.UsersModule.UserAuthentications.UsersLogin;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;

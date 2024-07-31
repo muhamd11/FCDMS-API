@@ -123,6 +123,9 @@
   <data name="errorInvalidLoginData" xml:space="preserve">
     <value>يرجى إدخال رقم الهاتف أو البريد الإلكتروني أو اسم المستخدم لتسجيل الدخول.</value>
   </data>
+  <data name="errorInvalidUserAuthorizeToken" xml:space="preserve">
+    <value>كود المصادقة للمستخدم غير معرف</value>
+  </data>
   <data name="errorInvalidUserLoginData" xml:space="preserve">
     <value>عذرًا، بيانات تسجيل الدخول غير صالحة.</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="errorPhoneNumberIsRequired" xml:space="preserve">
     <value>رقم الهاتف مطلوب</value>
+  </data>
+  <data name="errorUserAuthorizeTokenNotFound" xml:space="preserve">
+    <value>قم بارسال كود المصادقة للمستخدم </value>
   </data>
   <data name="errorUserContactEmailWasAdded" xml:space="preserve">
     <value>بريد الاتصال بالمستخدم قد تم إضافته بالفعل</value>
@@ -167,5 +173,8 @@
   </data>
   <data name="loginSuccess" xml:space="preserve">
     <value>تم تسجيل الدخول بنجاح</value>
+  </data>
+  <data name="signupSuccess" xml:space="preserve">
+    <value>تم تسجيل بنجاح</value>
   </data>
 </root>

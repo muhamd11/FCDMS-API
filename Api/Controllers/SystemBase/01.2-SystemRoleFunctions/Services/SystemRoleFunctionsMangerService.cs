@@ -1,4 +1,8 @@
 ﻿using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
+using App.Core.Models.ClinicModules.MedicalHistoriesModules;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
+using App.Core.Models.ClinicModules.OperationsModules;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
@@ -14,24 +18,33 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         public List<SystemRoleFunction> GetSystemRoleFunctions()
         {
-            List<SystemRoleFunction> systemRoleFincations = new List<SystemRoleFunction>();
-            //AdditionsModules
+            List<SystemRoleFunction> systemRoleFuncations = new List<SystemRoleFunction>();
 
-            //PlacesModules
-            //systemRoleFincations.AddRange(GetPrivilegeModuleBranches());
-            //systemRoleFincations.AddRange(GetPrivilegeModuleStores());
+            #region ClinicModules
 
-            return systemRoleFincations;
+            systemRoleFuncations.AddRange(GetPrivilageModuleOperations());
+            systemRoleFuncations.AddRange(GetPrivilageModuleNutritionalImprovement());
+            systemRoleFuncations.AddRange(GetPrivilageModuleVisit());
+            systemRoleFuncations.AddRange(GetPrivilageModuleMedicalHistory());
+
+            #endregion ClinicModules
+
+
+            return systemRoleFuncations;
         }
 
-        #region PlacesModules
 
-        //private IEnumerable<SystemRoleFunction> GetPrivilegeModuleBranches() =>
-        //    _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Branch));
+        #region ClinicModules
 
-        //private IEnumerable<SystemRoleFunction> GetPrivilegeModuleStores() =>
-        //    _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Store));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleOperations() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Operation));
 
-        #endregion PlacesModules
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleNutritionalImprovement() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(NutritionalImprovement));
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleVisit() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Visit));
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleMedicalHistory() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(MedicalHistory));
+
+        #endregion ClinicModules
+
     }
 }

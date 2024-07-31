@@ -1,12 +1,18 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLogin;
+using Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersSignUp;
 using App.Core;
+using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Json;
-using App.Core.Interfaces.UsersModule.UsersAuthentications;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.Users;
-using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule;
+using App.Core.Models.UsersModule._01._2_UserAuthentications;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.ViewModel;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.ViewModel;
+using AutoMapper;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications
@@ -16,14 +22,18 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUsersServices _usersServices;
+        private readonly IMapper _mapper;
 
         #endregion Members
 
         #region Constructor
 
-        public UserAuthServices(IUnitOfWork unitOfWork)
+        public UserAuthServices(IUnitOfWork unitOfWork, IUsersServices usersServices, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _usersServices = usersServices;
+            _mapper = mapper;
         }
 
         #endregion Constructor
@@ -42,6 +52,17 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             var userAuthorizeToken = GenerateUserAuthorizeToken(user);
 
             return UsersLoginAdaptor.SelectExpressionUserLoginInfo(user, userAuthorizeToken);
+        }
+
+        public async Task<UserSignUpInfo> Signup(UserSignUpDto inputModel)
+        {
+            var userAddOrUpdateDto = _mapper.Map<UserAddOrUpdateDTO>(inputModel);
+
+            userAddOrUpdateDto.userType = EnumUserType.Patient;
+
+            var userInfo = await _usersServices.AddOrUpdate(userAddOrUpdateDto, false);
+
+            return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(userInfo.Data);
         }
 
         private string GenerateUserAuthorizeToken(User user)

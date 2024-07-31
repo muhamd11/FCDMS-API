@@ -79,6 +79,15 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to كود المصادقة للمستخدم غير معرف.
+        /// </summary>
+        public static string errorInvalidUserAuthorizeToken {
+            get {
+                return ResourceManager.GetString("errorInvalidUserAuthorizeToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرًا، بيانات تسجيل الدخول غير صالحة..
         /// </summary>
         public static string errorInvalidUserLoginData {
@@ -102,6 +111,15 @@ namespace App.Core.Resources.UsersModules.User {
         public static string errorPhoneNumberIsRequired {
             get {
                 return ResourceManager.GetString("errorPhoneNumberIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قم بارسال كود المصادقة للمستخدم .
+        /// </summary>
+        public static string errorUserAuthorizeTokenNotFound {
+            get {
+                return ResourceManager.GetString("errorUserAuthorizeTokenNotFound", resourceCulture);
             }
         }
         
@@ -210,6 +228,15 @@ namespace App.Core.Resources.UsersModules.User {
         public static string loginSuccess {
             get {
                 return ResourceManager.GetString("loginSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تم تسجيل بنجاح.
+        /// </summary>
+        public static string signupSuccess {
+            get {
+                return ResourceManager.GetString("signupSuccess", resourceCulture);
             }
         }
     }

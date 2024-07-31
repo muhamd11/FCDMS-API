@@ -1,12 +1,14 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
-namespace Api.Controllers.SystemBase.MedicalHistories
+namespace Api.Controllers.ClinicModules.MedicalHistories
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -17,24 +19,26 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         //services
         private readonly ILogger<MedicalHistoriesController> _logger;
 
-        private readonly IMedicalHistoriesValid _medicalHistorysValid;
-        private readonly IMedicalHistoriesServices _medicalHistorysServices;
+        private readonly IMedicalHistoriesValid _medicalHistoriesValid;
+        private readonly IMedicalHistoriesServices _medicalHistoriesServices;
+        private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string medicalHistoryInfoData = "medicalHistoryInfoData";
 
-        private readonly string medicalHistorysInfoData = "medicalHistorysInfoData";
+        private readonly string medicalHistoriesInfoData = "medicalHistoriesInfoData";
         private readonly string medicalHistoryInfoDetails = "medicalHistoryInfoDetails";
 
         #endregion Members
 
         #region Constructor
 
-        public MedicalHistoriesController(IMedicalHistoriesValid medicalHistorysValid, IMedicalHistoriesServices medicalHistorysServices, ILogger<MedicalHistoriesController> logger)
+        public MedicalHistoriesController(IMedicalHistoriesValid medicalHistoriesValid, IMedicalHistoriesServices medicalHistoriesServices, ILogger<MedicalHistoriesController> logger, IUserAuthValid userAuthValid)
         {
             _logger = logger;
-            _medicalHistorysValid = medicalHistorysValid;
-            _medicalHistorysServices = medicalHistorysServices;
+            _medicalHistoriesValid = medicalHistoriesValid;
+            _medicalHistoriesServices = medicalHistoriesServices;
+            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor
@@ -42,19 +46,25 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         #region Methods
 
         [HttpGet("GetMedicalHistoryDetails")]
-        public async Task<IActionResult> GetMedicalHistoryDetails([FromQuery] MedicalHistoryGetDetailsDTO inputModel)
+        public async Task<IActionResult> GetMedicalHistoryDetails([FromQuery] MedicalHistoryGetDetailsDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetDetailsResponse<MedicalHistoryInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidMedicalHistory = _medicalHistorysValid.ValidGetDetails(inputModel);
-                if (isValidMedicalHistory.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoDetails);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, medicalHistoryInfoDetails);
                 else
                 {
-                    var medicalHistoryDetails = await _medicalHistorysServices.GetDetails(inputModel);
-                    response = response.CreateResponse(medicalHistoryDetails, medicalHistoryInfoDetails);
+                    var isValidMedicalHistory = _medicalHistoriesValid.ValidGetDetails(inputModel);
+                    if (isValidMedicalHistory.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoDetails);
+                    else
+                    {
+                        var medicalHistoryDetails = await _medicalHistoriesServices.GetDetails(inputModel);
+                        response = response.CreateResponse(medicalHistoryDetails, medicalHistoryInfoDetails);
+                    }
                 }
             }
             catch (Exception ex)
@@ -71,20 +81,27 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] MedicalHistorySearchDTO inputModel)
+        public async Task<IActionResult> GetAll([FromQuery] MedicalHistorySearchDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetAllResponse<MedicalHistoryInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidMedicalHistory = _medicalHistorysValid.ValidGetAll(inputModel);
-                if (isValidMedicalHistory.Status != EnumStatus.success)
-                    response = response.CreateResponseError(isValidMedicalHistory, medicalHistorysInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponseError(isAuthenticated, medicalHistoryInfoDetails);
                 else
                 {
-                    var medicalHistory = await _medicalHistorysServices.GetAllAsync(inputModel);
-                    response = response.CreateResponseSuccessOrNoContent(medicalHistory, medicalHistorysInfoData);
+                    var isValidMedicalHistory = _medicalHistoriesValid.ValidGetAll(inputModel);
+                    if (isValidMedicalHistory.Status != EnumStatus.success)
+                        response = response.CreateResponseError(isValidMedicalHistory, medicalHistoriesInfoData);
+                    else
+                    {
+                        var medicalHistory = await _medicalHistoriesServices.GetAllAsync(inputModel);
+                        response = response.CreateResponseSuccessOrNoContent(medicalHistory, medicalHistoriesInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -100,21 +117,28 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         }
 
         [HttpPost("AddMedicalHistory")]
-        public async Task<IActionResult> AddMedicalHistory([FromBody] MedicalHistoryAddOrUpdateDTO inputModel)
+        public async Task<IActionResult> AddMedicalHistory([FromBody] MedicalHistoryAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             string medicalHistoryInfoData = "medicalHistoryInfoData";
             BaseActionResponse<MedicalHistoryInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidMedicalHistory = _medicalHistorysValid.ValidAddOrUpdate(inputModel, false);
-                if (isValidMedicalHistory.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, medicalHistoryInfoDetails);
                 else
                 {
-                    var medicalHistoryData = await _medicalHistorysServices.AddOrUpdate(inputModel, false);
-                    response = response.CreateResponse(medicalHistoryData, medicalHistoryInfoData);
+                    var isValidMedicalHistory = _medicalHistoriesValid.ValidAddOrUpdate(inputModel, false);
+                    if (isValidMedicalHistory.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
+                    else
+                    {
+                        var medicalHistoryData = await _medicalHistoriesServices.AddOrUpdate(inputModel, false);
+                        response = response.CreateResponse(medicalHistoryData, medicalHistoryInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -130,21 +154,28 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         }
 
         [HttpPost("UpdateMedicalHistory")]
-        public async Task<IActionResult> UpdateMedicalHistory([FromBody] MedicalHistoryAddOrUpdateDTO inputModel)
+        public async Task<IActionResult> UpdateMedicalHistory([FromBody] MedicalHistoryAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             string medicalHistoryInfoData = "medicalHistoryInfoData";
             BaseActionResponse<MedicalHistoryInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidMedicalHistory = _medicalHistorysValid.ValidAddOrUpdate(inputModel, true);
-                if (isValidMedicalHistory.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, medicalHistoryInfoDetails);
                 else
                 {
-                    var medicalHistoryData = await _medicalHistorysServices.AddOrUpdate(inputModel, true);
-                    response = response.CreateResponse(medicalHistoryData, medicalHistoryInfoData);
+                    var isValidMedicalHistory = _medicalHistoriesValid.ValidAddOrUpdate(inputModel, true);
+                    if (isValidMedicalHistory.Status != EnumStatus.success)
+                        response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
+                    else
+                    {
+                        var medicalHistoryData = await _medicalHistoriesServices.AddOrUpdate(inputModel, true);
+                        response = response.CreateResponse(medicalHistoryData, medicalHistoryInfoData);
+                    }
                 }
+
             }
             catch (Exception ex)
             {
@@ -160,21 +191,27 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         }
 
         [HttpPost("DeleteMedicalHistory")]
-        public async Task<IActionResult> DeleteMedicalHistory([FromQuery] BaseDeleteDto inputModel)
+        public async Task<IActionResult> DeleteMedicalHistory([FromQuery] BaseDeleteDto inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseActionResponse<MedicalHistoryInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidMedicalHistory = _medicalHistorysValid.ValidDelete(inputModel);
-                if (isValidMedicalHistory.Status != EnumStatus.success)
-                {
-                    response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
-                }
+                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
+                if (isAuthenticated.Status != EnumStatus.success)
+                    response = response.CreateResponse(isAuthenticated, medicalHistoryInfoDetails);
                 else
                 {
-                    var deletedMedicalHistory = await _medicalHistorysServices.DeleteAsync(inputModel);
-                    response = response.CreateResponse(deletedMedicalHistory, medicalHistoryInfoData);
+                    var isValidMedicalHistory = _medicalHistoriesValid.ValidDelete(inputModel);
+                    if (isValidMedicalHistory.Status != EnumStatus.success)
+                    {
+                        response = response.CreateResponse(isValidMedicalHistory, medicalHistoryInfoData);
+                    }
+                    else
+                    {
+                        var deletedMedicalHistory = await _medicalHistoriesServices.DeleteAsync(inputModel);
+                        response = response.CreateResponse(deletedMedicalHistory, medicalHistoryInfoData);
+                    }
                 }
             }
             catch (Exception ex)

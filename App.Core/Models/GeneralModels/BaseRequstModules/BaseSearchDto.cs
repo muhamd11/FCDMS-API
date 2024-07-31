@@ -2,7 +2,7 @@
 
 namespace App.Core.Models.General.BaseRequstModules
 {
-    public class BaseSearchDto : PaginationRequest
+    public class BaseSearchDto : PaginationRequest 
     {
         public Guid? elementToken { get; set; }
         public string? textSearch { get; set; }

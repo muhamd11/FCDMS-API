@@ -141,6 +141,9 @@
   <data name="errorDescriptionMaxLength" xml:space="preserve">
     <value> الوصف لا يمكن أن يكون أطول من {0} حرف</value>
   </data>
+  <data name="errorHeaderNotFound" xml:space="preserve">
+    <value>قم بارسال Request Header</value>
+  </data>
   <data name="errorIdIsRequired" xml:space="preserve">
     <value>كود التعرف مطلوب</value>
   </data>

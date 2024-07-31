@@ -2,7 +2,7 @@
 {
     public enum EnumFunctionsType
     {
-        view,
+        view = 1,
         add,
         update,
         delete,

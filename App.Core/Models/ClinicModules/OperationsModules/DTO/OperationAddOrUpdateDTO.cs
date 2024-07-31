@@ -1,6 +1,8 @@
-﻿namespace App.Core.Models.ClinicModules.OperationsModules.DTO
+﻿using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
+
+namespace App.Core.Models.ClinicModules.OperationsModules.DTO
 {
-    public class OperationAddOrUpdateDTO
+    public class OperationAddOrUpdateDTO 
     {
         public Guid operationToken { get; set; }
         public string operationName { get; set; }

@@ -1,6 +1,8 @@
-﻿namespace App.Core.Models.General.PaginationModule
+﻿using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
+
+namespace App.Core.Models.General.PaginationModule
 {
-    public class PaginationRequest
+    public class PaginationRequest 
     {
         //TODO: Change General Operation At PaginationRequest  to BaseRequstModules
         public long pageSize { get; set; }

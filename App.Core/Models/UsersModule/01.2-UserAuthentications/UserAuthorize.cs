@@ -1,6 +1,6 @@
 ﻿using App.Core.Consts.Users;
 
-namespace App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule
+namespace App.Core.Models.UsersModule._01._2_UserAuthentications
 {
     public class UserAuthorize
     {

@@ -2,7 +2,7 @@
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
 
-namespace App.Core.Interfaces.UsersModule.UsersAuthentications.UsersLogin
+namespace App.Core.Interfaces.UsersModule.UserAuthentications.UsersLogin
 {
     public interface IUsersLoginValid : ITransientService
     {
