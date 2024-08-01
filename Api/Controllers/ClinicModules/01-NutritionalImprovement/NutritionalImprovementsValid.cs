@@ -1,4 +1,5 @@
-﻿using App.Core;
+﻿using Api.Controllers.UsersModules.Users.Interfaces;
+using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
@@ -14,14 +15,16 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUsersValid _usersValid;
 
         #endregion Members
 
         #region Constructor
 
-        public NutritionalImprovementValid(IUnitOfWork unitOfWork)
+        public NutritionalImprovementValid(IUnitOfWork unitOfWork, IUsersValid usersValid)
         {
             _unitOfWork = unitOfWork;
+            _usersValid = usersValid;
         }
 
         #endregion Constructor
@@ -77,6 +80,14 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 }
 
                 #endregion nutritionalImprovementId?
+
+                #region userPatientToken *
+
+                var isValidUser = _usersValid.IsValidUserToken(inputModel.userPatientToken);
+                if (isValidUser.Status != EnumStatus.success)
+                    return isValidUser;
+
+                #endregion
 
                 // TODO: Add validations for NutritionalImprovement
 

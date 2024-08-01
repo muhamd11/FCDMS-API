@@ -2,7 +2,7 @@
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
-using App.Core.Models.ClinicModules.VisitsModules;
+using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
@@ -18,14 +18,12 @@ namespace Api.Controllers.ClinicModules.Operations
 
         //services
         private readonly ILogger<OperationsController> _logger;
-
         private readonly IOperationsValid _operationsValid;
         private readonly IOperationsServices _operationsServices;
         private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string operationInfoData = "operationInfoData";
-
         private readonly string operationsInfoData = "operationsInfoData";
         private readonly string operationInfoDetails = "operationInfoDetails";
 

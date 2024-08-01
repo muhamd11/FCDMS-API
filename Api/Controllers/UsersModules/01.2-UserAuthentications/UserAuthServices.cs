@@ -56,13 +56,15 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
         public async Task<UserSignUpInfo> Signup(UserSignUpDto inputModel)
         {
-            var userAddOrUpdateDto = _mapper.Map<UserAddOrUpdateDTO>(inputModel);
+            var user = _mapper.Map<User>(inputModel);
+            user.userType = EnumUserType.Patient;
+            user.userPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
 
-            userAddOrUpdateDto.userType = EnumUserType.Patient;
+            user = await _unitOfWork.Users.AddAsync(user);
+            
+            await _unitOfWork.CommitAsync();
 
-            var userInfo = await _usersServices.AddOrUpdate(userAddOrUpdateDto, false);
-
-            return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(userInfo.Data);
+            return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(user);
         }
 
         private string GenerateUserAuthorizeToken(User user)
@@ -71,7 +73,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             {
                 userToken = user.userToken,
                 userType = user.userType,
-                systemRoleToken = user.systemRoleToken
+                systemRoleToken = user.systemRoleToken == null ? Guid.Empty : (Guid)user.systemRoleToken
             };
             return JsonConversion.SerializeUserAuthorizeToken(userAuthorize);
         }

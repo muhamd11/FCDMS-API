@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace App.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializeDB : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -108,6 +109,66 @@ namespace App.EF.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MedicalHistories",
+                schema: "ClinicManagement",
+                columns: table => new
+                {
+                    medicalHistoryToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    patientSugarMeasurement_isMeasured = table.Column<bool>(type: "bit", nullable: true),
+                    patientSugarMeasurement_measurementValue = table.Column<double>(type: "float", nullable: true),
+                    patientSugarMeasurement_measurementDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    patientBloodPressureMeasurement_isMeasured = table.Column<bool>(type: "bit", nullable: true),
+                    patientBloodPressureMeasurement_measurementValue = table.Column<double>(type: "float", nullable: true),
+                    patientBloodPressureMeasurement_measurementDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    patientThyroidSensitivityMeasurement_isMeasured = table.Column<bool>(type: "bit", nullable: true),
+                    patientThyroidSensitivityMeasurement_measurementValue = table.Column<double>(type: "float", nullable: true),
+                    patientThyroidSensitivityMeasurement_measurementDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MedicalHistories", x => x.medicalHistoryToken);
+                    table.ForeignKey(
+                        name: "FK_MedicalHistories_Users_userPatientToken",
+                        column: x => x.userPatientToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NutritionalImprovements",
+                schema: "ClinicManagement",
+                columns: table => new
+                {
+                    nutritionalImprovementToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    patientHeightInCm = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    patientWeightInKg = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    patientBmr = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NutritionalImprovements", x => x.nutritionalImprovementToken);
+                    table.ForeignKey(
+                        name: "FK_NutritionalImprovements_Users_userPatientToken",
+                        column: x => x.userPatientToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Operations",
                 schema: "ClinicManagement",
                 columns: table => new
@@ -115,7 +176,7 @@ namespace App.EF.Migrations
                     operationToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     operationName = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     operationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -129,7 +190,8 @@ namespace App.EF.Migrations
                         column: x => x.userPatientToken,
                         principalSchema: "Users",
                         principalTable: "Users",
-                        principalColumn: "userToken");
+                        principalColumn: "userToken",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -199,17 +261,17 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     userProfileToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userPhone2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhone3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName3 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhone4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCC4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userPhoneCCName4 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userBirthDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    userPhone2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCC2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCCName2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhone3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCC3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCCName3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhone4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCC4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhoneCCName4 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userContactEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userBirthDate = table.Column<DateOnly>(type: "date", nullable: true),
                     userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
@@ -222,6 +284,74 @@ namespace App.EF.Migrations
                         principalTable: "Users",
                         principalColumn: "userToken");
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Visits",
+                schema: "ClinicManagement",
+                columns: table => new
+                {
+                    visitToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    lastPeriodDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    expectedDateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
+                    userPatientComplaining = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    numberOfChildren = table.Column<int>(type: "int", nullable: false),
+                    medications = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    generalNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    fetalInformations_fetalHeartBeatPerMinute = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    fetalInformations_fetalAgeInWeeks = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    fetalInformations_fetalAgeInMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visits", x => x.visitToken);
+                    table.ForeignKey(
+                        name: "FK_Visits_Users_userPatientToken",
+                        column: x => x.userPatientToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicalHistories_fullCode",
+                schema: "ClinicManagement",
+                table: "MedicalHistories",
+                column: "fullCode",
+                unique: true,
+                filter: "[fullCode] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MedicalHistories_userPatientToken",
+                schema: "ClinicManagement",
+                table: "MedicalHistories",
+                column: "userPatientToken");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NutritionalImprovements_createdDate",
+                schema: "ClinicManagement",
+                table: "NutritionalImprovements",
+                column: "createdDate");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NutritionalImprovements_fullCode",
+                schema: "ClinicManagement",
+                table: "NutritionalImprovements",
+                column: "fullCode",
+                unique: true,
+                filter: "[fullCode] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_NutritionalImprovements_userPatientToken",
+                schema: "ClinicManagement",
+                table: "NutritionalImprovements",
+                column: "userPatientToken");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Operations_fullCode",
@@ -323,6 +453,20 @@ namespace App.EF.Migrations
                 schema: "Users",
                 table: "Users",
                 column: "userType");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visits_fullCode",
+                schema: "ClinicManagement",
+                table: "Visits",
+                column: "fullCode",
+                unique: true,
+                filter: "[fullCode] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visits_userPatientToken",
+                schema: "ClinicManagement",
+                table: "Visits",
+                column: "userPatientToken");
         }
 
         /// <inheritdoc />
@@ -331,6 +475,14 @@ namespace App.EF.Migrations
             migrationBuilder.DropTable(
                 name: "LogActions",
                 schema: "SystemBase");
+
+            migrationBuilder.DropTable(
+                name: "MedicalHistories",
+                schema: "ClinicManagement");
+
+            migrationBuilder.DropTable(
+                name: "NutritionalImprovements",
+                schema: "ClinicManagement");
 
             migrationBuilder.DropTable(
                 name: "Operations",
@@ -355,6 +507,10 @@ namespace App.EF.Migrations
             migrationBuilder.DropTable(
                 name: "UserProfiles",
                 schema: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Visits",
+                schema: "ClinicManagement");
 
             migrationBuilder.DropTable(
                 name: "Users",

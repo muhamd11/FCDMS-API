@@ -2,8 +2,24 @@ using App.Core;
 using App.Core.Interfaces.General.Scrutor;
 using App.EF;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Configure Serilog
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+
+// Add Serilog to the logging pipeline
+builder.Host.UseSerilog();
+
+
+
+
+
+
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

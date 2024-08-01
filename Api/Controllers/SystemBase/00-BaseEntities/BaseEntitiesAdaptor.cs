@@ -28,7 +28,6 @@ namespace Api.Controllers.SystemBase.BaseEntitys
             };
         }
 
-        private static string GetDateTimeLocal(DateTimeOffset dateTimeOffset) =>
-             dateTimeOffset.ToLocalTime().DateTime.ToString("yyyy/MM/dd hh:mm:ss");
+        private static string GetDateTimeLocal(DateTimeOffset dateTimeOffset) => dateTimeOffset.ToLocalTime().DateTime.ToString("yyyy/MM/dd hh:mm:ss");
     }
 }

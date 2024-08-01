@@ -1,7 +1,7 @@
 ﻿using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.Users;
 
-namespace App.Core.Models.ClinicModules.VisitsModules
+namespace App.Core.Models.ClinicModules.OperationsModules
 {
     public class OperationInfo : BaseEntityInfo
     {

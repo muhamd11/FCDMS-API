@@ -20,9 +20,10 @@ namespace App.Core.Models.ClinicModules.MedicalHistoriesModules
         public BaseMeasurement? patientBloodPressureMeasurement { get; set; }
 
         public BaseMeasurement? patientThyroidSensitivityMeasurement { get; set; }
+        
 
         [ForeignKey(nameof(userPatientData))]
-        public Guid? userPatientToken { get; set; }
+        public Guid userPatientToken { get; set; }
 
         public User userPatientData { get; set; }
     }

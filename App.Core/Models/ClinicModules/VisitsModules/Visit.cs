@@ -31,7 +31,7 @@ namespace App.Core.Models.ClinicModules.VisitsModules
 
         // Relations
         [ForeignKey(nameof(userPatientData))]
-        public Guid? userPatientToken { get; set; }
+        public Guid userPatientToken { get; set; }
 
         public User userPatientData { get; set; }
     }

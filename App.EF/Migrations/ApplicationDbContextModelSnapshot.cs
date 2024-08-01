@@ -40,7 +40,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("medicalHistoryToken");
@@ -81,7 +81,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("nutritionalImprovementToken");
@@ -122,7 +122,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("operationToken");
@@ -179,7 +179,7 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("visitToken");
@@ -273,7 +273,7 @@ namespace App.EF.Migrations
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("systemRoleToken")
+                    b.Property<Guid?>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("updatedDate")
@@ -481,7 +481,9 @@ namespace App.EF.Migrations
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
                         .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientBloodPressureMeasurement", b1 =>
                         {
@@ -562,7 +564,9 @@ namespace App.EF.Migrations
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
                         .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("userPatientData");
                 });
@@ -571,7 +575,9 @@ namespace App.EF.Migrations
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
                         .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("userPatientData");
                 });
@@ -580,7 +586,9 @@ namespace App.EF.Migrations
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
                         .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("App.Core.Models.ClinicModules.VisitsModules.FetalInformation", "fetalInformations", b1 =>
                         {
@@ -617,9 +625,7 @@ namespace App.EF.Migrations
                 {
                     b.HasOne("App.Core.Models.SystemBase.Roles.SystemRole", "roleData")
                         .WithMany("usersData")
-                        .HasForeignKey("systemRoleToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("systemRoleToken");
 
                     b.Navigation("roleData");
                 });

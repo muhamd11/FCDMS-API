@@ -1,5 +1,9 @@
 ﻿using App.Core.Consts.SystemBase;
 using App.Core.Consts.Users;
+using App.Core.Models.ClinicModules.MedicalHistoriesModules;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
+using App.Core.Models.ClinicModules.OperationsModules;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
@@ -9,6 +13,7 @@ using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users
 {
@@ -22,7 +27,6 @@ namespace App.Core.Models.Users
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid userToken { get; set; }
-
         public string userName { get; set; }
         public string? userEmail { get; set; }
         public string? userPhone { get; set; }
@@ -35,9 +39,9 @@ namespace App.Core.Models.Users
 
         //relations
         [ForeignKey(nameof(roleData))]
-        public Guid systemRoleToken { get; set; }
+        public Guid? systemRoleToken { get; set; }
 
-        public SystemRole roleData { get; set; }
+        public SystemRole? roleData { get; set; }
 
         //using any user type
         public UserProfile? userProfileData { get; set; }

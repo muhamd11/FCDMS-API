@@ -24,7 +24,7 @@ namespace App.Core.Models.ClinicModules.NutritionalImprovementsModules
 
         // Relations
         [ForeignKey(nameof(userPatientData))]
-        public Guid? userPatientToken { get; set; }
+        public Guid userPatientToken { get; set; }
 
         public User userPatientData { get; set; }
 

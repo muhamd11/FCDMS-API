@@ -203,7 +203,7 @@ namespace Api.Controllers.UsersModule.Users
             if (user is not null)
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             else
-                return BaseValid.createBaseValid(GeneralMessagesAr.errorDataNotFound, EnumStatus.error);
+                return BaseValid.createBaseValid(UsersMessagesAr.errorUserDoesNotExists, EnumStatus.error);
         }
 
         #endregion Methods

@@ -4,7 +4,6 @@ using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.General.LocalModels;
 using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;

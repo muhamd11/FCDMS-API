@@ -133,6 +133,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to كود المعرف تم اضافتة من قبل .
+        /// </summary>
+        public static string errorFullCodeExists {
+            get {
+                return ResourceManager.GetString("errorFullCodeExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to قم بارسال Request Header.
         /// </summary>
         public static string errorHeaderNotFound {

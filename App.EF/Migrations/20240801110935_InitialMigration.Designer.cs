@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240731111604_AddVisitsAndMedicalHistory")]
-    partial class AddVisitsAndMedicalHistory
+    [Migration("20240801110935_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("medicalHistoryToken");
@@ -84,7 +84,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("nutritionalImprovementToken");
@@ -125,7 +125,7 @@ namespace App.EF.Migrations
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("operationToken");
@@ -182,7 +182,7 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("userPatientToken")
+                    b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("visitToken");
@@ -483,8 +483,10 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .WithMany("medicalHistoryData")
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientBloodPressureMeasurement", b1 =>
                         {
@@ -552,14 +554,11 @@ namespace App.EF.Migrations
                                 .HasForeignKey("medicalHistoryToken");
                         });
 
-                    b.Navigation("patientBloodPressureMeasurement")
-                        .IsRequired();
+                    b.Navigation("patientBloodPressureMeasurement");
 
-                    b.Navigation("patientSugarMeasurement")
-                        .IsRequired();
+                    b.Navigation("patientSugarMeasurement");
 
-                    b.Navigation("patientThyroidSensitivityMeasurement")
-                        .IsRequired();
+                    b.Navigation("patientThyroidSensitivityMeasurement");
 
                     b.Navigation("userPatientData");
                 });
@@ -567,8 +566,10 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.NutritionalImprovementsModules.NutritionalImprovement", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .WithMany("nutritionalImprovementData")
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("userPatientData");
                 });
@@ -576,8 +577,10 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .WithMany("operationData")
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("userPatientData");
                 });
@@ -585,8 +588,10 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.VisitsModules.Visit", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany()
-                        .HasForeignKey("userPatientToken");
+                        .WithMany("visitData")
+                        .HasForeignKey("userPatientToken")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("App.Core.Models.ClinicModules.VisitsModules.FetalInformation", "fetalInformations", b1 =>
                         {
@@ -675,6 +680,12 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
+                    b.Navigation("medicalHistoryData");
+
+                    b.Navigation("nutritionalImprovementData");
+
+                    b.Navigation("operationData");
+
                     b.Navigation("userDoctorData");
 
                     b.Navigation("userEmployeeData");
@@ -682,6 +693,8 @@ namespace App.EF.Migrations
                     b.Navigation("userPatientData");
 
                     b.Navigation("userProfileData");
+
+                    b.Navigation("visitData");
                 });
 #pragma warning restore 612, 618
         }

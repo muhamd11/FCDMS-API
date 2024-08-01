@@ -9,7 +9,7 @@ namespace Api.MappingProfiles.Users
         public UsersModulesProfile()
         {
             CreateMap<User, UserAddOrUpdateDTO>().ReverseMap();
-            CreateMap<UserSignUpDto, UserAddOrUpdateDTO>().ReverseMap();
+            CreateMap<User, UserSignUpDto>().ReverseMap();
         }
     }
 }

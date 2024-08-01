@@ -1,6 +1,6 @@
-﻿using App.Core.Models.General.LocalModels;
+﻿using System.Linq.Expressions;
+using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
-using System.Linq.Expressions;
 
 namespace App.Core.Interfaces.General
 {

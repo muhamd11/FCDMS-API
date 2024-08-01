@@ -1,4 +1,5 @@
-﻿using App.Core;
+﻿using Api.Controllers.UsersModules.Users.Interfaces;
+using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
@@ -14,14 +15,16 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUsersValid _usersValid;
 
         #endregion Members
 
         #region Constructor
 
-        public MedicalHistoryValid(IUnitOfWork unitOfWork)
+        public MedicalHistoryValid(IUnitOfWork unitOfWork, IUsersValid usersValid)
         {
             _unitOfWork = unitOfWork;
+            _usersValid = usersValid;
         }
 
         #endregion Constructor
@@ -77,6 +80,15 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 }
 
                 #endregion medicalHistoryId?
+
+
+                #region userPatientToken *
+
+                var isValidUser = _usersValid.IsValidUserToken(inputModel.userPatientToken);
+                if (isValidUser.Status != EnumStatus.success)
+                    return isValidUser;
+
+                #endregion
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
