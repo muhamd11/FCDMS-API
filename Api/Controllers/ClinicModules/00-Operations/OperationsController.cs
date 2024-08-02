@@ -1,8 +1,9 @@
-﻿using App.Core.Consts.GeneralModels;
+﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.ClinicModules.OperationsModules;
+using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ namespace Api.Controllers.ClinicModules.Operations
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authenticate]
     public class OperationsController : ControllerBase
     {
         #region Members
@@ -44,25 +46,20 @@ namespace Api.Controllers.ClinicModules.Operations
         #region Methods
 
         [HttpGet("GetOperationDetails")]
+
         public async Task<IActionResult> GetOperationDetails([FromQuery] OperationGetDetailsDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetDetailsResponse<OperationInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, operationInfoDetails);
+                var isValidOperation = _operationsValid.ValidGetDetails(inputModel);
+                if (isValidOperation.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidOperation, operationInfoDetails);
                 else
                 {
-                    var isValidOperation = _operationsValid.ValidGetDetails(inputModel);
-                    if (isValidOperation.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidOperation, operationInfoDetails);
-                    else
-                    {
-                        var operationDetails = await _operationsServices.GetDetails(inputModel);
-                        response = response.CreateResponse(operationDetails, operationInfoDetails);
-                    }
+                    var operationDetails = await _operationsServices.GetDetails(inputModel);
+                    response = response.CreateResponse(operationDetails, operationInfoDetails);
                 }
             }
             catch (Exception ex)
@@ -85,19 +82,14 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponseError(isAuthenticated, operationInfoDetails);
+
+                var isValidOperation = _operationsValid.ValidGetAll(inputModel);
+                if (isValidOperation.Status != EnumStatus.success)
+                    response = response.CreateResponseError(isValidOperation, operationsInfoData);
                 else
                 {
-                    var isValidOperation = _operationsValid.ValidGetAll(inputModel);
-                    if (isValidOperation.Status != EnumStatus.success)
-                        response = response.CreateResponseError(isValidOperation, operationsInfoData);
-                    else
-                    {
-                        var operation = await _operationsServices.GetAllAsync(inputModel);
-                        response = response.CreateResponseSuccessOrNoContent(operation, operationsInfoData);
-                    }
+                    var operation = await _operationsServices.GetAllAsync(inputModel);
+                    response = response.CreateResponseSuccessOrNoContent(operation, operationsInfoData);
                 }
 
             }
@@ -122,19 +114,14 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, operationInfoDetails);
+
+                var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, false);
+                if (isValidOperation.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidOperation, operationInfoData);
                 else
                 {
-                    var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, false);
-                    if (isValidOperation.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidOperation, operationInfoData);
-                    else
-                    {
-                        var operationData = await _operationsServices.AddOrUpdate(inputModel, false);
-                        response = response.CreateResponse(operationData, operationInfoData);
-                    }
+                    var operationData = await _operationsServices.AddOrUpdate(inputModel, false);
+                    response = response.CreateResponse(operationData, operationInfoData);
                 }
 
             }
@@ -159,19 +146,14 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, operationInfoDetails);
+
+                var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, true);
+                if (isValidOperation.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidOperation, operationInfoData);
                 else
                 {
-                    var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, true);
-                    if (isValidOperation.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidOperation, operationInfoData);
-                    else
-                    {
-                        var operationData = await _operationsServices.AddOrUpdate(inputModel, true);
-                        response = response.CreateResponse(operationData, operationInfoData);
-                    }
+                    var operationData = await _operationsServices.AddOrUpdate(inputModel, true);
+                    response = response.CreateResponse(operationData, operationInfoData);
                 }
 
             }
@@ -195,21 +177,16 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, operationInfoDetails);
+
+                var isValidOperation = _operationsValid.ValidDelete(inputModel);
+                if (isValidOperation.Status != EnumStatus.success)
+                {
+                    response = response.CreateResponse(isValidOperation, operationInfoData);
+                }
                 else
                 {
-                    var isValidOperation = _operationsValid.ValidDelete(inputModel);
-                    if (isValidOperation.Status != EnumStatus.success)
-                    {
-                        response = response.CreateResponse(isValidOperation, operationInfoData);
-                    }
-                    else
-                    {
-                        var deletedOperation = await _operationsServices.DeleteAsync(inputModel);
-                        response = response.CreateResponse(deletedOperation, operationInfoData);
-                    }
+                    var deletedOperation = await _operationsServices.DeleteAsync(inputModel);
+                    response = response.CreateResponse(deletedOperation, operationInfoData);
                 }
             }
             catch (Exception ex)

@@ -82,7 +82,6 @@ namespace Api.Controllers.SystemBase.Operations
 
                 #endregion operationId?
 
-
                 #region userPatientToken *
 
                 var isValidUser = _usersValid.IsValidUserToken(inputModel.userPatientToken);
@@ -122,7 +121,7 @@ namespace Api.Controllers.SystemBase.Operations
 
             if (fullCode is not null)
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
-            else 
+            else
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 

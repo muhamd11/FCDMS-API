@@ -2,7 +2,6 @@
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
@@ -64,7 +63,7 @@ namespace Api.Controllers.SystemBase.Operations
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.operationToken == inputModel.elementToken);
 
-            if (inputModel.userPatientToken != null)
+            if (inputModel.userPatientToken is not null)
                 criteria.Add(x => x.userPatientToken == inputModel.userPatientToken);
 
             if (inputModel.fullCode is not null)

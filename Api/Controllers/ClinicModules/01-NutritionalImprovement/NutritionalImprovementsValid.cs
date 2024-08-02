@@ -89,6 +89,14 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
                 #endregion
 
+                #region fullCode ?
+
+                var isValidFullcode = validFullCode(inputModel);
+                if (isValidFullcode.Status != EnumStatus.success)
+                    return isValidFullcode;
+
+                #endregion
+
                 // TODO: Add validations for NutritionalImprovement
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
@@ -109,6 +117,16 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             }
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
+        }
+
+        private BaseValid validFullCode(NutritionalImprovementAddOrUpdateDTO inputModel)
+        {
+            var fullCode = _unitOfWork.NutritionalImprovements.FirstOrDefault(x => x.fullCode == inputModel.fullCode);
+
+            if (fullCode is not null)
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         public BaseValid ValidNutritionalImprovementToken(Guid nutritionalImprovementToken)

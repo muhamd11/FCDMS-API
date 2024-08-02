@@ -91,13 +91,13 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         private static void AddPatientMeasurement(MedicalHistory medicalHistory)
         {
 
-                medicalHistory.patientSugarMeasurement = medicalHistory.patientSugarMeasurement.isMeasured ? medicalHistory.patientSugarMeasurement : null;
+            medicalHistory.patientSugarMeasurement = medicalHistory.patientSugarMeasurement.isMeasured ? medicalHistory.patientSugarMeasurement : null;
 
-                medicalHistory.patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement.isMeasured ? medicalHistory.patientBloodPressureMeasurement : null;
+            medicalHistory.patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement.isMeasured ? medicalHistory.patientBloodPressureMeasurement : null;
 
-                medicalHistory.patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement.isMeasured ?
-                     medicalHistory.patientThyroidSensitivityMeasurement
-                    : null;
+            medicalHistory.patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement.isMeasured ?
+                 medicalHistory.patientThyroidSensitivityMeasurement
+                : null;
         }
 
         public async Task<BaseActionDone<MedicalHistoryInfo>> DeleteAsync(BaseDeleteDto inputModel)

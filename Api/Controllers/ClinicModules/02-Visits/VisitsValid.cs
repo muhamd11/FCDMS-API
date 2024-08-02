@@ -90,6 +90,14 @@ namespace Api.Controllers.SystemBase.Visits
 
                 #endregion
 
+                #region fullCode ?
+
+                var isValidFullcode = validFullCode(inputModel);
+                if (isValidFullcode.Status != EnumStatus.success)
+                    return isValidFullcode;
+
+                #endregion
+
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
@@ -108,6 +116,16 @@ namespace Api.Controllers.SystemBase.Visits
             }
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
+        }
+
+        private BaseValid validFullCode(VisitAddOrUpdateDTO inputModel)
+        {
+            var fullCode = _unitOfWork.Visits.FirstOrDefault(x => x.fullCode == inputModel.fullCode);
+
+            if (fullCode is not null)
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         public BaseValid ValidVisitToken(Guid visitToken)

@@ -1,5 +1,4 @@
 ﻿using App.Core.Models.UsersModule._01._2_UserAuthentications;
-using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule;
 using Newtonsoft.Json;
 
 namespace App.Core.Helper.Json
@@ -8,7 +7,7 @@ namespace App.Core.Helper.Json
     {
         public static UserAuthorize DeserializeUserAuthorizeToken(string userAuthorizeToken)
         {
-            UserAuthorize userAuthorize = null;
+            UserAuthorize userAuthorize = new();
             try
             {
                 var userAuthorizeJsonString = MethodsClass.Decrypt_Base64(userAuthorizeToken);

@@ -1,4 +1,5 @@
 ﻿using App.Core.Consts.SystemBase;
+using App.Core.Models.SystemBase.BaseClass;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,7 +7,7 @@ namespace App.Core.Models.UsersModule.LogActionsModel
 
 {
     [Table($"{nameof(LogAction)}s", Schema = nameof(EnumDatabaseSchema.SystemBase))]
-    public class LogAction
+    public class LogAction 
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid logActionToken { get; set; }

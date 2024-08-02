@@ -74,9 +74,9 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidLogin = _usersSignUpValid.IsValidSignUp(inputModel);
-                if (isValidLogin.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidLogin, userSignupInfo);
+                var isValidSignUp = _usersSignUpValid.IsValidSignUp(inputModel);
+                if (isValidSignUp.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSignUp, userSignupInfo);
                 else
                 {
                     var userInfo = await _userAuthServices.Signup(inputModel);

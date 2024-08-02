@@ -1,4 +1,5 @@
 ﻿using App.Core.Consts.SystemBase;
+using App.Core.Models.SystemBase.BaseClass;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -6,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace App.Core.Models.SystemBase._01._2_SystemRoleFunctions
 {
     [Table($"{nameof(SystemRoleFunction)}s", Schema = nameof(EnumDatabaseSchema.SystemBase))]
-    public class SystemRoleFunction
+    public class SystemRoleFunction : BaseEntity
     {
         [Key, JsonIgnore] public Guid systemRoleFunctionToken { get; set; }
         [JsonIgnore] public Guid systemRoleToken { get; set; }

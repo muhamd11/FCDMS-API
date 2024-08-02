@@ -37,6 +37,7 @@ public class BaseActionResponse<T> : Dictionary<string, object>
         response[nameof(status)] = response.status;
         response[nameof(msg)] = response.msg;
         response[nameof(executionTimeMilliseconds)] = response.executionTimeMilliseconds;
+
         // Add the data with the module name as the key
         response[moduleName] = null;
 

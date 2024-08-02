@@ -1,4 +1,5 @@
-﻿using App.Core.Consts.GeneralModels;
+﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.BaseRequstModules;
@@ -12,6 +13,7 @@ namespace Api.Controllers.ClinicModules.SystemRoles
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authenticate]
     public class SystemRolesController : ControllerBase
     {
         #region Members
@@ -21,7 +23,6 @@ namespace Api.Controllers.ClinicModules.SystemRoles
 
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly ISystemRolesServices _systemRolesServices;
-        private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string systemRoleInfoData = "systemRoleInfoData";
@@ -33,12 +34,11 @@ namespace Api.Controllers.ClinicModules.SystemRoles
 
         #region Constructor
 
-        public SystemRolesController(ISystemRolesValid systemRolesValid, ISystemRolesServices systemRolesServices, ILogger<SystemRolesController> logger, IUserAuthValid userAuthValid)
+        public SystemRolesController(ISystemRolesValid systemRolesValid, ISystemRolesServices systemRolesServices, ILogger<SystemRolesController> logger)
         {
             _logger = logger;
             _systemRolesValid = systemRolesValid;
             _systemRolesServices = systemRolesServices;
-            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor
@@ -46,25 +46,20 @@ namespace Api.Controllers.ClinicModules.SystemRoles
         #region Methods
 
         [HttpGet("GetSystemRoleDetails")]
-        public async Task<IActionResult> GetSystemRoleDetails([FromQuery] BaseGetDetailsDto inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> GetSystemRoleDetails([FromQuery] BaseGetDetailsDto inputModel)
         {
             BaseGetDetailsResponse<SystemRoleInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleInfoDetails);
+
+                var isValidSystemRole = _systemRolesValid.ValidGetDetails(inputModel);
+                if (isValidSystemRole.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSystemRole, systemRoleInfoDetails);
                 else
                 {
-                    var isValidSystemRole = _systemRolesValid.ValidGetDetails(inputModel);
-                    if (isValidSystemRole.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidSystemRole, systemRoleInfoDetails);
-                    else
-                    {
-                        var systemRoleDetails = await _systemRolesServices.GetDetails(inputModel);
-                        response = response.CreateResponse(systemRoleDetails, systemRoleInfoDetails);
-                    }
+                    var systemRoleDetails = await _systemRolesServices.GetDetails(inputModel);
+                    response = response.CreateResponse(systemRoleDetails, systemRoleInfoDetails);
                 }
             }
             catch (Exception ex)
@@ -81,27 +76,20 @@ namespace Api.Controllers.ClinicModules.SystemRoles
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] SystemRoleSearchDto inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> GetAll([FromQuery] SystemRoleSearchDto inputModel)
         {
             BaseGetAllResponse<SystemRoleInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponseError(isAuthenticated, systemRoleInfoDetails);
+                var isValidSystemRole = _systemRolesValid.ValidGetAll(inputModel);
+                if (isValidSystemRole.Status != EnumStatus.success)
+                    response = response.CreateResponseError(isValidSystemRole, systemRolesInfoData);
                 else
                 {
-                    var isValidSystemRole = _systemRolesValid.ValidGetAll(inputModel);
-                    if (isValidSystemRole.Status != EnumStatus.success)
-                        response = response.CreateResponseError(isValidSystemRole, systemRolesInfoData);
-                    else
-                    {
-                        var systemRole = await _systemRolesServices.GetAllAsync(inputModel);
-                        response = response.CreateResponseSuccessOrNoContent(systemRole, systemRolesInfoData);
-                    }
+                    var systemRole = await _systemRolesServices.GetAllAsync(inputModel);
+                    response = response.CreateResponseSuccessOrNoContent(systemRole, systemRolesInfoData);
                 }
-
             }
             catch (Exception ex)
             {
@@ -117,28 +105,21 @@ namespace Api.Controllers.ClinicModules.SystemRoles
         }
 
         [HttpPost("AddSystemRole")]
-        public async Task<IActionResult> AddSystemRole([FromBody] SystemRoleAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> AddSystemRole([FromBody] SystemRoleAddOrUpdateDTO inputModel)
         {
             string systemRoleInfoData = "systemRoleInfoData";
             BaseActionResponse<SystemRoleInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleInfoDetails);
+                var isValidSystemRole = _systemRolesValid.ValidAddOrUpdate(inputModel, false);
+                if (isValidSystemRole.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
                 else
                 {
-                    var isValidSystemRole = _systemRolesValid.ValidAddOrUpdate(inputModel, false);
-                    if (isValidSystemRole.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
-                    else
-                    {
-                        var systemRoleData = await _systemRolesServices.AddOrUpdate(inputModel, false);
-                        response = response.CreateResponse(systemRoleData, systemRoleInfoData);
-                    }
+                    var systemRoleData = await _systemRolesServices.AddOrUpdate(inputModel, false);
+                    response = response.CreateResponse(systemRoleData, systemRoleInfoData);
                 }
-
             }
             catch (Exception ex)
             {
@@ -154,28 +135,22 @@ namespace Api.Controllers.ClinicModules.SystemRoles
         }
 
         [HttpPost("UpdateSystemRole")]
-        public async Task<IActionResult> UpdateSystemRole([FromBody] SystemRoleAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> UpdateSystemRole([FromBody] SystemRoleAddOrUpdateDTO inputModel)
         {
             string systemRoleInfoData = "systemRoleInfoData";
             BaseActionResponse<SystemRoleInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleInfoDetails);
+                var isValidSystemRole = _systemRolesValid.ValidAddOrUpdate(inputModel, true);
+                if (isValidSystemRole.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
                 else
                 {
-                    var isValidSystemRole = _systemRolesValid.ValidAddOrUpdate(inputModel, true);
-                    if (isValidSystemRole.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
-                    else
-                    {
-                        var systemRoleData = await _systemRolesServices.AddOrUpdate(inputModel, true);
-                        response = response.CreateResponse(systemRoleData, systemRoleInfoData);
-                    }
-                }
+                    var systemRoleData = await _systemRolesServices.AddOrUpdate(inputModel, true);
+                    response = response.CreateResponse(systemRoleData, systemRoleInfoData);
 
+                }
             }
             catch (Exception ex)
             {
@@ -191,27 +166,21 @@ namespace Api.Controllers.ClinicModules.SystemRoles
         }
 
         [HttpPost("DeleteSystemRole")]
-        public async Task<IActionResult> DeleteSystemRole([FromQuery] BaseDeleteDto inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> DeleteSystemRole([FromQuery] BaseDeleteDto inputModel)
         {
             BaseActionResponse<SystemRoleInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleInfoDetails);
+                var isValidSystemRole = _systemRolesValid.ValidDelete(inputModel);
+                if (isValidSystemRole.Status != EnumStatus.success)
+                {
+                    response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
+                }
                 else
                 {
-                    var isValidSystemRole = _systemRolesValid.ValidDelete(inputModel);
-                    if (isValidSystemRole.Status != EnumStatus.success)
-                    {
-                        response = response.CreateResponse(isValidSystemRole, systemRoleInfoData);
-                    }
-                    else
-                    {
-                        var deletedSystemRole = await _systemRolesServices.DeleteAsync(inputModel);
-                        response = response.CreateResponse(deletedSystemRole, systemRoleInfoData);
-                    }
+                    var deletedSystemRole = await _systemRolesServices.DeleteAsync(inputModel);
+                    response = response.CreateResponse(deletedSystemRole, systemRoleInfoData);
                 }
             }
             catch (Exception ex)

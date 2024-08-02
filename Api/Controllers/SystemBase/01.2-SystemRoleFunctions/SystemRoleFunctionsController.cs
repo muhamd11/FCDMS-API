@@ -1,7 +1,6 @@
 ﻿using Api.Controllers.SystemBase.LogActions.Interfaces;
+using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
@@ -13,6 +12,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authenticate]
     public class SystemRoleFunctionsController : ControllerBase
     {
         #region Members
@@ -22,19 +22,17 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         private readonly ISystemRoleFunctionsValid _systemRoleFunctionsValid;
         private readonly ISystemRoleFunctionsService _systemRoleFunctionsService;
-        private readonly IUserAuthValid _userAuthValid;
         private readonly string systemRoleFunctionInfoDetails = "systemRoleFunctionInfoDetails";
 
         #endregion Members
 
         #region Constructor
 
-        public SystemRoleFunctionsController(ISystemRoleFunctionsValid systemRoleFunctionsValid, ISystemRoleFunctionsService systemRoleFunctionsService, ILogger<SystemRoleFunctionsController> logger, IUserAuthValid userAuthValid)
+        public SystemRoleFunctionsController(ISystemRoleFunctionsValid systemRoleFunctionsValid, ISystemRoleFunctionsService systemRoleFunctionsService, ILogger<SystemRoleFunctionsController> logger)
         {
             _logger = logger;
             _systemRoleFunctionsValid = systemRoleFunctionsValid;
             _systemRoleFunctionsService = systemRoleFunctionsService;
-            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor
@@ -42,25 +40,19 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         #region Methods
 
         [HttpGet("GetSystemRoleFunctionDetails")]
-        public async Task<IActionResult> GetSystemRoleFincationDetails([FromQuery] Guid systemRoleToken, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> GetSystemRoleFincationDetails([FromQuery] Guid systemRoleToken)
         {
             BaseGetDetailsResponse<List<SystemRoleFunctionInfo>> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleFunctionInfoDetails);
+                var isValidSystemRoleFunction = _systemRoleFunctionsValid.ValidGetDetails(systemRoleToken);
+                if (isValidSystemRoleFunction.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSystemRoleFunction, systemRoleFunctionInfoDetails);
                 else
                 {
-                    var isValidSystemRoleFunction = _systemRoleFunctionsValid.ValidGetDetails(systemRoleToken);
-                    if (isValidSystemRoleFunction.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidSystemRoleFunction, systemRoleFunctionInfoDetails);
-                    else
-                    {
-                        var systemRoleFunctionDetails = await _systemRoleFunctionsService.GetDetails(systemRoleToken);
-                        response = response.CreateResponse(systemRoleFunctionDetails, systemRoleFunctionInfoDetails);
-                    }
+                    var systemRoleFunctionDetails = await _systemRoleFunctionsService.GetDetails(systemRoleToken);
+                    response = response.CreateResponse(systemRoleFunctionDetails, systemRoleFunctionInfoDetails);
                 }
             }
             catch (Exception ex)
@@ -77,26 +69,20 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         }
 
         [HttpPost("UpdatePrivilege")]
-        public async Task<IActionResult> UpdatePrivlage([FromBody] SystemRoleFunctionDto inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> UpdatePrivlage([FromBody] SystemRoleFunctionDto inputModel)
         {
             string systemRoleFunctionInfoData = "systemRoleFincationInfoData";
             BaseActionResponse<List<SystemRoleFunction>> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isAuthenticated = _userAuthValid.IsAuthenticated(baseRequestHeaders);
-                if (isAuthenticated.Status != EnumStatus.success)
-                    response = response.CreateResponse(isAuthenticated, systemRoleFunctionInfoDetails);
+                var isValidSystemRoleFunction = _systemRoleFunctionsValid.ValidUpdatePrivilege(inputModel);
+                if (isValidSystemRoleFunction.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSystemRoleFunction, systemRoleFunctionInfoData);
                 else
                 {
-                    var isValidSystemRoleFunction = _systemRoleFunctionsValid.ValidUpdatePrivilege(inputModel);
-                    if (isValidSystemRoleFunction.Status != EnumStatus.success)
-                        response = response.CreateResponse(isValidSystemRoleFunction, systemRoleFunctionInfoData);
-                    else
-                    {
-                        var systemRoleFincationData = await _systemRoleFunctionsService.UpdatePrivilege(inputModel);
-                        response = response.CreateResponse(systemRoleFincationData, systemRoleFunctionInfoData);
-                    }
+                    var systemRoleFincationData = await _systemRoleFunctionsService.UpdatePrivilege(inputModel);
+                    response = response.CreateResponse(systemRoleFincationData, systemRoleFunctionInfoData);
                 }
             }
             catch (Exception ex)

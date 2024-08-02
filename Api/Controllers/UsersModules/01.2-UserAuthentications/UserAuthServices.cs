@@ -61,7 +61,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             user.userPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
 
             user = await _unitOfWork.Users.AddAsync(user);
-            
+
             await _unitOfWork.CommitAsync();
 
             return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(user);
