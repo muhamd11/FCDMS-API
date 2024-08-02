@@ -22,7 +22,6 @@ namespace Api.Controllers.ClinicModules.Operations
         private readonly ILogger<OperationsController> _logger;
         private readonly IOperationsValid _operationsValid;
         private readonly IOperationsServices _operationsServices;
-        private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string operationInfoData = "operationInfoData";
@@ -33,12 +32,11 @@ namespace Api.Controllers.ClinicModules.Operations
 
         #region Constructor
 
-        public OperationsController(IOperationsValid operationsValid, IOperationsServices operationsServices, ILogger<OperationsController> logger, IUserAuthValid userAuthValid)
+        public OperationsController(IOperationsValid operationsValid, IOperationsServices operationsServices, ILogger<OperationsController> logger)
         {
             _logger = logger;
             _operationsValid = operationsValid;
             _operationsServices = operationsServices;
-            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor

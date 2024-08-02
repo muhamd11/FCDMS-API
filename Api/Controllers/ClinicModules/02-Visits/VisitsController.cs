@@ -23,7 +23,6 @@ namespace Api.Controllers.ClinicModules.Visits
 
         private readonly IVisitsValid _visitsValid;
         private readonly IVisitsServices _visitsServices;
-        private readonly IUserAuthValid _userAuthValid;
 
         //paramters
         private readonly string visitInfoData = "visitInfoData";
@@ -35,12 +34,11 @@ namespace Api.Controllers.ClinicModules.Visits
 
         #region Constructor
 
-        public VisitsController(IVisitsValid visitsValid, IVisitsServices visitsServices, ILogger<VisitsController> logger, IUserAuthValid userAuthValid)
+        public VisitsController(IVisitsValid visitsValid, IVisitsServices visitsServices, ILogger<VisitsController> logger)
         {
             _logger = logger;
             _visitsValid = visitsValid;
             _visitsServices = visitsServices;
-            _userAuthValid = userAuthValid;
         }
 
         #endregion Constructor
