@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 {
@@ -31,7 +32,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 
         public AuthenticateAttribute()
         {
-            
         }
 
         public AuthenticateAttribute(IUnitOfWork unitOfWork)
@@ -39,9 +39,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
             _unitOfWork = unitOfWork;
         }
 
-
-
-        public override void OnActionExecuting(ActionExecutingContext context)
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var watch = Stopwatch.StartNew();
 
@@ -55,12 +53,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
                 return;
             };
 
-
             var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken);
 
-            var user = _unitOfWork.Users.Any(x => x.userToken == userAuthorize.userToken);
+            var user =  await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == userAuthorize.userToken);
 
-            if(!user)
+            if (user is null)
             {
                 response = response.CreateResponse(false);
                 watch.Stop();
@@ -68,7 +65,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
                 context.Result = new OkObjectResult(response);
                 return;
             }
-        }
 
+            await next();
+        }
     }
 }
