@@ -1,11 +1,9 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

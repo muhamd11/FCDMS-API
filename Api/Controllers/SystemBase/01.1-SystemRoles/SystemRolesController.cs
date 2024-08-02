@@ -1,9 +1,7 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.SystemRoles;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Models.SystemBase.Roles.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -52,7 +50,6 @@ namespace Api.Controllers.ClinicModules.SystemRoles
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidSystemRole = _systemRolesValid.ValidGetDetails(inputModel);
                 if (isValidSystemRole.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidSystemRole, systemRoleInfoDetails);
@@ -149,7 +146,6 @@ namespace Api.Controllers.ClinicModules.SystemRoles
                 {
                     var systemRoleData = await _systemRolesServices.AddOrUpdate(inputModel, true);
                     response = response.CreateResponse(systemRoleData, systemRoleInfoData);
-
                 }
             }
             catch (Exception ex)

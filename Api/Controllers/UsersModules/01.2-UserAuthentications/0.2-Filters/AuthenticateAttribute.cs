@@ -3,14 +3,11 @@ using App.Core.Consts.GeneralModels;
 using App.Core.Helper.Json;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.GeneralModels.AuthenticationModules;
-using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 {
@@ -55,9 +52,9 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 
             var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken);
 
-            var user =  await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == userAuthorize.userToken);
+            var user = await _unitOfWork.Users.AsQueryable().AnyAsync(x => x.userToken == userAuthorize.userToken);
 
-            if (user is null)
+            if (!user)
             {
                 response = response.CreateResponse(false);
                 watch.Stop();

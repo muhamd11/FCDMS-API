@@ -87,7 +87,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 if (isValidUser.Status != EnumStatus.success)
                     return isValidUser;
 
-                #endregion
+                #endregion userPatientToken *
 
                 #region fullCode ?
 
@@ -95,7 +95,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 if (isValidFullcode.Status != EnumStatus.success)
                     return isValidFullcode;
 
-                #endregion
+                #endregion fullCode ?
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
@@ -117,7 +117,6 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-
         private BaseValid validFullCode(MedicalHistoryAddOrUpdateDTO inputModel)
         {
             var fullCode = _unitOfWork.MedicalHistories.FirstOrDefault(x => x.fullCode == inputModel.fullCode);
@@ -127,7 +126,6 @@ namespace Api.Controllers.SystemBase.MedicalHistories
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
-
 
         public BaseValid ValidMedicalHistoryToken(Guid medicalHistoryToken)
         {

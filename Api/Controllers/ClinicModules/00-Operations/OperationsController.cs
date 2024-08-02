@@ -1,7 +1,6 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Operations;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -20,11 +19,13 @@ namespace Api.Controllers.ClinicModules.Operations
 
         //services
         private readonly ILogger<OperationsController> _logger;
+
         private readonly IOperationsValid _operationsValid;
         private readonly IOperationsServices _operationsServices;
 
         //paramters
         private readonly string operationInfoData = "operationInfoData";
+
         private readonly string operationsInfoData = "operationsInfoData";
         private readonly string operationInfoDetails = "operationInfoDetails";
 
@@ -44,7 +45,6 @@ namespace Api.Controllers.ClinicModules.Operations
         #region Methods
 
         [HttpGet("GetOperationDetails")]
-
         public async Task<IActionResult> GetOperationDetails([FromQuery] OperationGetDetailsDTO inputModel, BaseRequestHeaders baseRequestHeaders)
         {
             BaseGetDetailsResponse<OperationInfoDetails> response = new();
@@ -80,7 +80,6 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidOperation = _operationsValid.ValidGetAll(inputModel);
                 if (isValidOperation.Status != EnumStatus.success)
                     response = response.CreateResponseError(isValidOperation, operationsInfoData);
@@ -89,7 +88,6 @@ namespace Api.Controllers.ClinicModules.Operations
                     var operation = await _operationsServices.GetAllAsync(inputModel);
                     response = response.CreateResponseSuccessOrNoContent(operation, operationsInfoData);
                 }
-
             }
             catch (Exception ex)
             {
@@ -112,7 +110,6 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, false);
                 if (isValidOperation.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidOperation, operationInfoData);
@@ -121,7 +118,6 @@ namespace Api.Controllers.ClinicModules.Operations
                     var operationData = await _operationsServices.AddOrUpdate(inputModel, false);
                     response = response.CreateResponse(operationData, operationInfoData);
                 }
-
             }
             catch (Exception ex)
             {
@@ -144,7 +140,6 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, true);
                 if (isValidOperation.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidOperation, operationInfoData);
@@ -153,7 +148,6 @@ namespace Api.Controllers.ClinicModules.Operations
                     var operationData = await _operationsServices.AddOrUpdate(inputModel, true);
                     response = response.CreateResponse(operationData, operationInfoData);
                 }
-
             }
             catch (Exception ex)
             {
@@ -175,7 +169,6 @@ namespace Api.Controllers.ClinicModules.Operations
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidOperation = _operationsValid.ValidDelete(inputModel);
                 if (isValidOperation.Status != EnumStatus.success)
                 {

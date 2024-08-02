@@ -1,11 +1,9 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -20,11 +18,13 @@ namespace Api.Controllers.ClinicModules.MedicalHistories
 
         //services
         private readonly ILogger<MedicalHistoriesController> _logger;
+
         private readonly IMedicalHistoriesValid _medicalHistoriesValid;
         private readonly IMedicalHistoriesServices _medicalHistoriesServices;
 
         //paramters
         private readonly string medicalHistoryInfoData = "medicalHistoryInfoData";
+
         private readonly string medicalHistoriesInfoData = "medicalHistoriesInfoData";
         private readonly string medicalHistoryInfoDetails = "medicalHistoryInfoDetails";
 

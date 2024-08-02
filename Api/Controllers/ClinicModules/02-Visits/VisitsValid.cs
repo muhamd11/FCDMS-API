@@ -81,14 +81,13 @@ namespace Api.Controllers.SystemBase.Visits
 
                 #endregion visitId?
 
-
                 #region userPatientToken *
 
                 var isValidUser = _usersValid.IsValidUserToken(inputModel.userPatientToken);
                 if (isValidUser.Status != EnumStatus.success)
                     return isValidUser;
 
-                #endregion
+                #endregion userPatientToken *
 
                 #region fullCode ?
 
@@ -96,7 +95,7 @@ namespace Api.Controllers.SystemBase.Visits
                 if (isValidFullcode.Status != EnumStatus.success)
                     return isValidFullcode;
 
-                #endregion
+                #endregion fullCode ?
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }

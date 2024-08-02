@@ -1,7 +1,6 @@
 ﻿using Api.Controllers.SystemBase.LogActions.Interfaces;
 using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel;

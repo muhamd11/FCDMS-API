@@ -109,7 +109,6 @@ namespace Api.Controllers.ClinicModules.Users
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidUser = _usersValid.ValidAddOrUpdate(inputModel, false);
                 if (isValidUser.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidUser, userInfoData);
@@ -140,7 +139,6 @@ namespace Api.Controllers.ClinicModules.Users
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidUser = _usersValid.ValidAddOrUpdate(inputModel, true);
                 if (isValidUser.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidUser, userInfoData);
@@ -149,7 +147,6 @@ namespace Api.Controllers.ClinicModules.Users
                     var userData = await _usersServices.AddOrUpdate(inputModel, true);
                     response = response.CreateResponse(userData, userInfoData);
                 }
-
             }
             catch (Exception ex)
             {

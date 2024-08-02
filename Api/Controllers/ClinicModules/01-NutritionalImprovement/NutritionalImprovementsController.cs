@@ -1,11 +1,9 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.ViewModel;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -52,7 +50,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidNutritionalImprovement = _nutritionalImprovementsValid.ValidGetDetails(inputModel);
                 if (isValidNutritionalImprovement.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidNutritionalImprovement, nutritionalImprovementInfoDetails);
@@ -82,7 +79,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidNutritionalImprovement = _nutritionalImprovementsValid.ValidGetAll(inputModel);
                 if (isValidNutritionalImprovement.Status != EnumStatus.success)
                     response = response.CreateResponseError(isValidNutritionalImprovement, nutritionalImprovementsInfoData);
@@ -113,7 +109,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidNutritionalImprovement = _nutritionalImprovementsValid.ValidAddOrUpdate(inputModel, false);
                 if (isValidNutritionalImprovement.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidNutritionalImprovement, nutritionalImprovementInfoData);
@@ -144,7 +139,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var watch = Stopwatch.StartNew();
             try
             {
-
                 var isValidNutritionalImprovement = _nutritionalImprovementsValid.ValidAddOrUpdate(inputModel, true);
                 if (isValidNutritionalImprovement.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidNutritionalImprovement, nutritionalImprovementInfoData);

@@ -29,10 +29,8 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
             #endregion ClinicModules
 
-
             return systemRoleFuncations;
         }
-
 
         #region ClinicModules
 
@@ -45,6 +43,5 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleMedicalHistory() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(MedicalHistory));
 
         #endregion ClinicModules
-
     }
 }

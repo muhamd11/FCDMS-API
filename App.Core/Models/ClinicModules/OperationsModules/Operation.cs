@@ -20,7 +20,6 @@ namespace App.Core.Models.ClinicModules.OperationsModules
         public string operationName { get; set; }
         public DateTimeOffset operationDate { get; set; }
 
-
         [ForeignKey(nameof(userPatientData))]
         public Guid userPatientToken { get; set; }
 

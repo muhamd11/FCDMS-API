@@ -21,7 +21,6 @@ namespace App.Core.Models.ClinicModules.MedicalHistoriesModules
 
         public BaseMeasurement? patientThyroidSensitivityMeasurement { get; set; }
 
-
         [ForeignKey(nameof(userPatientData))]
         public Guid userPatientToken { get; set; }
 

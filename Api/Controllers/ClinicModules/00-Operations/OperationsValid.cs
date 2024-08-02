@@ -88,7 +88,7 @@ namespace Api.Controllers.SystemBase.Operations
                 if (isValidUser.Status != EnumStatus.success)
                     return isValidUser;
 
-                #endregion
+                #endregion userPatientToken *
 
                 #region fullCode *
 
@@ -96,7 +96,9 @@ namespace Api.Controllers.SystemBase.Operations
                 if (isValidFullCode.Status != EnumStatus.success)
                     return isValidFullCode;
 
-                #endregion 
+                #endregion fullCode *
+
+
 
                 #region operationName *
 

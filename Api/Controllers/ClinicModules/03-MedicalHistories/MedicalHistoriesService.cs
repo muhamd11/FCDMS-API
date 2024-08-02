@@ -90,7 +90,6 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
         private static void AddPatientMeasurement(MedicalHistory medicalHistory)
         {
-
             medicalHistory.patientSugarMeasurement = medicalHistory.patientSugarMeasurement.isMeasured ? medicalHistory.patientSugarMeasurement : null;
 
             medicalHistory.patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement.isMeasured ? medicalHistory.patientBloodPressureMeasurement : null;

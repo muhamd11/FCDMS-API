@@ -87,7 +87,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 if (isValidUser.Status != EnumStatus.success)
                     return isValidUser;
 
-                #endregion
+                #endregion userPatientToken *
 
                 #region fullCode ?
 
@@ -95,7 +95,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 if (isValidFullcode.Status != EnumStatus.success)
                     return isValidFullcode;
 
-                #endregion
+                #endregion fullCode ?
 
                 // TODO: Add validations for NutritionalImprovement
 
