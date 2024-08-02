@@ -4,6 +4,7 @@ using App.Core;
 using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Json;
+using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.Users;
@@ -59,12 +60,25 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             var user = _mapper.Map<User>(inputModel);
             user.userType = EnumUserType.Patient;
             user.userPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
+            ClearInvalidUserFields(user);
 
             user = await _unitOfWork.Users.AddAsync(user);
 
             await _unitOfWork.CommitAsync();
 
             return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(user);
+        }
+
+        private static void ClearInvalidUserFields(User userOnly)
+        {
+            if (!ValidationClass.IsValidString(userOnly.userEmail))
+                userOnly.userEmail = null;
+            if (!ValidationClass.IsValidString(userOnly.userLoginName))
+                userOnly.userLoginName = null;
+            if (!ValidationClass.IsValidString(userOnly.userPhone))
+                userOnly.userPhone = null;
+            if (!ValidationClass.IsValidString(userOnly.fullCode))
+                userOnly.fullCode = null;
         }
 
         private string GenerateUserAuthorizeToken(User user)

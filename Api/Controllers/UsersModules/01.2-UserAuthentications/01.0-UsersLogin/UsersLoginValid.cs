@@ -32,7 +32,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
 
                 #endregion userLoginText *
 
-                //TODO: Add Password Validation
 
                 #region userPasswordText *
 
