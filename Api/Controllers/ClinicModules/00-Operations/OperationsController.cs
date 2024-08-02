@@ -4,7 +4,6 @@ using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
-using App.Core.Models.GeneralModels.BaseRequestHeaderModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -45,7 +44,7 @@ namespace Api.Controllers.ClinicModules.Operations
         #region Methods
 
         [HttpGet("GetOperationDetails")]
-        public async Task<IActionResult> GetOperationDetails([FromQuery] OperationGetDetailsDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> GetOperationDetails([FromQuery] OperationGetDetailsDTO inputModel)
         {
             BaseGetDetailsResponse<OperationInfoDetails> response = new();
             var watch = Stopwatch.StartNew();
@@ -74,7 +73,7 @@ namespace Api.Controllers.ClinicModules.Operations
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll([FromQuery] OperationSearchDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> GetAll([FromQuery] OperationSearchDTO inputModel)
         {
             BaseGetAllResponse<OperationInfo> response = new();
             var watch = Stopwatch.StartNew();
@@ -103,7 +102,7 @@ namespace Api.Controllers.ClinicModules.Operations
         }
 
         [HttpPost("AddOperation")]
-        public async Task<IActionResult> AddOperation([FromBody] OperationAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> AddOperation([FromBody] OperationAddOrUpdateDTO inputModel)
         {
             string operationInfoData = "operationInfoData";
             BaseActionResponse<OperationInfo> response = new();
@@ -133,7 +132,7 @@ namespace Api.Controllers.ClinicModules.Operations
         }
 
         [HttpPost("UpdateOperation")]
-        public async Task<IActionResult> UpdateOperation([FromBody] OperationAddOrUpdateDTO inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> UpdateOperation([FromBody] OperationAddOrUpdateDTO inputModel)
         {
             string operationInfoData = "operationInfoData";
             BaseActionResponse<OperationInfo> response = new();
@@ -163,7 +162,7 @@ namespace Api.Controllers.ClinicModules.Operations
         }
 
         [HttpPost("DeleteOperation")]
-        public async Task<IActionResult> DeleteOperation([FromQuery] BaseDeleteDto inputModel, BaseRequestHeaders baseRequestHeaders)
+        public async Task<IActionResult> DeleteOperation([FromQuery] BaseDeleteDto inputModel)
         {
             BaseActionResponse<OperationInfo> response = new();
             var watch = Stopwatch.StartNew();

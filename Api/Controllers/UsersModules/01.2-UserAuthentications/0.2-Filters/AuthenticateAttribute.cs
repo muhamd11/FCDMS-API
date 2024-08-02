@@ -17,7 +17,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 
         private AuthenticationRespone response = new();
 
-        public IUnitOfWork _unitOfWork { get; set; }
+        private readonly IUnitOfWork _unitOfWork;
 
         public bool IsReusable => false;
 
