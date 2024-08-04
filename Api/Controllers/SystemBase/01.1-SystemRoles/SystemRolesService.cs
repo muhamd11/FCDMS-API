@@ -55,7 +55,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             }
 
             if (inputModel.systemRoleUserType.HasValue)
-                criteria.Add(x => x.systemRoleUserType == inputModel.systemRoleUserType.Value);
+                criteria.Add(x => x.systemRoleUserToken == inputModel.systemRoleUserType.Value);
 
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.systemRoleToken == inputModel.elementToken);

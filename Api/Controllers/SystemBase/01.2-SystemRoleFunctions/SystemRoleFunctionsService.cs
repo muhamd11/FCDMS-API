@@ -98,9 +98,9 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             List<SystemRoleFunction> trueSystemRoleFunction = new List<SystemRoleFunction>();
 
             // Determine the user type and fetch the corresponding functions
-            if (systemRole.systemRoleUserType == EnumUserType.Doctor)
+            if (systemRole.systemRoleUserToken == EnumUserType.Doctor)
                 trueSystemRoleFunction = _systemRoleFunctionsMangerService.GetSystemRoleFunctions();
-            else if (systemRole.systemRoleUserType == EnumUserType.Patient)
+            else if (systemRole.systemRoleUserToken == EnumUserType.Patient)
                 trueSystemRoleFunction = _systemRoleFunctionsClientService.GetSystemRoleFunctions();
 
             // Migrate input functions and trueSystemRoleFincation, updating privileges

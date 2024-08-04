@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\AdditionalModules\**" />
+    <EmbeddedResource Remove="Models\AdditionalModules\**" />
+    <None Remove="Models\AdditionalModules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="libphonenumber-csharp" Version="8.13.42" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.7" />
@@ -108,10 +114,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>UsersMessagesAr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\AdditionalModules\" />
   </ItemGroup>
 
 </Project>

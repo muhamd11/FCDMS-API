@@ -203,7 +203,7 @@ namespace Api.Controllers.UsersModule.Users
                 return user;
             else
             {
-                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserType == user.userTypeToken && x.systemRoleCanUseDefault == true);
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
                 user.systemRoleToken = systemRole.systemRoleToken;
                 return user;
             }
