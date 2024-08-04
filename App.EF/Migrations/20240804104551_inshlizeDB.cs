@@ -3,17 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace App.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class inshlizeDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "AdditionalModules");
-
             migrationBuilder.EnsureSchema(
                 name: "SystemBase");
 
@@ -22,19 +21,6 @@ namespace App.EF.Migrations
 
             migrationBuilder.EnsureSchema(
                 name: "Users");
-
-            migrationBuilder.CreateTable(
-                name: "FullCodeSequences",
-                schema: "AdditionalModules",
-                columns: table => new
-                {
-                    fullCodeSequenceToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    nextValue = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FullCodeSequences", x => x.fullCodeSequenceToken);
-                });
 
             migrationBuilder.CreateTable(
                 name: "SystemRoleFunctions",
@@ -172,9 +158,9 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     nutritionalImprovementToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    patientHeightInCm = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    patientWeightInKg = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    patientBmr = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    patientHeightInCm = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
+                    patientWeightInKg = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
+                    patientBmr = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
@@ -322,10 +308,10 @@ namespace App.EF.Migrations
                     numberOfChildren = table.Column<int>(type: "int", nullable: false),
                     medications = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     generalNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    fetalInformations_fetalHeartBeatPerMinute = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    fetalInformations_fetalAgeInWeeks = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    fetalInformations_fetalAgeInMonths = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    fetalInformations_fetalHeartBeatPerMinute = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
+                    fetalInformations_fetalAgeInWeeks = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
+                    fetalInformations_fetalAgeInMonths = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
+                    fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
@@ -342,6 +328,18 @@ namespace App.EF.Migrations
                         principalTable: "Users",
                         principalColumn: "userToken",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                schema: "SystemBase",
+                table: "SystemRoles",
+                columns: new[] { "systemRoleToken", "createdDate", "fullCode", "isDeleted", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "systemRoleUserType", "updatedDate" },
+                values: new object[,]
+                {
+                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", 3, null },
+                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", 4, null },
+                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", 1, null },
+                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", 2, null }
                 });
 
             migrationBuilder.CreateIndex(
@@ -503,10 +501,6 @@ namespace App.EF.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "FullCodeSequences",
-                schema: "AdditionalModules");
-
             migrationBuilder.DropTable(
                 name: "LogActions",
                 schema: "SystemBase");

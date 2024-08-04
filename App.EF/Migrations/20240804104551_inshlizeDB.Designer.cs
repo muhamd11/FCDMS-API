@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240803160318_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20240804104551_inshlizeDB")]
+    partial class inshlizeDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,20 +24,6 @@ namespace App.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("App.Core.Models.AdditionalModules.FullCodeSequence.FullCodeSequence", b =>
-                {
-                    b.Property<Guid>("fullCodeSequenceToken")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("nextValue")
-                        .HasColumnType("int");
-
-                    b.HasKey("fullCodeSequenceToken");
-
-                    b.ToTable("FullCodeSequences", "AdditionalModules");
-                });
 
             modelBuilder.Entity("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory", b =>
                 {
@@ -87,13 +73,16 @@ namespace App.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal>("patientBmr")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(30, 18)
+                        .HasColumnType("decimal(30,18)");
 
                     b.Property<decimal>("patientHeightInCm")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(30, 18)
+                        .HasColumnType("decimal(30,18)");
 
                     b.Property<decimal>("patientWeightInKg")
-                        .HasColumnType("decimal(18,2)");
+                        .HasPrecision(30, 18)
+                        .HasColumnType("decimal(30,18)");
 
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
@@ -278,6 +267,48 @@ namespace App.EF.Migrations
                     b.HasKey("systemRoleToken");
 
                     b.ToTable("SystemRoles", "SystemBase");
+
+                    b.HasData(
+                        new
+                        {
+                            systemRoleToken = new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"),
+                            createdDate = new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
+                            fullCode = "1",
+                            systemRoleCanUseDefault = true,
+                            systemRoleDescription = "مضافة من قبل النظام",
+                            systemRoleName = "صلاحيات مطور اساسية",
+                            systemRoleUserType = 1
+                        },
+                        new
+                        {
+                            systemRoleToken = new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"),
+                            createdDate = new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
+                            fullCode = "2",
+                            systemRoleCanUseDefault = true,
+                            systemRoleDescription = "مضافة من قبل النظام",
+                            systemRoleName = "صلاحيات دكتور اساسية",
+                            systemRoleUserType = 2
+                        },
+                        new
+                        {
+                            systemRoleToken = new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"),
+                            createdDate = new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
+                            fullCode = "3",
+                            systemRoleCanUseDefault = true,
+                            systemRoleDescription = "مضافة من قبل النظام",
+                            systemRoleName = "صلاحيات موظف اساسية",
+                            systemRoleUserType = 3
+                        },
+                        new
+                        {
+                            systemRoleToken = new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"),
+                            createdDate = new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
+                            fullCode = "4",
+                            systemRoleCanUseDefault = true,
+                            systemRoleDescription = "مضافة من قبل النظام",
+                            systemRoleName = "صلاحيات مريض اساسية",
+                            systemRoleUserType = 4
+                        });
                 });
 
             modelBuilder.Entity("App.Core.Models.SystemBase._01._2_SystemRoleFunctions.SystemRoleFunction", b =>
@@ -627,16 +658,20 @@ namespace App.EF.Migrations
                                 .HasColumnType("uniqueidentifier");
 
                             b1.Property<decimal>("fetalAgeInMonths")
-                                .HasColumnType("decimal(18,2)");
+                                .HasPrecision(30, 18)
+                                .HasColumnType("decimal(30,18)");
 
                             b1.Property<decimal>("fetalAgeInWeeks")
-                                .HasColumnType("decimal(18,2)");
+                                .HasPrecision(30, 18)
+                                .HasColumnType("decimal(30,18)");
 
                             b1.Property<decimal>("fetalHeartBeatPerMinute")
-                                .HasColumnType("decimal(18,2)");
+                                .HasPrecision(30, 18)
+                                .HasColumnType("decimal(30,18)");
 
                             b1.Property<decimal>("fetalWeightInKg")
-                                .HasColumnType("decimal(18,2)");
+                                .HasPrecision(30, 18)
+                                .HasColumnType("decimal(30,18)");
 
                             b1.HasKey("visitToken");
 

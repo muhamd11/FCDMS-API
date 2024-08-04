@@ -10,6 +10,5 @@
         public long prevPage { get; set; }
         public long nextPage { get; set; }
         public long lastPage { get; set; }
-        public long pageSize { get; set; }
     }
 }

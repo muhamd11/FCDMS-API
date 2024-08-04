@@ -51,8 +51,10 @@ namespace App.EF.Repositories
 
             query = query.Skip((int)skip).Take((int)paginationRequest.pageSize);
 
+            //Set Count in | Page
+            
             var fullData = await query.Select(selection).ToListAsync();
-
+            result.countItemsInPage = fullData.Count;
             return new BaseGetDataWithPagnation<TResult>()
             {
                 Data = fullData,

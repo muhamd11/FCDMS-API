@@ -1,7 +1,5 @@
-﻿using App.Core.Helper;
-using App.Core.Helper.Json;
+﻿using App.Core.Helper.Json;
 using App.Core.Helper.Validations;
-using App.Core.Models.AdditionalModules.FullCodeSequence;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
@@ -15,6 +13,8 @@ using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
+using App.EF.Configurations;
+using App.EF.Configurations.Converter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -29,7 +29,6 @@ namespace App.EF
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly string _userAuthorizeToken = "userAuthorizeToken";
 
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _logger = logger;
@@ -42,7 +41,18 @@ namespace App.EF
         {
             base.OnModelCreating(modelBuilder);
 
+            //SeedData
+            new DataSeeding().Configure(modelBuilder);
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+        }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<decimal>().HavePrecision(30, 18);
+
+            // Date is a DateOnly property and date on database
+            configurationBuilder.Properties<decimal>().HaveConversion<DecimalConverter, DecimalComparer>();
         }
 
         #region override SaveChanges
@@ -169,12 +179,6 @@ namespace App.EF
         #endregion override Configurations
 
         #region DB Tables
-
-        #region AdditionalModule
-
-        public DbSet<FullCodeSequence> FullCodeSequences { get; set; }
-
-        #endregion AdditionalModule
 
         #region SystemBase
 

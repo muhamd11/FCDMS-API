@@ -86,5 +86,19 @@ namespace App.Core.Helper.Validations
         {
             return Enum.IsDefined(typeof(TEnum), value);
         }
+
+        #region Validation IsNumber
+
+        private const string NUMBER_PATTERN = @"^-?[0-9]\d*(\.\d+)?$";
+
+        public static bool IsValidNumber(string number)
+        {
+            if (number != null && number != string.Empty)
+                return Regex.IsMatch(number, NUMBER_PATTERN) && number.Trim().Length > 0;
+            else
+                return false;
+        }
+
+        #endregion Validation IsNumber
     }
 }

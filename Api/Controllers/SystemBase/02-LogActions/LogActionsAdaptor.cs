@@ -1,10 +1,8 @@
-﻿using Api.Controllers.SystemBase.BaseEntitys;
-using Api.Controllers.UsersModule.Users;
+﻿using Api.Controllers.UsersModule.Users;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.LogActions.ViewModel;
 
 using System.Linq.Expressions;
-using System.Text.Json;
 
 namespace Api.Controllers.SystemBase.LogActions
 {

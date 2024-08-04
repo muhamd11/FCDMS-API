@@ -1,11 +1,27 @@
 using App.Core;
 using App.Core.Interfaces.General.Scrutor;
 using App.EF;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Text.Json;
+using Microsoft.Extensions.DependencyInjection;
+using API;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers();
+
+// This method gets called by the runtime. Use this method to add services to the container.
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+{
+    //To Remove Null
+    options.SerializerSettings.ContractResolver = new NullToEmptyStringResolver();
+    //To Retun Big Jason
+    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+    //TrimmingString
+    options.SerializerSettings.Converters.Add(new TrimmingStringConverter());
+});
 
 // Configure Serilog
 Log.Logger = new LoggerConfiguration()
@@ -44,15 +60,9 @@ builder.Services.Scan(s => s.FromAssemblies(assembly)
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
-{
-    options.SuppressModelStateInvalidFilter = true; // Disable automatic model state validation
-}).AddJsonOptions(options =>
-         {
-             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-             options.JsonSerializerOptions.IgnoreNullValues = true;
-             options.JsonSerializerOptions.WriteIndented = true; // For pretty printing
-         });
+
+// to not Valid
+builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -63,11 +73,11 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 
 //TODO: Disable in production
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 
