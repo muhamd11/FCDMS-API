@@ -1,13 +1,17 @@
-﻿using App.Core.Models.Users;
+﻿
+using App.Core.Models.Users;
+using System.Text.Json.Serialization;
 
-namespace App.Core.Models.UsersModule.LogActionsModel.ViewModel
+namespace App.Core.Models.SystemBase.LogActions.ViewModel
 {
     public class LogActionInfo
     {
         public Guid logActionToken { get; set; }
-        public UserInfo logUser { get; set; }
-        public string ModelName { get; set; }
-        public DateTime ActionDate { get; set; } = DateTime.UtcNow;
+        public string modelName { get; set; }
+        public DateTimeOffset actionDate { get; set; }
         public string actionType { get; set; }
+        public UserInfo userInfoData { get; set; }
+        public string oldActionData { get; set; }
+        public string newActionData { get; set; }
     }
 }

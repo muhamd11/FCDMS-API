@@ -40,6 +40,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GeneralMessagesAr.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\SystemBase\LogActions\LogActionsMessagesAr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LogActionsMessagesAr.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\SystemBase\SystemRoles\SystemRolesMessagesAr.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -82,6 +87,10 @@
     <EmbeddedResource Update="Resources\General\GeneralMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralMessagesAR.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SystemBase\LogActions\LogActionsMessagesAr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>LogActionsMessagesAr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\SystemBase\SystemRoles\SystemRolesMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

@@ -4,13 +4,13 @@ using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
+using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
-using App.Core.Models.UsersModule.LogActionsModel;
 
 namespace App.Core
 

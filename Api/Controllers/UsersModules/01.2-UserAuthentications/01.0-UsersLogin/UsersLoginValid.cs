@@ -32,7 +32,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
 
                 #endregion userLoginText *
 
-
                 #region userPasswordText *
 
                 if (!ValidationClass.IsValidString(inputModel.userPassword))

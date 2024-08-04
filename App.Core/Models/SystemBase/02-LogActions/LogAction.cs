@@ -1,8 +1,9 @@
 ﻿using App.Core.Consts.SystemBase;
+using App.Core.Models.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace App.Core.Models.UsersModule.LogActionsModel
+namespace App.Core.Models.SystemBase.LogActions
 
 {
     [Table($"{nameof(LogAction)}s", Schema = nameof(EnumDatabaseSchema.SystemBase))]
@@ -11,11 +12,14 @@ namespace App.Core.Models.UsersModule.LogActionsModel
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid logActionToken { get; set; }
 
-        public Guid userToken { get; set; } // Changed to string to store user identifier
+        [ForeignKey(nameof(userData))]
+        public Guid? userToken { get; set; } 
+        public User? userData { get; set; }
+
         public string modelName { get; set; }
-        public DateTimeOffset actionDate { get; set; } = DateTime.UtcNow;
+        public DateTimeOffset actionDate { get; set; }
         public string actionType { get; set; }
-        public string? oldData { get; set; }
-        public string? newData { get; set; }
+        public string? oldActionData { get; set; }
+        public string? newActionData { get; set; }
     }
 }

@@ -7,5 +7,6 @@
         ClinicManagement,
         Places,
         Core,
+        AdditionalModules
     }
 }

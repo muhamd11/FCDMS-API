@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240801110935_InitialMigration")]
+    [Migration("20240803160318_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -24,6 +24,20 @@ namespace App.EF.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("App.Core.Models.AdditionalModules.FullCodeSequence.FullCodeSequence", b =>
+                {
+                    b.Property<Guid>("fullCodeSequenceToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("nextValue")
+                        .HasColumnType("int");
+
+                    b.HasKey("fullCodeSequenceToken");
+
+                    b.ToTable("FullCodeSequences", "AdditionalModules");
+                });
 
             modelBuilder.Entity("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory", b =>
                 {
@@ -196,6 +210,39 @@ namespace App.EF.Migrations
                     b.ToTable("Visits", "ClinicManagement");
                 });
 
+            modelBuilder.Entity("App.Core.Models.SystemBase.LogActions.LogAction", b =>
+                {
+                    b.Property<Guid>("logActionToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("actionDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("actionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("modelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("newActionData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("oldActionData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("logActionToken");
+
+                    b.HasIndex("userToken");
+
+                    b.ToTable("LogActions", "SystemBase");
+                });
+
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
                 {
                     b.Property<Guid>("systemRoleToken")
@@ -239,12 +286,21 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTimeOffset>("createdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("fullCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("functionId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("functionsType")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("isHavePrivilege")
                         .HasColumnType("bit");
@@ -255,6 +311,9 @@ namespace App.EF.Migrations
 
                     b.Property<Guid>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("updatedDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("systemRoleFunctionToken");
 
@@ -276,7 +335,7 @@ namespace App.EF.Migrations
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<Guid>("systemRoleToken")
+                    b.Property<Guid?>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("updatedDate")
@@ -334,37 +393,6 @@ namespace App.EF.Migrations
                     b.HasIndex("userType");
 
                     b.ToTable("Users", "Users");
-                });
-
-            modelBuilder.Entity("App.Core.Models.UsersModule.LogActionsModel.LogAction", b =>
-                {
-                    b.Property<Guid>("logActionToken")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("actionDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("actionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("modelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("newData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("oldData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("userToken")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("logActionToken");
-
-                    b.ToTable("LogActions", "SystemBase");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", b =>
@@ -483,7 +511,7 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany("medicalHistoryData")
+                        .WithMany()
                         .HasForeignKey("userPatientToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -566,7 +594,7 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.NutritionalImprovementsModules.NutritionalImprovement", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany("nutritionalImprovementData")
+                        .WithMany()
                         .HasForeignKey("userPatientToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -577,7 +605,7 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.OperationsModules.Operation", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany("operationData")
+                        .WithMany()
                         .HasForeignKey("userPatientToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -588,7 +616,7 @@ namespace App.EF.Migrations
             modelBuilder.Entity("App.Core.Models.ClinicModules.VisitsModules.Visit", b =>
                 {
                     b.HasOne("App.Core.Models.Users.User", "userPatientData")
-                        .WithMany("visitData")
+                        .WithMany()
                         .HasForeignKey("userPatientToken")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -624,13 +652,20 @@ namespace App.EF.Migrations
                     b.Navigation("userPatientData");
                 });
 
+            modelBuilder.Entity("App.Core.Models.SystemBase.LogActions.LogAction", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithMany()
+                        .HasForeignKey("userToken");
+
+                    b.Navigation("userData");
+                });
+
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
                     b.HasOne("App.Core.Models.SystemBase.Roles.SystemRole", "roleData")
                         .WithMany("usersData")
-                        .HasForeignKey("systemRoleToken")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("systemRoleToken");
 
                     b.Navigation("roleData");
                 });
@@ -680,12 +715,6 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>
                 {
-                    b.Navigation("medicalHistoryData");
-
-                    b.Navigation("nutritionalImprovementData");
-
-                    b.Navigation("operationData");
-
                     b.Navigation("userDoctorData");
 
                     b.Navigation("userEmployeeData");
@@ -693,8 +722,6 @@ namespace App.EF.Migrations
                     b.Navigation("userPatientData");
 
                     b.Navigation("userProfileData");
-
-                    b.Navigation("visitData");
                 });
 #pragma warning restore 612, 618
         }

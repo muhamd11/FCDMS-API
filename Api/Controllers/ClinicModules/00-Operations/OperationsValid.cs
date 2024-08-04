@@ -98,8 +98,6 @@ namespace Api.Controllers.SystemBase.Operations
 
                 #endregion fullCode *
 
-
-
                 #region operationName *
 
                 if (!ValidationClass.IsValidString(inputModel.operationName))

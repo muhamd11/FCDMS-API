@@ -33,14 +33,7 @@ namespace App.EF.Migrations
 
                     b.HasKey("fullCodeSequenceToken");
 
-                    b.ToTable("FullCodeSequences");
-
-                    b.HasData(
-                        new
-                        {
-                            fullCodeSequenceToken = new Guid("179bb587-4911-41f7-b206-84d9725cc920"),
-                            nextValue = 99
-                        });
+                    b.ToTable("FullCodeSequences", "AdditionalModules");
                 });
 
             modelBuilder.Entity("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory", b =>
@@ -214,6 +207,39 @@ namespace App.EF.Migrations
                     b.ToTable("Visits", "ClinicManagement");
                 });
 
+            modelBuilder.Entity("App.Core.Models.SystemBase.LogActions.LogAction", b =>
+                {
+                    b.Property<Guid>("logActionToken")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("actionDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("actionType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("modelName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("newActionData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("oldActionData")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("userToken")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("logActionToken");
+
+                    b.HasIndex("userToken");
+
+                    b.ToTable("LogActions", "SystemBase");
+                });
+
             modelBuilder.Entity("App.Core.Models.SystemBase.Roles.SystemRole", b =>
                 {
                     b.Property<Guid>("systemRoleToken")
@@ -364,37 +390,6 @@ namespace App.EF.Migrations
                     b.HasIndex("userType");
 
                     b.ToTable("Users", "Users");
-                });
-
-            modelBuilder.Entity("App.Core.Models.UsersModule.LogActionsModel.LogAction", b =>
-                {
-                    b.Property<Guid>("logActionToken")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("actionDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("actionType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("modelName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("newData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("oldData")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("userToken")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("logActionToken");
-
-                    b.ToTable("LogActions", "SystemBase");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.UserEmployee", b =>
@@ -652,6 +647,15 @@ namespace App.EF.Migrations
                         .IsRequired();
 
                     b.Navigation("userPatientData");
+                });
+
+            modelBuilder.Entity("App.Core.Models.SystemBase.LogActions.LogAction", b =>
+                {
+                    b.HasOne("App.Core.Models.Users.User", "userData")
+                        .WithMany()
+                        .HasForeignKey("userToken");
+
+                    b.Navigation("userData");
                 });
 
             modelBuilder.Entity("App.Core.Models.Users.User", b =>

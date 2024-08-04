@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -11,6 +12,9 @@ namespace App.EF.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
+                name: "AdditionalModules");
+
+            migrationBuilder.EnsureSchema(
                 name: "SystemBase");
 
             migrationBuilder.EnsureSchema(
@@ -20,21 +24,16 @@ namespace App.EF.Migrations
                 name: "Users");
 
             migrationBuilder.CreateTable(
-                name: "LogActions",
-                schema: "SystemBase",
+                name: "FullCodeSequences",
+                schema: "AdditionalModules",
                 columns: table => new
                 {
-                    logActionToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    modelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    actionDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    actionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    oldData = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    newData = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    fullCodeSequenceToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    nextValue = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogActions", x => x.logActionToken);
+                    table.PrimaryKey("PK_FullCodeSequences", x => x.fullCodeSequenceToken);
                 });
 
             migrationBuilder.CreateTable(
@@ -47,7 +46,11 @@ namespace App.EF.Migrations
                     functionsType = table.Column<int>(type: "int", nullable: false),
                     moduleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     functionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    isHavePrivilege = table.Column<bool>(type: "bit", nullable: false)
+                    isHavePrivilege = table.Column<bool>(type: "bit", nullable: false),
+                    fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    isDeleted = table.Column<bool>(type: "bit", nullable: true),
+                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,7 +92,7 @@ namespace App.EF.Migrations
                     userLoginName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     userType = table.Column<int>(type: "int", nullable: false),
-                    systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -103,8 +106,31 @@ namespace App.EF.Migrations
                         column: x => x.systemRoleToken,
                         principalSchema: "SystemBase",
                         principalTable: "SystemRoles",
-                        principalColumn: "systemRoleToken",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "systemRoleToken");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LogActions",
+                schema: "SystemBase",
+                columns: table => new
+                {
+                    logActionToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    modelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    actionDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    actionType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    oldActionData = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    newActionData = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LogActions", x => x.logActionToken);
+                    table.ForeignKey(
+                        name: "FK_LogActions_Users_userToken",
+                        column: x => x.userToken,
+                        principalSchema: "Users",
+                        principalTable: "Users",
+                        principalColumn: "userToken");
                 });
 
             migrationBuilder.CreateTable(
@@ -319,6 +345,12 @@ namespace App.EF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_LogActions_userToken",
+                schema: "SystemBase",
+                table: "LogActions",
+                column: "userToken");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MedicalHistories_fullCode",
                 schema: "ClinicManagement",
                 table: "MedicalHistories",
@@ -471,6 +503,10 @@ namespace App.EF.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "FullCodeSequences",
+                schema: "AdditionalModules");
+
             migrationBuilder.DropTable(
                 name: "LogActions",
                 schema: "SystemBase");

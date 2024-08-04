@@ -1,7 +1,7 @@
-﻿using App.Core.Models.SystemBase.Roles;
+﻿using App.Core.Models.SystemBase.LogActions;
+using App.Core.Models.SystemBase.LogActions.DTO;
+using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.SystemBase.Roles.DTO;
-using App.Core.Models.UsersModule.LogActionsModel;
-using App.Core.Models.UsersModule.LogActionsModel.DTO;
 using AutoMapper;
 
 namespace Api.MappingProfiles.Authorizations
@@ -11,7 +11,7 @@ namespace Api.MappingProfiles.Authorizations
         public SystemBaseProfile()
         {
             CreateMap<SystemRole, SystemRoleAddOrUpdateDTO>().ReverseMap();
-            CreateMap<LogAction, LogActionAddOrUpdateDTO>().ReverseMap();
+            //CreateMap<LogAction, LogActionAddOrUpdateDTO>().ReverseMap();
         }
     }
 }

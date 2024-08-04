@@ -21,11 +21,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
 
         public bool IsReusable => false;
 
-        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
-        {
-            var unitOfWork = serviceProvider.GetService<IUnitOfWork>();
-            return new AuthenticateAttribute(unitOfWork);
-        }
 
         public AuthenticateAttribute()
         {
@@ -34,6 +29,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
         public AuthenticateAttribute(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+        public IFilterMetadata CreateInstance(IServiceProvider serviceProvider)
+        {
+            var unitOfWork = serviceProvider.GetService<IUnitOfWork>();
+            return new AuthenticateAttribute(unitOfWork);
         }
 
         public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -49,6 +49,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters
                 context.Result = new OkObjectResult(response);
                 return;
             };
+
+
 
             var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken);
 

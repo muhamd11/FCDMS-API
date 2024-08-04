@@ -3,6 +3,7 @@ using App.Core.Interfaces.General.Scrutor;
 using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,10 +42,17 @@ builder.Services.Scan(s => s.FromAssemblies(assembly)
 .AsImplementedInterfaces()
 .WithScopedLifetime());
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 {
     options.SuppressModelStateInvalidFilter = true; // Disable automatic model state validation
-});
+}).AddJsonOptions(options =>
+         {
+             options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+             options.JsonSerializerOptions.IgnoreNullValues = true;
+             options.JsonSerializerOptions.WriteIndented = true; // For pretty printing
+         });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,6 @@
-﻿using App.Core.Helper.Validations;
+﻿using App.Core.Helper;
+using App.Core.Helper.Json;
+using App.Core.Helper.Validations;
 using App.Core.Models.AdditionalModules.FullCodeSequence;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
@@ -6,27 +8,32 @@ using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.BaseClass;
+using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
-using App.Core.Models.UsersModule.LogActionsModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace App.EF
 {
     public class ApplicationDbContext : DbContext
     {
         private readonly ILogger<ApplicationDbContext> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly string _userAuthorizeToken = "userAuthorizeToken";
 
 
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger) : base(options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         #region override Configurations
@@ -36,36 +43,23 @@ namespace App.EF
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
-
-            // Seed initial data
-            modelBuilder.Entity<FullCodeSequence>().HasData(
-                new FullCodeSequence
-                {
-                    fullCodeSequenceToken = Guid.NewGuid(),
-                    nextValue = 99 // Set initial value here
-                }
-            );
-
         }
 
         #region override SaveChanges
 
-
-
-
-
         public override int SaveChanges()
         {
             GenerateCodes();
+            //LogChanges();
             return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             GenerateCodes();
+            //LogChanges();
             return await base.SaveChangesAsync(cancellationToken);
         }
-
 
         private void GenerateCodes()
         {
@@ -82,100 +76,93 @@ namespace App.EF
 
         private string GenerateUniqueFullCode()
         {
-            try
-            {
-                var sequence = FullCodeSequences.AsQueryable().First();
-                int nextValue = sequence.nextValue;
-                sequence.nextValue += 1;
-                FullCodeSequences.Update(sequence);
-                return nextValue.ToString();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, ex.Message);
-                throw; // Re-throw the exception after logging
-            }
+            return "fullname";
         }
 
+        private Guid GetUserToken()
+        {
+            if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue(_userAuthorizeToken, out var userAuthorizeToken) || string.IsNullOrEmpty(userAuthorizeToken))
+                return Guid.Empty;
 
+            var userToken = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken).userToken;
 
+            if (userToken == Guid.Empty)
+                return Guid.Empty;
 
-        //public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        //{
-        //    LogChanges();
-        //    return await base.SaveChangesAsync(cancellationToken);
-        //}
+            return userToken;
+        }
 
-        //private void LogChanges()
-        //{
-        //    var entries = ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified
-        //                                                                                                             || e.State == EntityState.Deleted));
+        private void LogChanges()
+        {
+            var entries = ChangeTracker.Entries()
+                                       .Where(e => e.Entity is BaseEntity &&
+                                                  (e.State == EntityState.Added ||
+                                                   e.State == EntityState.Modified ||
+                                                   e.State == EntityState.Deleted));
 
-        //    foreach (var entityEntry in entries)
-        //    {
-        //        var entity = (BaseEntity)entityEntry.Entity;
+            foreach (var entityEntry in entries)
+            {
+                var entity = (BaseEntity)entityEntry.Entity;
 
-        //        if (entityEntry.State == EntityState.Added)
-        //        {
-        //            entity.createdDate = DateTimeOffset.Now;
-        //        }
+                switch (entityEntry.State)
+                {
+                    case EntityState.Added:
+                        entity.createdDate = DateTimeOffset.Now;
+                        break;
 
-        //        if (entityEntry.State == EntityState.Modified)
-        //        {
-        //            entity.updatedDate = DateTimeOffset.Now;
-        //        }
+                    case EntityState.Modified:
+                        entity.updatedDate = DateTimeOffset.Now;
+                        break;
 
-        //        if (entityEntry.State == EntityState.Deleted)
-        //        {
-        //            entity.isDeleted = true;
-        //            entity.updatedDate = DateTimeOffset.Now;
-        //        }
-        //    }
+                    case EntityState.Deleted:
+                        entity.isDeleted = true;
+                        entity.updatedDate = DateTimeOffset.Now;
+                        break;
+                }
+            }
 
-        //    var logEntries = ChangeTracker.Entries()
-        //                                  .Select(CreateLogEntry)
-        //                                  .ToList(); // Collect log entries in a separate list
+            var logEntries = entries.Select(CreateLogEntry).ToList();
 
-        //    // Add the log entries to the LogActions DbSet after enumeration is complete
-        //    LogActions.AddRange(logEntries);
-        //}
+            // Add the log entries to the LogActions DbSet after enumeration is complete
+            LogActions.AddRange(logEntries);
+        }
 
-        //private LogAction CreateLogEntry(EntityEntry entry)
-        //{
-        //    var logEntry = new LogAction
-        //    {
-        //        userToken = Guid.NewGuid(), //TODO: Replace with actual user identifier
-        //        modelName = entry.Entity.GetType().Name,
-        //        actionType = entry.State.ToString(),
-        //        actionDate = DateTime.UtcNow
-        //    };
+        private LogAction CreateLogEntry(EntityEntry entry)
+        {
+            var logEntry = new LogAction
+            {
+                userToken = GetUserToken(),
+                modelName = entry.Entity.GetType().Name,
+                actionType = entry.State.ToString(),
+                actionDate = DateTime.UtcNow
+            };
 
-        //    if (entry.State == EntityState.Modified)
-        //    {
-        //        var databaseValues = entry.GetDatabaseValues();
-        //        logEntry.oldData = JsonConvert.SerializeObject(
-        //            databaseValues.Properties.ToDictionary(p => p.Name, p => databaseValues[p]),
-        //            JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
+            switch (entry.State)
+            {
+                case EntityState.Modified:
+                    var databaseValues = entry.GetDatabaseValues();
+                    logEntry.oldActionData = SerializeProperties(databaseValues);
+                    logEntry.newActionData = SerializeProperties(entry.CurrentValues);
+                    break;
 
-        //        logEntry.newData = JsonConvert.SerializeObject(
-        //            entry.CurrentValues.Properties.ToDictionary(p => p.Name, p => entry.CurrentValues[p]),
-        //            JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
-        //    }
-        //    else if (entry.State == EntityState.Deleted)
-        //    {
-        //        logEntry.oldData = JsonConvert.SerializeObject(
-        //            entry.OriginalValues.Properties.ToDictionary(p => p.Name, p => entry.OriginalValues[p]),
-        //            JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
-        //    }
-        //    else if (entry.State == EntityState.Added)
-        //    {
-        //        logEntry.newData = JsonConvert.SerializeObject(
-        //            entry.CurrentValues.Properties.ToDictionary(p => p.Name, p => entry.CurrentValues[p]),
-        //            JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
-        //    }
+                case EntityState.Deleted:
+                    logEntry.oldActionData = SerializeProperties(entry.OriginalValues);
+                    break;
 
-        //    return logEntry;
-        //}
+                case EntityState.Added:
+                    logEntry.newActionData = SerializeProperties(entry.CurrentValues);
+                    break;
+            }
+
+            return logEntry;
+        }
+
+        private string SerializeProperties(PropertyValues values)
+        {
+            return JsonConvert.SerializeObject(
+                values.Properties.ToDictionary(p => p.Name, p => values[p]),
+                JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
+        }
 
         #endregion override SaveChanges
 
@@ -187,8 +174,7 @@ namespace App.EF
 
         public DbSet<FullCodeSequence> FullCodeSequences { get; set; }
 
-
-        #endregion
+        #endregion AdditionalModule
 
         #region SystemBase
 
