@@ -1,4 +1,5 @@
-﻿using App.Core.Models.General.PaginationModule;
+﻿using App.Core.Consts.Users;
+using App.Core.Models.General.PaginationModule;
 
 namespace App.Core.Models.General.BaseRequstModules
 {

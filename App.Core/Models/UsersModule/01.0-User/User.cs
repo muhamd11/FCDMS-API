@@ -13,16 +13,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace App.Core.Models.Users
 {
     [Table($"{nameof(User)}s", Schema = nameof(EnumDatabaseSchema.Users))]
-    [Index(nameof(userType))]
-    [Index(nameof(fullCode), IsUnique = true)]
+    [Index(nameof(userTypeToken))]
     [Index(nameof(userEmail), IsUnique = true)]
     [Index(nameof(userPhone), IsUnique = true)]
     [Index(nameof(userLoginName), IsUnique = true)]
+    [Index(nameof(primaryFullCode), IsUnique = true)]
     public class User : BaseEntity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid userToken { get; set; }
-
         public string userName { get; set; }
         public string? userEmail { get; set; }
         public string? userPhone { get; set; }
@@ -31,7 +30,7 @@ namespace App.Core.Models.Users
         public string? userPhoneCCName { get; set; }
         public string? userLoginName { get; set; }
         public string userPassword { get; set; }
-        public EnumUserType userType { get; set; }
+        public EnumUserType userTypeToken { get; set; }
 
         //relations
         [ForeignKey(nameof(roleData))]

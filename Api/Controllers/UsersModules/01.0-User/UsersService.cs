@@ -65,6 +65,9 @@ namespace Api.Controllers.UsersModule.Users
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.userToken == inputModel.elementToken);
 
+            if (inputModel.userTypeToken is not null)
+                criteria.Add(x => x.userTypeToken == inputModel.userTypeToken);
+
             return criteria;
         }
 
@@ -142,7 +145,7 @@ namespace Api.Controllers.UsersModule.Users
                 await _unitOfWork.CommitAsync();
             }
 
-            if (inputModel.userType == EnumUserType.Patient)
+            if (inputModel.userTypeToken == EnumUserType.Patient)
             {
                 //null safe
                 inputModel.userPatientData = inputModel.userPatientData ?? new();
@@ -150,7 +153,7 @@ namespace Api.Controllers.UsersModule.Users
                 await _unitOfWork.UserPatients.AddAsync(inputModel.userPatientData);
                 await _unitOfWork.CommitAsync();
             }
-            else if (inputModel.userType == EnumUserType.Employee)
+            else if (inputModel.userTypeToken == EnumUserType.Employee)
             {
                 //null safe
                 inputModel.userEmployeeData = inputModel.userEmployeeData ?? new();
@@ -158,7 +161,7 @@ namespace Api.Controllers.UsersModule.Users
                 await _unitOfWork.UserEmployees.AddAsync(inputModel.userEmployeeData);
                 await _unitOfWork.CommitAsync();
             }
-            else if (inputModel.userType == EnumUserType.Doctor)
+            else if (inputModel.userTypeToken == EnumUserType.Doctor)
             {
                 //null safe
                 inputModel.userDoctorData = inputModel.userDoctorData ?? new();
@@ -170,12 +173,40 @@ namespace Api.Controllers.UsersModule.Users
 
         private User GetUserOnlyWithoutProfiles(User user)
         {
+            user = SetFullCode(user);
+            user = SetSystemRole(user);
             user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
             user.userProfileData = null;
             user.userPatientData = null;
             user.userEmployeeData = null;
             user.userDoctorData = null;
             return user;
+        }
+
+        private User SetFullCode(User user)
+        {
+            if (!string.IsNullOrEmpty(user.fullCode))
+            {
+                user.primaryFullCode = $"{user.userTypeToken.ToString()}_{user.fullCode}";
+                return user;
+            }
+            else
+            {
+                var totalCounts = _unitOfWork.Users.Count(x => x.userTypeToken == user.userTypeToken);
+                user.primaryFullCode = $"{user.userTypeToken.ToString()}_{1 + totalCounts}";
+                return user;
+            }
+        }
+        private User SetSystemRole(User user)
+        {
+            if (user.systemRoleToken.HasValue == true)
+                return user;
+            else
+            {
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserType == user.userTypeToken && x.systemRoleCanUseDefault == true);
+                user.systemRoleToken = systemRole.systemRoleToken;
+                return user;
+            }
         }
 
         private async Task DeleteAllOldProfile(Guid? userToken)

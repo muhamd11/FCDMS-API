@@ -128,17 +128,18 @@ namespace Api.Controllers.UsersModule.Users
 
                 #region userType *
 
-                if (!ValidationClass.IsEnumValue(inputModel.userType))
+                if (!ValidationClass.IsEnumValue(inputModel.userTypeToken))
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUserTypeInvalid, EnumStatus.error);
 
                 #endregion userType *
 
                 #region ValidSystemRoleId *
-
-                var isValidSystemRoleId = _systemRolesValid.ValidSystemRoleToken(inputModel.systemRoleToken);
-                if (isValidSystemRoleId.Status != EnumStatus.success)
-                    return isValidSystemRoleId;
-
+                if (inputModel.systemRoleToken.HasValue == true)
+                {
+                    var isValidSystemRoleId = _systemRolesValid.ValidSystemRoleToken(inputModel.systemRoleToken);
+                    if (isValidSystemRoleId.Status != EnumStatus.success)
+                        return isValidSystemRoleId;
+                }
                 #endregion ValidSystemRoleId *
 
                 #region validUserWasAddedBefore

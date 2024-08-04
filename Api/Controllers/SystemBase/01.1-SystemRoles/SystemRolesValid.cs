@@ -120,7 +120,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid ValidSystemRoleToken(Guid systemRoleToken)
+        public BaseValid ValidSystemRoleToken(Guid? systemRoleToken)
         {
             var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleToken == systemRoleToken);
             if (systemRole is not null)

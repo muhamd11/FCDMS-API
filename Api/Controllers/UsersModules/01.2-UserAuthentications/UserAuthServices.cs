@@ -58,7 +58,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
         public async Task<UserSignUpInfo> Signup(UserSignUpDto inputModel)
         {
             var user = _mapper.Map<User>(inputModel);
-            user.userType = EnumUserType.Patient;
+            user.userTypeToken = EnumUserType.Patient;
             user.userPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
             ClearInvalidUserFields(user);
 
@@ -86,7 +86,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             UserAuthorize userAuthorize = new()
             {
                 userToken = user.userToken,
-                userType = user.userType,
+                userType = user.userTypeToken,
                 systemRoleToken = user.systemRoleToken == null ? Guid.Empty : (Guid)user.systemRoleToken
             };
             return JsonConversion.SerializeUserAuthorizeToken(userAuthorize);

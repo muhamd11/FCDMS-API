@@ -37,6 +37,9 @@ namespace App.EF.Migrations
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
@@ -81,6 +84,9 @@ namespace App.EF.Migrations
                         .HasPrecision(30, 18)
                         .HasColumnType("decimal(30,18)");
 
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
 
@@ -121,6 +127,9 @@ namespace App.EF.Migrations
                     b.Property<string>("operationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
@@ -174,6 +183,9 @@ namespace App.EF.Migrations
 
                     b.Property<int>("numberOfChildren")
                         .HasColumnType("int");
+
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
@@ -243,6 +255,9 @@ namespace App.EF.Migrations
 
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("systemRoleCanUseDefault")
                         .HasColumnType("bit");
@@ -337,6 +352,9 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
 
@@ -358,10 +376,13 @@ namespace App.EF.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool?>("isDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("primaryFullCode")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid?>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
@@ -395,14 +416,14 @@ namespace App.EF.Migrations
                     b.Property<string>("userPhoneDialCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("userType")
+                    b.Property<int>("userTypeToken")
                         .HasColumnType("int");
 
                     b.HasKey("userToken");
 
-                    b.HasIndex("fullCode")
+                    b.HasIndex("primaryFullCode")
                         .IsUnique()
-                        .HasFilter("[fullCode] IS NOT NULL");
+                        .HasFilter("[primaryFullCode] IS NOT NULL");
 
                     b.HasIndex("systemRoleToken");
 
@@ -418,7 +439,7 @@ namespace App.EF.Migrations
                         .IsUnique()
                         .HasFilter("[userPhone] IS NOT NULL");
 
-                    b.HasIndex("userType");
+                    b.HasIndex("userTypeToken");
 
                     b.ToTable("Users", "Users");
 
@@ -428,11 +449,12 @@ namespace App.EF.Migrations
                             userToken = new Guid("ade938f3-6406-4d09-a806-ab02e28c6902"),
                             createdDate = new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)),
                             fullCode = "1",
+                            primaryFullCode = "Developer_1",
                             systemRoleToken = new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"),
                             userLoginName = "admin",
                             userName = "مدير النظام",
                             userPassword = "MDAwMA==",
-                            userType = 1
+                            userTypeToken = 1
                         });
                 });
 

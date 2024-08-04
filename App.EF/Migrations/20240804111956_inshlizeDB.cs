@@ -34,6 +34,7 @@ namespace App.EF.Migrations
                     functionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     isHavePrivilege = table.Column<bool>(type: "bit", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -54,6 +55,7 @@ namespace App.EF.Migrations
                     systemRoleUserType = table.Column<int>(type: "int", nullable: false),
                     systemRoleCanUseDefault = table.Column<bool>(type: "bit", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -77,9 +79,10 @@ namespace App.EF.Migrations
                     userPhoneCCName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userLoginName = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userType = table.Column<int>(type: "int", nullable: false),
+                    userTypeToken = table.Column<int>(type: "int", nullable: false),
                     systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -136,6 +139,7 @@ namespace App.EF.Migrations
                     patientThyroidSensitivityMeasurement_measurementDate = table.Column<DateOnly>(type: "date", nullable: true),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -163,6 +167,7 @@ namespace App.EF.Migrations
                     patientBmr = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -189,6 +194,7 @@ namespace App.EF.Migrations
                     operationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -314,6 +320,7 @@ namespace App.EF.Migrations
                     fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isDeleted = table.Column<bool>(type: "bit", nullable: true),
                     createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
@@ -333,14 +340,20 @@ namespace App.EF.Migrations
             migrationBuilder.InsertData(
                 schema: "SystemBase",
                 table: "SystemRoles",
-                columns: new[] { "systemRoleToken", "createdDate", "fullCode", "isDeleted", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "systemRoleUserType", "updatedDate" },
+                columns: new[] { "systemRoleToken", "createdDate", "fullCode", "isDeleted", "primaryFullCode", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "systemRoleUserType", "updatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", 3, null },
-                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", 4, null },
-                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", 1, null },
-                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", 2, null }
+                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", 3, null },
+                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", 4, null },
+                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", 1, null },
+                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", 2, null }
                 });
+
+            migrationBuilder.InsertData(
+                schema: "Users",
+                table: "Users",
+                columns: new[] { "userToken", "createdDate", "fullCode", "isDeleted", "primaryFullCode", "systemRoleToken", "updatedDate", "userEmail", "userLoginName", "userName", "userPassword", "userPhone", "userPhoneCC", "userPhoneCCName", "userPhoneDialCode", "userTypeToken" },
+                values: new object[] { new Guid("ade938f3-6406-4d09-a806-ab02e28c6902"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, "Developer_1", new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), null, null, "admin", "مدير النظام", "MDAwMA==", null, null, null, null, 1 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_LogActions_userToken",
@@ -440,12 +453,12 @@ namespace App.EF.Migrations
                 filter: "[userToken] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_fullCode",
+                name: "IX_Users_primaryFullCode",
                 schema: "Users",
                 table: "Users",
-                column: "fullCode",
+                column: "primaryFullCode",
                 unique: true,
-                filter: "[fullCode] IS NOT NULL");
+                filter: "[primaryFullCode] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_systemRoleToken",
@@ -478,10 +491,10 @@ namespace App.EF.Migrations
                 filter: "[userPhone] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_userType",
+                name: "IX_Users_userTypeToken",
                 schema: "Users",
                 table: "Users",
-                column: "userType");
+                column: "userTypeToken");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Visits_fullCode",

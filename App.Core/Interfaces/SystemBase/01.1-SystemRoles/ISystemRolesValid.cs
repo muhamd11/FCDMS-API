@@ -15,6 +15,6 @@ namespace App.Core.Interfaces.SystemBase.SystemRoles
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
-        BaseValid ValidSystemRoleToken(Guid systemRoleToken);
+        BaseValid ValidSystemRoleToken(Guid? systemRoleToken);
     }
 }
