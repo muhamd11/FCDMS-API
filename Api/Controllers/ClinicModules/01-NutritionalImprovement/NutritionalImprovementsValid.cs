@@ -1,7 +1,10 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
@@ -16,15 +19,22 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
+        private readonly IUserAuthenticationValid _userAuthenticationValid;
+
+        private readonly string nutritionalImprovementView = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.view)}";
+        private readonly string nutritionalImprovementAdd = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.add)}";
+        private readonly string nutritionalImprovementUpdate = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string nutritionalImprovementDelete = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
         #region Constructor
 
-        public NutritionalImprovementValid(IUnitOfWork unitOfWork, IUsersValid usersValid)
+        public NutritionalImprovementValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
+            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -33,6 +43,15 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         public BaseValid ValidGetAll(BaseSearchDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 #region elemetId?
@@ -54,6 +73,15 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidNutritionalImprovementToken = ValidNutritionalImprovementToken(inputModel.elementToken);
@@ -68,18 +96,36 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         public BaseValid ValidAddOrUpdate(NutritionalImprovementAddOrUpdateDTO inputModel, bool isUpdate)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementAdd);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
-                #region nutritionalImprovementId?
-
                 if (isUpdate)
                 {
+                    #region isAuthorizedUser *
+
+                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementUpdate);
+
+                    if (isAuthorizedUser.Status != EnumStatus.success)
+                        return isAuthorizedUser;
+
+                    #endregion isAuthorizedUser *
+
+                    #region nutritionalImprovementId?
+
                     var isValidNutritionalImprovementToken = ValidNutritionalImprovementToken(inputModel.nutritionalImprovementToken);
                     if (isValidNutritionalImprovementToken.Status != EnumStatus.success)
                         return isValidNutritionalImprovementToken;
-                }
 
-                #endregion nutritionalImprovementId?
+                    #endregion nutritionalImprovementId?
+                }
 
                 #region userPatientToken *
 
@@ -89,29 +135,13 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
                 #endregion userPatientToken *
 
-                #region fullCode ?
+                #region fullCode *
 
-                var isValidFullcode = validFullCode(inputModel);
-                if (isValidFullcode.Status != EnumStatus.success)
-                    return isValidFullcode;
+                var isValidFullCode = validFullCode(inputModel);
+                if (isValidFullCode.Status != EnumStatus.success)
+                    return isValidFullCode;
 
-                #endregion fullCode ?
-
-                // TODO: Add validations for NutritionalImprovement
-
-                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-            }
-            else
-                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
-        }
-
-        public BaseValid ValidDelete(BaseDeleteDto inputModel)
-        {
-            if (inputModel is not null)
-            {
-                var isValidNutritionalImprovementToken = ValidNutritionalImprovementToken(inputModel.elementToken);
-                if (isValidNutritionalImprovementToken.Status != EnumStatus.success)
-                    return isValidNutritionalImprovementToken;
+                #endregion fullCode *
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
@@ -127,6 +157,29 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+        }
+
+        public BaseValid ValidDelete(BaseDeleteDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementDelete);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidNutritionalImprovementToken = ValidNutritionalImprovementToken(inputModel.elementToken);
+                if (isValidNutritionalImprovementToken.Status != EnumStatus.success)
+                    return isValidNutritionalImprovementToken;
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidNutritionalImprovementToken(Guid nutritionalImprovementToken)

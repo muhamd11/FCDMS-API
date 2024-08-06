@@ -8,7 +8,6 @@ namespace App.EF.Configurations
     {
         public static List<User> GetUsers() => new() {
           Developer,
-
         };
 
         private static User Developer = new()
@@ -23,6 +22,5 @@ namespace App.EF.Configurations
             userTypeToken = EnumUserType.Developer,
             createdDate = SharedInshlizer.creationDateTime,
         };
-
     }
 }

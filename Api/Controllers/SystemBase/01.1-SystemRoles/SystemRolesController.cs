@@ -1,5 +1,4 @@
-﻿
-using App.Core.Consts.GeneralModels;
+﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.SystemBase.Roles.DTO;
@@ -11,7 +10,6 @@ namespace Api.Controllers.ClinicModules.SystemRoles
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class SystemRolesController : ControllerBase
     {
         #region Members

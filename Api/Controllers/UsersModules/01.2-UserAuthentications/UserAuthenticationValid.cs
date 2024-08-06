@@ -2,7 +2,7 @@
 using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.Users;
-using App.Core.Helper;
+using App.Core.Helper.Json;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.LocalModels;
@@ -12,7 +12,6 @@ using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
 using AutoMapper;
-using System.Linq.Expressions;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLogin
 {
@@ -20,11 +19,37 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
     {
         private readonly IMapper _mapper;
         private readonly IUsersValid _usersValid;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public UserAuthenticationValid(IUsersValid usersValid, IMapper mapper)
+        private readonly string _userAuthorizeToken = "userAuthorizeToken";
+
+        public UserAuthenticationValid(IUsersValid usersValid, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _usersValid = usersValid;
+            _httpContextAccessor = httpContextAccessor;
+            _unitOfWork = unitOfWork;
+        }
+
+        public BaseValid IsAuthorizedUser(string functionId)
+        {
+            if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue(_userAuthorizeToken, out var userAuthorizeToken))
+                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserAuthorizeTokenNotFound);
+
+            var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken);
+
+            var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userAuthorize.userToken);
+
+            if (user == null)
+                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserDoesNotExists);
+
+            var SystemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.functionId == functionId);
+
+            if (SystemRoleFunction is null)
+                return BaseValid.createBaseValidError(UsersMessagesAr.errorHasNoPermission);
+
+            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         public BaseValid IsValidLogin(UserLoginDto inputModel)
@@ -51,8 +76,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-
-        BaseValid IUserAuthenticationValid.IsValidSginUp(UserSignUpDto inputModel)
+        public BaseValid IsValidSginUp(UserSignUpDto inputModel)
         {
             if (inputModel is not null)
             {
@@ -67,10 +91,12 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 #endregion userPassword *
 
                 #region ValidUserData*
+
                 var isValidUserData = _usersValid.ValidUserData(userAddOrUpdateDTO);
                 if (isValidUserData.Status != EnumStatus.success)
                     return isValidUserData;
-                #endregion
+
+                #endregion ValidUserData*
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }

@@ -1,7 +1,7 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
-using System.Linq.Expressions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel;
+using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
 {
@@ -39,6 +39,5 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).createdDateTime
             };
         }
-
     }
 }

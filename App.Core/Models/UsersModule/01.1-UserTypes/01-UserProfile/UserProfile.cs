@@ -1,8 +1,8 @@
 ﻿using App.Core.Consts.SystemBase;
 using App.Core.Models.Users;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace App.Core.Models.UsersModule._01_1_UserTypes
 {

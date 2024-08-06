@@ -1,5 +1,4 @@
-﻿
-using Api.Controllers.UsersModules.Users.Interfaces;
+﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.General.BaseRequstModules;

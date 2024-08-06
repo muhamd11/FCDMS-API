@@ -1,5 +1,4 @@
-﻿
-using App.Core.Models.Users;
+﻿using App.Core.Models.Users;
 
 namespace App.Core.Models.SystemBase.LogActions.ViewModel
 {

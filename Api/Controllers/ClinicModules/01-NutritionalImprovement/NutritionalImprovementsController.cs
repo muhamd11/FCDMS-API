@@ -1,5 +1,4 @@
-﻿
-using App.Core.Consts.GeneralModels;
+﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.ViewModel;
@@ -11,7 +10,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class NutritionalImprovementsController : ControllerBase
     {
         #region Members

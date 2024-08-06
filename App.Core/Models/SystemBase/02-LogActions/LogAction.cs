@@ -14,6 +14,7 @@ namespace App.Core.Models.SystemBase.LogActions
 
         [ForeignKey(nameof(userData))]
         public Guid? userToken { get; set; }
+
         public User? userData { get; set; }
 
         public string modelName { get; set; }

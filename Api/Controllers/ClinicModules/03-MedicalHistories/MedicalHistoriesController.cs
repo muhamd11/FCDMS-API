@@ -1,5 +1,4 @@
-﻿
-using App.Core.Consts.GeneralModels;
+﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
@@ -11,7 +10,6 @@ namespace Api.Controllers.ClinicModules.MedicalHistories
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class MedicalHistoriesController : ControllerBase
     {
         #region Members

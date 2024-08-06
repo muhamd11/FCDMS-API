@@ -11,7 +11,6 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class SystemRoleFunctionsController : ControllerBase
     {
         #region Members
@@ -22,6 +21,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         private readonly ISystemRoleFunctionsValid _systemRoleFunctionsValid;
         private readonly ISystemRoleFunctionsService _systemRoleFunctionsService;
         private readonly string systemRoleFunctionInfoDetails = "systemRoleFunctionInfoDetails";
+        private readonly string systemRoleFunctionInfoData = "systemRoleFunctionInfoData";
 
         #endregion Members
 
@@ -39,7 +39,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         #region Methods
 
         [HttpGet("GetSystemRoleFunctionDetails")]
-        public async Task<IActionResult> GetSystemRoleFincationDetails([FromQuery] Guid systemRoleToken)
+        public async Task<IActionResult> GetSystemRoleFunctionDetails([FromQuery] Guid systemRoleToken)
         {
             BaseGetDetailsResponse<List<SystemRoleFunctionGrouped>> response = new();
             var watch = Stopwatch.StartNew();
@@ -68,9 +68,8 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         }
 
         [HttpPost("UpdatePrivilege")]
-        public async Task<IActionResult> UpdatePrivlage([FromBody] SystemRoleFunctionDto inputModel)
+        public async Task<IActionResult> UpdatePrivilege([FromBody] SystemRoleFunctionDto inputModel)
         {
-            string systemRoleFunctionInfoData = "systemRoleFincationInfoData";
             BaseActionResponse<List<SystemRoleFunction>> response = new();
             var watch = Stopwatch.StartNew();
             try

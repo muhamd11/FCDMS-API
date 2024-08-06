@@ -4,6 +4,9 @@ using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
+using App.Core.Models.SystemBase.LogActions;
+using App.Core.Models.SystemBase.Roles;
+using App.Core.Models.Users;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 {
@@ -29,6 +32,20 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
             #endregion ClinicModules
 
+            #region SystemBase
+
+            systemRoleFuncations.AddRange(GetPrivilageModuleSystemRole());
+            systemRoleFuncations.AddRange(GetPrivilageModuleSystemRoleFunctions());
+            systemRoleFuncations.AddRange(GetPrivilageModuleLogAction());
+
+            #endregion SystemBase
+
+            #region UserModules
+
+            systemRoleFuncations.AddRange(GetPrivilageModuleUser());
+
+            #endregion UserModules
+
             return systemRoleFuncations;
         }
 
@@ -43,5 +60,21 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleMedicalHistory() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(MedicalHistory));
 
         #endregion ClinicModules
+
+        #region SystemBase
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRole() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRole));
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRoleFunctions() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRoleFunctions));
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleLogAction() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(LogAction));
+
+        #endregion SystemBase
+
+        #region UserModules
+
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleUser() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(User));
+
+        #endregion UserModules
     }
 }

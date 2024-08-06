@@ -1,18 +1,16 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
-using App.Core.Consts.Users;
+using App.Core.Consts.SystemBase;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.SystemRoles;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
-using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
-using AutoMapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Api.Controllers.UsersModule.Users
 {
@@ -23,18 +21,26 @@ namespace Api.Controllers.UsersModule.Users
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
+        private readonly IUserAuthenticationValid _userAuthenticationValid;
+
+        private readonly string userView = $"{nameof(User)}_{nameof(EnumFunctionsType.view)}";
+        private readonly string userAdd = $"{nameof(User)}_{nameof(EnumFunctionsType.add)}";
+        private readonly string userUpdate = $"{nameof(User)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string userDelete = $"{nameof(User)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
         #region Constructor
 
-        public UsersValid( IUnitOfWork unitOfWork,
+        public UsersValid(IUnitOfWork unitOfWork,
                          ISystemRolesValid systemRolesValid,
-                         IUserProfileValid userProfileValid)
+                         IUserProfileValid userProfileValid,
+                         IUserAuthenticationValid userAuthenticationValid)
         {
-             _unitOfWork = unitOfWork;
+            _unitOfWork = unitOfWork;
             _systemRolesValid = systemRolesValid;
             _userProfileValid = userProfileValid;
+            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -43,6 +49,15 @@ namespace Api.Controllers.UsersModule.Users
 
         public BaseValid ValidGetAll(BaseSearchDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 #region elemetId?
@@ -64,6 +79,15 @@ namespace Api.Controllers.UsersModule.Users
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidUserToken = IsValidUserToken(inputModel.elementToken);
@@ -78,8 +102,26 @@ namespace Api.Controllers.UsersModule.Users
 
         public BaseValid ValidAddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userAdd);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
+                #region isAuthorizedUser *
+
+                isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userUpdate);
+
+                if (isAuthorizedUser.Status != EnumStatus.success)
+                    return isAuthorizedUser;
+
+                #endregion isAuthorizedUser *
+
                 #region userId?
 
                 if (isUpdate)
@@ -92,16 +134,19 @@ namespace Api.Controllers.UsersModule.Users
                 #endregion userId?
 
                 #region ValidUserData*
+
                 var isValidUserData = ValidUserData(inputModel);
                 if (isValidUserData.Status != EnumStatus.success)
                     return isValidUserData;
-                #endregion
+
+                #endregion ValidUserData*
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
+
         public BaseValid ValidUserData(UserAddOrUpdateDTO inputModel)
         {
             #region userName &&  userLoginName && userEmail
@@ -144,6 +189,7 @@ namespace Api.Controllers.UsersModule.Users
             #endregion userType *
 
             #region ValidSystemRoleId *
+
             if (inputModel.systemRoleToken.HasValue == true)
             {
                 var isValidSystemRoleId = _systemRolesValid.ValidSystemRoleToken(inputModel.systemRoleToken);
@@ -156,6 +202,7 @@ namespace Api.Controllers.UsersModule.Users
                 if (defaultSystemRole == null) //TODO Change Message
                     return BaseValid.createBaseValid("لا يوجد صلاحية افتراضية الرجاء اضافة صلاحية", EnumStatus.error);
             }
+
             #endregion ValidSystemRoleId *
 
             #region validUserWasAddedBefore
@@ -195,11 +242,18 @@ namespace Api.Controllers.UsersModule.Users
             #endregion validUserProfile
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-
         }
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userDelete);
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidUserToken = IsValidUserToken(inputModel.elementToken);

@@ -12,7 +12,6 @@ namespace App.EF.Configurations.Converter
         {
         }
 
-
         private static decimal ConvertToDecimal(object value)
         {
             if (value == null)
@@ -29,5 +28,4 @@ namespace App.EF.Configurations.Converter
         {
         }
     }
-
 }

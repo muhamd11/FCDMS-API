@@ -38,8 +38,8 @@ namespace Api.Controllers.UsersModule.Users
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
-                roleData =  SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfileData = user.userProfileData ,
+                roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
+                userProfileData = user.userProfileData,
                 userPatientInfoData = UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData),
             };
         }

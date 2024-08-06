@@ -1,6 +1,5 @@
 ﻿using App.Core;
 using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -90,14 +89,10 @@ namespace Api.Controllers.SystemBase.Visits
         private Visit SetFullCode(Visit visit)
         {
             if (!string.IsNullOrEmpty(visit.fullCode))
-            {
-                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
                 return visit;
-            }
             else
             {
                 var totalCounts = _unitOfWork.Visits.Count();
-                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
                 visit.fullCode = (1 + totalCounts).ToString();
                 return visit;
             }

@@ -6,7 +6,6 @@ using App.Core.Models.General.PaginationModule;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Models.SystemBase.Roles.ViewModel;
-using App.Core.Models.Users;
 using AutoMapper;
 using System.Linq.Expressions;
 
@@ -58,7 +57,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             if (inputModel.systemRoleUserTypeToken.HasValue)
                 criteria.Add(x => x.userTypeToken == inputModel.systemRoleUserTypeToken.Value);
 
-            if(inputModel.fullCode is not null)
+            if (inputModel.fullCode is not null)
                 criteria.Add(x => x.fullCode == inputModel.fullCode);
 
             if (inputModel.elementToken is not null)
@@ -123,7 +122,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
             var isDone = await _unitOfWork.CommitAsync();
 
-            var systemRoleInfo =  SystemRolesAdaptor.SelectExpressionSystemRoleInfo(systemRole);
+            var systemRoleInfo = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(systemRole);
 
             return BaseActionDone<SystemRoleInfo>.GenrateBaseActionDone(isDone, systemRoleInfo);
         }

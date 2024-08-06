@@ -1,7 +1,10 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
@@ -16,15 +19,22 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
+        private readonly IUserAuthenticationValid _userAuthenticationValid;
+
+        private readonly string medicalHistoryView = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.view)}";
+        private readonly string medicalHistoryAdd = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.add)}";
+        private readonly string medicalHistoryUpdate = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string medicalHistoryDelete = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
         #region Constructor
 
-        public MedicalHistoryValid(IUnitOfWork unitOfWork, IUsersValid usersValid)
+        public MedicalHistoryValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
+            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -33,6 +43,15 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
         public BaseValid ValidGetAll(BaseSearchDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(medicalHistoryView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 #region elemetId?
@@ -54,6 +73,15 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(medicalHistoryView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidMedicalHistoryToken = ValidMedicalHistoryToken(inputModel.elementToken);
@@ -68,18 +96,36 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
         public BaseValid ValidAddOrUpdate(MedicalHistoryAddOrUpdateDTO inputModel, bool isUpdate)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(medicalHistoryAdd);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
-                #region medicalHistoryId?
-
                 if (isUpdate)
                 {
+                    #region isAuthorizedUser *
+
+                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(medicalHistoryUpdate);
+
+                    if (isAuthorizedUser.Status != EnumStatus.success)
+                        return isAuthorizedUser;
+
+                    #endregion isAuthorizedUser *
+
+                    #region MedicalHistoryId?
+
                     var isValidMedicalHistoryToken = ValidMedicalHistoryToken(inputModel.medicalHistoryToken);
                     if (isValidMedicalHistoryToken.Status != EnumStatus.success)
                         return isValidMedicalHistoryToken;
-                }
 
-                #endregion medicalHistoryId?
+                    #endregion MedicalHistoryId?
+                }
 
                 #region userPatientToken *
 
@@ -89,27 +135,13 @@ namespace Api.Controllers.SystemBase.MedicalHistories
 
                 #endregion userPatientToken *
 
-                #region fullCode ?
+                #region fullCode *
 
-                var isValidFullcode = validFullCode(inputModel);
-                if (isValidFullcode.Status != EnumStatus.success)
-                    return isValidFullcode;
+                var isValidFullCode = validFullCode(inputModel);
+                if (isValidFullCode.Status != EnumStatus.success)
+                    return isValidFullCode;
 
-                #endregion fullCode ?
-
-                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-            }
-            else
-                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
-        }
-
-        public BaseValid ValidDelete(BaseDeleteDto inputModel)
-        {
-            if (inputModel is not null)
-            {
-                var isValidMedicalHistoryToken = ValidMedicalHistoryToken(inputModel.elementToken);
-                if (isValidMedicalHistoryToken.Status != EnumStatus.success)
-                    return isValidMedicalHistoryToken;
+                #endregion fullCode *
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
@@ -125,6 +157,29 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+        }
+
+        public BaseValid ValidDelete(BaseDeleteDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(medicalHistoryDelete);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidMedicalHistoryToken = ValidMedicalHistoryToken(inputModel.elementToken);
+                if (isValidMedicalHistoryToken.Status != EnumStatus.success)
+                    return isValidMedicalHistoryToken;
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidMedicalHistoryToken(Guid medicalHistoryToken)

@@ -183,7 +183,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             user = SetFullCode(user);
             user = SetSystemRole(user);
-            //TODO set password in constants class 
+            //TODO set password in constants class
             user.userPassword = ValidationClass.IsValidString(user.userPassword) == false ? "0000" : user.userPassword;
             user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
             user.userProfileData = null;

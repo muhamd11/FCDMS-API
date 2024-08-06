@@ -1,8 +1,11 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.Operations;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
@@ -17,15 +20,22 @@ namespace Api.Controllers.SystemBase.Operations
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
+        private readonly IUserAuthenticationValid _userAuthenticationValid;
+
+        private readonly string operationView = $"{nameof(Operation)}_{nameof(EnumFunctionsType.view)}";
+        private readonly string operationAdd = $"{nameof(Operation)}_{nameof(EnumFunctionsType.add)}";
+        private readonly string operationUpdate = $"{nameof(Operation)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string operationDelete = $"{nameof(Operation)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
         #region Constructor
 
-        public OperationValid(IUnitOfWork unitOfWork, IUsersValid usersValid)
+        public OperationValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
+            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -34,6 +44,15 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidGetAll(BaseSearchDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 #region elemetId?
@@ -55,6 +74,15 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidOperationToken = ValidOperationToken(inputModel.elementToken);
@@ -69,18 +97,36 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidAddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationAdd);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
-                #region operationId?
-
                 if (isUpdate)
                 {
+                    #region isAuthorizedUser *
+
+                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationUpdate);
+
+                    if (isAuthorizedUser.Status != EnumStatus.success)
+                        return isAuthorizedUser;
+
+                    #endregion isAuthorizedUser *
+
+                    #region operationId?
+
                     var isValidOperationToken = ValidOperationToken(inputModel.operationToken);
                     if (isValidOperationToken.Status != EnumStatus.success)
                         return isValidOperationToken;
-                }
 
-                #endregion operationId?
+                    #endregion operationId?
+                }
 
                 #region userPatientToken *
 
@@ -127,6 +173,15 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationDelete);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidOperationToken = ValidOperationToken(inputModel.elementToken);

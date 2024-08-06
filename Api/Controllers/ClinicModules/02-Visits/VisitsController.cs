@@ -1,5 +1,4 @@
-﻿
-using App.Core.Consts.GeneralModels;
+﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Visits;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
@@ -11,7 +10,6 @@ namespace Api.Controllers.ClinicModules.Visits
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class VisitsController : ControllerBase
     {
         #region Members

@@ -19,9 +19,9 @@ namespace App.Core.Models.Users
         public string? userPassword { get; set; }
         public EnumUserType userTypeToken { get; set; }
         public Guid? systemRoleToken { get; set; }
-        public UserProfile? userProfileData { get; set; } 
-        public UserPatient? userPatientData { get; set; } 
-        public UserEmployee? userEmployeeData { get; set; } 
+        public UserProfile? userProfileData { get; set; }
+        public UserPatient? userPatientData { get; set; }
+        public UserEmployee? userEmployeeData { get; set; }
         public UserDoctor? userDoctorData { get; set; }
     }
 }

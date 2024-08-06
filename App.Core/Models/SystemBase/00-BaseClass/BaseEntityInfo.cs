@@ -4,16 +4,16 @@ namespace App.Core.Models.SystemBase.BaseClass
 {
     public class BaseEntityInfo
     {
-        [JsonPropertyOrder(1)]
+        [JsonPropertyOrder(0)]
         public string fullCode { get; set; }
 
-        [JsonPropertyOrder(2)]
+        [JsonPropertyOrder(1)]
         public bool isDeleted { get; set; }
 
-        [JsonPropertyOrder(3)]
+        [JsonPropertyOrder(2)]
         public string createdDateTime { get; set; }
 
-        [JsonPropertyOrder(4)]
+        [JsonPropertyOrder(3)]
         public string updatedDateTime { get; set; }
     }
 }

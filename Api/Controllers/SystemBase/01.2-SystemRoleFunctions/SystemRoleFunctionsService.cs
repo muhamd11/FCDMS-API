@@ -51,7 +51,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
                 .ToListAsync() ?? new List<SystemRoleFunction>();
 
             // Get the detailed system role functions
-            var systemRoleFunctions = GetSystemRoleFincations(systemRole, systemRoleFunctionsInDB);
+            var systemRoleFunctions = GetSystemRoleFunctions(systemRole, systemRoleFunctionsInDB);
 
             return GetSystemRoleFunctionsGroupedByModuleId(systemRoleFunctions);
         }
@@ -91,7 +91,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             var systemRole = await _unitOfWork.SystemRoles.FirstOrDefaultAsync(x => x.systemRoleToken == inputModel.systemRoleToken);
 
             // Get the detailed system role functions based on the input model
-            List<SystemRoleFunction> systemRoleFunctions = GetSystemRoleFincations(systemRole, inputModel.systemRoleFunctions.ToList());
+            List<SystemRoleFunction> systemRoleFunctions = GetSystemRoleFunctions(systemRole, inputModel.systemRoleFunctions.ToList());
 
             // Filter the functions that have privileges
             systemRoleFunctions = systemRoleFunctions.Where(x => x.isHavePrivilege).ToList();
@@ -114,14 +114,14 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             }
         }
 
-        private List<SystemRoleFunction> GetSystemRoleFincations(SystemRole systemRole, List<SystemRoleFunction> inputSystemRoleFunctions)
+        private List<SystemRoleFunction> GetSystemRoleFunctions(SystemRole systemRole, List<SystemRoleFunction> inputSystemRoleFunctions)
         {
             List<SystemRoleFunction> trueSystemRoleFunction = new List<SystemRoleFunction>();
 
             // Determine the user type and fetch the corresponding functions
             if (systemRole.userTypeToken == EnumUserType.Doctor || systemRole.userTypeToken == EnumUserType.Developer)
                 trueSystemRoleFunction = _systemRoleFunctionsMangerService.GetSystemRoleFunctions();
-            else if (systemRole.userTypeToken == EnumUserType.Patient )
+            else if (systemRole.userTypeToken == EnumUserType.Patient)
                 trueSystemRoleFunction = _systemRoleFunctionsClientService.GetSystemRoleFunctions();
 
             // Migrate input functions and trueSystemRoleFincation, updating privileges
@@ -133,8 +133,6 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
             return trueSystemRoleFunction;
         }
-
-
 
         #endregion Methods
     }

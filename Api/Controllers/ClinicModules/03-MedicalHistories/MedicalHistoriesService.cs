@@ -3,7 +3,6 @@ using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
@@ -92,14 +91,10 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         private MedicalHistory SetFullCode(MedicalHistory medicalHistory)
         {
             if (!string.IsNullOrEmpty(medicalHistory.fullCode))
-            {
-                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
                 return medicalHistory;
-            }
             else
             {
                 var totalCounts = _unitOfWork.MedicalHistories.Count();
-                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
                 medicalHistory.fullCode = (1 + totalCounts).ToString();
                 return medicalHistory;
             }

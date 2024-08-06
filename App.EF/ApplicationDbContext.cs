@@ -1,5 +1,4 @@
 ﻿using App.Core.Helper.Json;
-using App.Core.Helper.Validations;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
@@ -59,14 +58,12 @@ namespace App.EF
 
         public override int SaveChanges()
         {
-
             LogChanges();
             return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-
             LogChanges();
             return await base.SaveChangesAsync(cancellationToken);
         }

@@ -51,7 +51,8 @@ namespace Api.Controllers.SystemBase.LogActions
             if (inputModel.textSearch is not null)
             {
                 criteria.Add(x =>
-                x.actionType.Contains(inputModel.textSearch));
+                x.actionType.Contains(inputModel.textSearch)
+                || x.modelName.Contains(inputModel.textSearch));
             }
 
             if (inputModel.userToken.HasValue)

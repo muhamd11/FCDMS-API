@@ -1,7 +1,9 @@
 ﻿using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.SystemRoles;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase.Roles;
@@ -16,14 +18,21 @@ namespace Api.Controllers.SystemBase.SystemRoles
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserAuthenticationValid _userAuthenticationValid;
+
+        private readonly string systemRoleView = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.view)}";
+        private readonly string systemRoleAdd = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.add)}";
+        private readonly string systemRoleUpdate = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string systemRoleDelete = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
         #region Constructor
 
-        public SystemRoleValid(IUnitOfWork unitOfWork)
+        public SystemRoleValid(IUnitOfWork unitOfWork, IUserAuthenticationValid userAuthenticationValid)
         {
             _unitOfWork = unitOfWork;
+            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -32,6 +41,15 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
         public BaseValid ValidGetAll(BaseSearchDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 #region elemetId?
@@ -53,6 +71,15 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleView);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidSystemRoleToken = ValidSystemRoleToken(inputModel.elementToken);
@@ -67,18 +94,36 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
         public BaseValid ValidAddOrUpdate(SystemRoleAddOrUpdateDTO inputModel, bool isUpdate)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleAdd);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
-                #region systemRoleId?
-
                 if (isUpdate)
                 {
+                    #region isAuthorizedUser *
+
+                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleUpdate);
+
+                    if (isAuthorizedUser.Status != EnumStatus.success)
+                        return isAuthorizedUser;
+
+                    #endregion isAuthorizedUser *
+
+                    #region systemRoleId?
+
                     var isValidSystemRoleToken = ValidSystemRoleToken(inputModel.systemRoleToken);
                     if (isValidSystemRoleToken.Status != EnumStatus.success)
                         return isValidSystemRoleToken;
-                }
 
-                #endregion systemRoleId?
+                    #endregion systemRoleId?
+                }
 
                 #region systemRoleName *
 
@@ -108,6 +153,15 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)
         {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleDelete);
+
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
             if (inputModel is not null)
             {
                 var isValidSystemRoleToken = ValidSystemRoleToken(inputModel.elementToken);

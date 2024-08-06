@@ -8,7 +8,6 @@ namespace App.EF.Configurations
     {
         public void Configure(ModelBuilder modelBuilder)
         {
-
             //user
             modelBuilder.Entity<SystemRole>().HasData(SystemRolesInitializer.GetSystemRoles());
             modelBuilder.Entity<User>().HasData(UserInitializer.GetUsers());

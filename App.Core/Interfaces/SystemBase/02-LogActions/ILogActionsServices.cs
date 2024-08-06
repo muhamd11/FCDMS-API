@@ -9,6 +9,7 @@ namespace App.Core.Interfaces.SystemBase.LogActions
     public interface ILogActionsServices : ITransientService
     {
         Task<BaseGetDataWithPagnation<LogActionInfo>> GetAllAsync(LogActionSearchDto inputModel);
+
         Task<LogActionInfoDetails> GetDetails(BaseGetDetailsDto inputModel);
     }
 }

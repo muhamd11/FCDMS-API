@@ -97,17 +97,14 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
             return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, nutritionalImprovementInfo);
         }
+
         private NutritionalImprovement SetFullCode(NutritionalImprovement nutritionalImprovement)
         {
             if (!string.IsNullOrEmpty(nutritionalImprovement.fullCode))
-            {
-                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
                 return nutritionalImprovement;
-            }
             else
             {
                 var totalCounts = _unitOfWork.NutritionalImprovements.Count();
-                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
                 nutritionalImprovement.fullCode = (1 + totalCounts).ToString();
                 return nutritionalImprovement;
             }
