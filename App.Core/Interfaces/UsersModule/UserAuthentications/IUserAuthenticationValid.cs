@@ -11,6 +11,6 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
 
         BaseValid IsValidLogin(UserLoginDto inputModel);
 
-        BaseValid IsValidSginUp(UserSignUpDto inputModel);
+        BaseValid IsValidSignUp(UserSignUpDto inputModel);
     }
 }

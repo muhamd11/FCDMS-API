@@ -13,7 +13,7 @@ using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
 using AutoMapper;
 
-namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLogin
+namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 {
     public class UserAuthenticationValid : IUserAuthenticationValid
     {
@@ -76,7 +76,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid IsValidSginUp(UserSignUpDto inputModel)
+        public BaseValid IsValidSignUp(UserSignUpDto inputModel)
         {
             if (inputModel is not null)
             {
