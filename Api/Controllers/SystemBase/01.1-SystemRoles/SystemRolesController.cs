@@ -1,4 +1,4 @@
-﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+﻿
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Models.General.BaseRequstModules;
@@ -11,7 +11,7 @@ namespace Api.Controllers.ClinicModules.SystemRoles
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authenticate]
+    
     public class SystemRolesController : ControllerBase
     {
         #region Members

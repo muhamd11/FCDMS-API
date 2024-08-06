@@ -1,4 +1,4 @@
-﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+﻿
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
@@ -11,7 +11,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authenticate]
+    
     public class NutritionalImprovementsController : ControllerBase
     {
         #region Members

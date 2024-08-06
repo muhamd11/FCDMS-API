@@ -1,5 +1,5 @@
 ﻿using Api.Controllers.SystemBase.LogActions.Interfaces;
-using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+
 using App.Core.Consts.GeneralModels;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
@@ -11,7 +11,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authenticate]
+    
     public class SystemRoleFunctionsController : ControllerBase
     {
         #region Members

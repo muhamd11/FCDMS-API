@@ -1,4 +1,4 @@
-﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
+﻿
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
@@ -11,7 +11,7 @@ namespace Api.Controllers.ClinicModules.MedicalHistories
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authenticate]
+    
     public class MedicalHistoriesController : ControllerBase
     {
         #region Members

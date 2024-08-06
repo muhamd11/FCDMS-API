@@ -10,7 +10,7 @@ namespace Api.Controllers.ClinicModules.LogActions
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authenticate]
+    //
     public class LogActionsController : ControllerBase
     {
         #region Members
