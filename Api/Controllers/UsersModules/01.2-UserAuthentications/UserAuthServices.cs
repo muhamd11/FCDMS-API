@@ -58,6 +58,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
         public async Task<UserSignUpInfo> Signup(UserSignUpDto inputModel)
         {
             var user = _mapper.Map<User>(inputModel);
+            user = SetFullCode(user);
+            user.systemRoleToken = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserTypeToken == EnumUserType.Patient && x.systemRoleCanUseDefault).systemRoleToken;
             user.userTypeToken = EnumUserType.Patient;
             user.userPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
             ClearInvalidUserFields(user);
@@ -67,6 +69,15 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             await _unitOfWork.CommitAsync();
 
             return UsersSignUpAdaptor.SelectExpressionUserSignUpInfo(user);
+        }
+
+
+        private User SetFullCode(User user)
+        {
+            var totalCounts = _unitOfWork.Users.Count(x => x.userTypeToken == EnumUserType.Patient);
+            user.primaryFullCode = $"{user.userTypeToken.ToString()}_{1 + totalCounts}";
+            user.fullCode = (1 + totalCounts).ToString();
+            return user;
         }
 
         private static void ClearInvalidUserFields(User userOnly)

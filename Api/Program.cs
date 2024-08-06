@@ -1,14 +1,19 @@
+using Api.Middlewares;
+using API;
 using App.Core;
 using App.Core.Interfaces.General.Scrutor;
 using App.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
-using Microsoft.Extensions.DependencyInjection;
-using API;
 using Newtonsoft.Json;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Error()
+    .WriteTo.Seq("http://localhost:5341")
+    .CreateLogger();
 
 builder.Services.AddControllers();
 
@@ -60,7 +65,6 @@ builder.Services.Scan(s => s.FromAssemblies(assembly)
 
 builder.Services.AddHttpContextAccessor();
 
-
 // to not Valid
 builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
@@ -80,6 +84,8 @@ var app = builder.Build();
 //}
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 

@@ -194,16 +194,18 @@ namespace Api.Controllers.UsersModule.Users
             {
                 var totalCounts = _unitOfWork.Users.Count(x => x.userTypeToken == user.userTypeToken);
                 user.primaryFullCode = $"{user.userTypeToken.ToString()}_{1 + totalCounts}";
+                user.fullCode = (1 + totalCounts).ToString();
                 return user;
             }
         }
+
         private User SetSystemRole(User user)
         {
             if (user.systemRoleToken.HasValue == true)
                 return user;
             else
             {
-                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserTypeToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
                 user.systemRoleToken = systemRole.systemRoleToken;
                 return user;
             }

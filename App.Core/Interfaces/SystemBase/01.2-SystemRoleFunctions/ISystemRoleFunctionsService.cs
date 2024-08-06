@@ -8,7 +8,7 @@ namespace Api.Controllers.SystemBase.LogActions.Interfaces
 {
     public interface ISystemRoleFunctionsService : ITransientService
     {
-        Task<List<SystemRoleFunctionInfo>> GetDetails(Guid systemRoleToken);
+        Task<List<SystemRoleFunctionGrouped>> GetDetails(Guid systemRoleToken);
 
         Task<BaseActionDone<List<SystemRoleFunction>>> UpdatePrivilege(SystemRoleFunctionDto inputModel);
     }

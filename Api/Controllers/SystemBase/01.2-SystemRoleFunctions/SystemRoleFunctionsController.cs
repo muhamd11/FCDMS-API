@@ -41,7 +41,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         [HttpGet("GetSystemRoleFunctionDetails")]
         public async Task<IActionResult> GetSystemRoleFincationDetails([FromQuery] Guid systemRoleToken)
         {
-            BaseGetDetailsResponse<List<SystemRoleFunctionInfo>> response = new();
+            BaseGetDetailsResponse<List<SystemRoleFunctionGrouped>> response = new();
             var watch = Stopwatch.StartNew();
             try
             {

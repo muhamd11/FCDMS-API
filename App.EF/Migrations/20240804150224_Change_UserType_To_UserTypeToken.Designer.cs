@@ -4,6 +4,7 @@ using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240804150224_Change_UserType_To_UserTypeToken")]
+    partial class Change_UserType_To_UserTypeToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -579,7 +582,7 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory.patientBloodPressureMeasurement#App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientBloodPressureMeasurement", b1 =>
+                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientBloodPressureMeasurement", b1 =>
                         {
                             b1.Property<Guid>("medicalHistoryToken")
                                 .HasColumnType("uniqueidentifier");
@@ -601,7 +604,7 @@ namespace App.EF.Migrations
                                 .HasForeignKey("medicalHistoryToken");
                         });
 
-                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory.patientSugarMeasurement#App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientSugarMeasurement", b1 =>
+                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientSugarMeasurement", b1 =>
                         {
                             b1.Property<Guid>("medicalHistoryToken")
                                 .HasColumnType("uniqueidentifier");
@@ -623,7 +626,7 @@ namespace App.EF.Migrations
                                 .HasForeignKey("medicalHistoryToken");
                         });
 
-                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.MedicalHistory.patientThyroidSensitivityMeasurement#App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientThyroidSensitivityMeasurement", b1 =>
+                    b.OwnsOne("App.Core.Models.ClinicModules.MedicalHistoriesModules.BaseMeasurement", "patientThyroidSensitivityMeasurement", b1 =>
                         {
                             b1.Property<Guid>("medicalHistoryToken")
                                 .HasColumnType("uniqueidentifier");
@@ -684,7 +687,7 @@ namespace App.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("App.Core.Models.ClinicModules.VisitsModules.Visit.fetalInformations#App.Core.Models.ClinicModules.VisitsModules.FetalInformation", "fetalInformations", b1 =>
+                    b.OwnsOne("App.Core.Models.ClinicModules.VisitsModules.FetalInformation", "fetalInformations", b1 =>
                         {
                             b1.Property<Guid>("visitToken")
                                 .HasColumnType("uniqueidentifier");

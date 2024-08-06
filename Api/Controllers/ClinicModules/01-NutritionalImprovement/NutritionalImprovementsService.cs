@@ -60,7 +60,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             List<Expression<Func<NutritionalImprovement, bool>>> criteria = [];
 
             if (inputModel.textSearch is not null)
-                criteria.Add(x => x.fullCode.Contains(inputModel.textSearch));
+                criteria.Add(x => x.patientWeightInKg.ToString().Contains(inputModel.textSearch) || x.patientHeightInCm.ToString().Contains(inputModel.textSearch));
 
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.nutritionalImprovementToken == inputModel.elementToken);
@@ -78,6 +78,8 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             var nutritionalImprovement = _mapper.Map<NutritionalImprovement>(inputModel);
 
+            nutritionalImprovement = SetFullCode(nutritionalImprovement);
+
             var patientAge = await _unitOfWork.UserPatients.AsQueryable().Where(x => x.userPatientToken == nutritionalImprovement.userPatientToken)
                                                                    .Select(x => x.userPatientAge)
                                                                    .FirstOrDefaultAsync();
@@ -94,6 +96,21 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var nutritionalImprovementInfo = await _unitOfWork.NutritionalImprovements.FirstOrDefaultAsync(x => x.nutritionalImprovementToken == nutritionalImprovement.nutritionalImprovementToken, NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo());
 
             return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, nutritionalImprovementInfo);
+        }
+        private NutritionalImprovement SetFullCode(NutritionalImprovement nutritionalImprovement)
+        {
+            if (!string.IsNullOrEmpty(nutritionalImprovement.fullCode))
+            {
+                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
+                return nutritionalImprovement;
+            }
+            else
+            {
+                var totalCounts = _unitOfWork.NutritionalImprovements.Count();
+                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
+                nutritionalImprovement.fullCode = (1 + totalCounts).ToString();
+                return nutritionalImprovement;
+            }
         }
 
         private decimal CalculateBmr(NutritionalImprovementAddOrUpdateDTO inputModel, int patientAge)

@@ -5,6 +5,6 @@ namespace App.Core.Models.SystemBase.Roles.DTO
 {
     public class SystemRoleSearchDto : BaseSearchDto
     {
-        public EnumUserType? systemRoleUserType { get; set; }
+        public EnumUserType? systemRoleUserTypeToken { get; set; }
     }
 }

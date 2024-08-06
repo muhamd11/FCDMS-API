@@ -22,6 +22,6 @@ namespace App.Core.Models.Users
         public string userLoginName { get; set; }
 
         [JsonPropertyOrder(-1)]
-        public EnumUserType userType { get; set; }
+        public EnumUserType userTypeToken { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using App.Core;
 using App.Core.Interfaces.SystemBase.Visits;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -72,6 +73,7 @@ namespace Api.Controllers.SystemBase.Visits
         public async Task<BaseActionDone<VisitInfo>> AddOrUpdate(VisitAddOrUpdateDTO inputModel, bool isUpdate)
         {
             var visit = _mapper.Map<Visit>(inputModel);
+            visit = SetFullCode(visit);
 
             if (isUpdate)
                 _unitOfWork.Visits.Update(visit);
@@ -83,6 +85,22 @@ namespace Api.Controllers.SystemBase.Visits
             var visitInfo = await _unitOfWork.Visits.FirstOrDefaultAsync(x => x.visitToken == visit.visitToken, VisitsAdaptor.SelectExpressionVisitInfo());
 
             return BaseActionDone<VisitInfo>.GenrateBaseActionDone(isDone, visitInfo);
+        }
+
+        private Visit SetFullCode(Visit visit)
+        {
+            if (!string.IsNullOrEmpty(visit.fullCode))
+            {
+                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
+                return visit;
+            }
+            else
+            {
+                var totalCounts = _unitOfWork.Visits.Count();
+                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
+                visit.fullCode = (1 + totalCounts).ToString();
+                return visit;
+            }
         }
 
         public async Task<BaseActionDone<VisitInfo>> DeleteAsync(BaseDeleteDto inputModel)

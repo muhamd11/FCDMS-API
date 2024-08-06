@@ -1,4 +1,5 @@
-﻿using Api.Controllers.SystemBase.LogActions.Interfaces;
+﻿using Api.Controllers.SystemBase._01._2_SystemRoleFunctions;
+using Api.Controllers.SystemBase.LogActions.Interfaces;
 using App.Core;
 using App.Core.Consts.Users;
 using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
@@ -38,7 +39,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         #region Methods
 
-        public async Task<List<SystemRoleFunctionInfo>> GetDetails(Guid systemRoleToken)
+        public async Task<List<SystemRoleFunctionGrouped>> GetDetails(Guid systemRoleToken)
         {
             // Fetch the system role based on the given ID
             var systemRole = await _unitOfWork.SystemRoles.FirstOrDefaultAsync(x => x.systemRoleToken == systemRoleToken);
@@ -53,6 +54,26 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             var systemRoleFunctions = GetSystemRoleFincations(systemRole, systemRoleFunctionsInDB);
 
             return GetSystemRoleFunctionsGroupedByModuleId(systemRoleFunctions);
+        }
+
+        private List<SystemRoleFunctionGrouped> GetSystemRoleFunctionsGroupedByModuleId(List<SystemRoleFunction> systemRoleFunctions)
+        {
+            var trueSystemRoleFunctionsGroupedByModuleId = systemRoleFunctions.GroupBy(x => x.moduleId);
+
+            List<SystemRoleFunctionGrouped> systemRoleFunctionsInfo = new();
+
+            foreach (var item in trueSystemRoleFunctionsGroupedByModuleId)
+            {
+                systemRoleFunctionsInfo.Add(
+                    new SystemRoleFunctionGrouped
+                    {
+                        systemRoleFunctionModule = item.Key,
+                        systemRoleFunctions = item.Select(SystemRoleFunctionAdaptor.SelectExpressionSystemRoleFunctionInfo).ToList()
+                    }
+                    );
+            }
+
+            return systemRoleFunctionsInfo;
         }
 
         public async Task<BaseActionDone<List<SystemRoleFunction>>> UpdatePrivilege(SystemRoleFunctionDto inputModel)
@@ -98,9 +119,9 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             List<SystemRoleFunction> trueSystemRoleFunction = new List<SystemRoleFunction>();
 
             // Determine the user type and fetch the corresponding functions
-            if (systemRole.systemRoleUserToken == EnumUserType.Doctor)
+            if (systemRole.systemRoleUserTypeToken == EnumUserType.Doctor || systemRole.systemRoleUserTypeToken == EnumUserType.Developer)
                 trueSystemRoleFunction = _systemRoleFunctionsMangerService.GetSystemRoleFunctions();
-            else if (systemRole.systemRoleUserToken == EnumUserType.Patient)
+            else if (systemRole.systemRoleUserTypeToken == EnumUserType.Patient )
                 trueSystemRoleFunction = _systemRoleFunctionsClientService.GetSystemRoleFunctions();
 
             // Migrate input functions and trueSystemRoleFincation, updating privileges
@@ -113,25 +134,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
             return trueSystemRoleFunction;
         }
 
-        private List<SystemRoleFunctionInfo> GetSystemRoleFunctionsGroupedByModuleId(List<SystemRoleFunction> systemRoleFunctions)
-        {
-            var trueSystemRoleFunctionsGroupedByModuleId = systemRoleFunctions.GroupBy(x => x.moduleId);
 
-            List<SystemRoleFunctionInfo> systemRoleFunctionsInfo = new();
-
-            foreach (var item in trueSystemRoleFunctionsGroupedByModuleId)
-            {
-                systemRoleFunctionsInfo.Add(
-                    new SystemRoleFunctionInfo
-                    {
-                        systemRoleFunctionModule = item.Key,
-                        systemRoleFunctions = item.ToList()
-                    }
-                    );
-            }
-
-            return systemRoleFunctionsInfo;
-        }
 
         #endregion Methods
     }

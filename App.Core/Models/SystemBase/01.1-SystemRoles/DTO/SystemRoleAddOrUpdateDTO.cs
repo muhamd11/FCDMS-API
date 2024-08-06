@@ -7,7 +7,8 @@ namespace App.Core.Models.SystemBase.Roles.DTO
         public Guid systemRoleToken { get; set; }
         public string systemRoleName { get; set; }
         public string systemRoleDescription { get; set; }
-        public EnumUserType systemRoleUserType { get; set; }
+        public EnumUserType systemRoleUserTypeToken { get; set; }
         public bool systemRoleCanUseDefault { get; set; }
+        public string fullCode { get; set; }
     }
 }

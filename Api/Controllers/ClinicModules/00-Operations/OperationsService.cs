@@ -5,6 +5,7 @@ using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.Users;
 using AutoMapper;
 using System.Linq.Expressions;
 
@@ -75,7 +76,7 @@ namespace Api.Controllers.SystemBase.Operations
         public async Task<BaseActionDone<OperationInfo>> AddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate)
         {
             var operation = _mapper.Map<Operation>(inputModel);
-
+            operation = SetFullCode(operation, isUpdate);
             if (isUpdate)
                 _unitOfWork.Operations.Update(operation);
             else
@@ -88,6 +89,21 @@ namespace Api.Controllers.SystemBase.Operations
             return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, operationInfo);
         }
 
+        private Operation SetFullCode(Operation operation, bool isUpdate)
+        {
+            if (!string.IsNullOrEmpty(operation.fullCode))
+            {
+                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
+                return operation;
+            }
+            else
+            {
+                var totalCounts = _unitOfWork.Operations.Count();
+                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
+                operation.fullCode = isUpdate ? totalCounts.ToString() : (1 + totalCounts).ToString();
+                return operation;
+            }
+        }
         public async Task<BaseActionDone<OperationInfo>> DeleteAsync(BaseDeleteDto inputModel)
         {
             var operation = await _unitOfWork.Operations.FirstOrDefaultAsync(x => x.operationToken == inputModel.elementToken);

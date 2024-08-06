@@ -70,6 +70,15 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عذرا, ليس لديك صلاحية.
+        /// </summary>
+        public static string errorHasNoPermission {
+            get {
+                return ResourceManager.GetString("errorHasNoPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to يرجى إدخال رقم الهاتف أو البريد الإلكتروني أو اسم المستخدم لتسجيل الدخول..
         /// </summary>
         public static string errorInvalidLoginData {

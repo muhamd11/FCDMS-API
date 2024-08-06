@@ -120,6 +120,9 @@
   <data name="errorEmailIsRequired" xml:space="preserve">
     <value>عذرًا، يجب إدخال بريد المستخدم الإلكتروني</value>
   </data>
+  <data name="errorHasNoPermission" xml:space="preserve">
+    <value>عذرا, ليس لديك صلاحية</value>
+  </data>
   <data name="errorInvalidLoginData" xml:space="preserve">
     <value>يرجى إدخال رقم الهاتف أو البريد الإلكتروني أو اسم المستخدم لتسجيل الدخول.</value>
   </data>

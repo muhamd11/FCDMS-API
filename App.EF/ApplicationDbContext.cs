@@ -59,34 +59,16 @@ namespace App.EF
 
         public override int SaveChanges()
         {
-            GenerateCodes();
-            //LogChanges();
+
+            LogChanges();
             return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            GenerateCodes();
-            //LogChanges();
+
+            LogChanges();
             return await base.SaveChangesAsync(cancellationToken);
-        }
-
-        private void GenerateCodes()
-        {
-            var entries = ChangeTracker.Entries()
-                .Where(e => e.Entity is BaseEntity && e.State == EntityState.Added || e.State == EntityState.Modified).ToList();
-
-            foreach (var entry in entries)
-            {
-                var entity = (BaseEntity)entry.Entity;
-                if ((entry.State == EntityState.Added || entry.State == EntityState.Modified) && !ValidationClass.IsValidString(entity.fullCode))
-                    entity.fullCode = GenerateUniqueFullCode();
-            }
-        }
-
-        private string GenerateUniqueFullCode()
-        {
-            return "fullname";
         }
 
         private Guid GetUserToken()
@@ -141,7 +123,7 @@ namespace App.EF
         {
             var logEntry = new LogAction
             {
-                userToken = GetUserToken(),
+                userToken = GetUserToken() == Guid.Empty ? null : GetUserToken(),
                 modelName = entry.Entity.GetType().Name,
                 actionType = entry.State.ToString(),
                 actionDate = DateTime.UtcNow

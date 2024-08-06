@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.UsersModules._01._2_UserAuthentications._0._2_Filters;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
@@ -73,6 +74,7 @@ namespace Api.Controllers.ClinicModules.Operations
         }
 
         [HttpGet("GetAll")]
+        [HasPermission($"{nameof(Operation)}_{nameof(EnumFunctionsType.view)}")]
         public async Task<IActionResult> GetAll([FromQuery] OperationSearchDTO inputModel)
         {
             BaseGetAllResponse<OperationInfo> response = new();

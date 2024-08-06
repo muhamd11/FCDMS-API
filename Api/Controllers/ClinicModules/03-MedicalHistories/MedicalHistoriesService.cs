@@ -3,6 +3,7 @@ using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
@@ -73,7 +74,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         public async Task<BaseActionDone<MedicalHistoryInfo>> AddOrUpdate(MedicalHistoryAddOrUpdateDTO inputModel, bool isUpdate)
         {
             var medicalHistory = _mapper.Map<MedicalHistory>(inputModel);
-
+            medicalHistory = SetFullCode(medicalHistory);
             AddPatientMeasurement(medicalHistory);
 
             if (isUpdate)
@@ -86,6 +87,22 @@ namespace Api.Controllers.SystemBase.MedicalHistories
             var medicalHistoryInfo = await _unitOfWork.MedicalHistories.FirstOrDefaultAsync(x => x.medicalHistoryToken == medicalHistory.medicalHistoryToken, MedicalHistoriesAdaptor.SelectExpressionMedicalHistoryInfo());
 
             return BaseActionDone<MedicalHistoryInfo>.GenrateBaseActionDone(isDone, medicalHistoryInfo);
+        }
+
+        private MedicalHistory SetFullCode(MedicalHistory medicalHistory)
+        {
+            if (!string.IsNullOrEmpty(medicalHistory.fullCode))
+            {
+                //operation.primaryFullCode = $"{operation.Op.ToString()}_{operation.fullCode}";
+                return medicalHistory;
+            }
+            else
+            {
+                var totalCounts = _unitOfWork.MedicalHistories.Count();
+                //operation.primaryFullCode = $"{operation.userTypeToken.ToString()}_{1 + totalCounts}";
+                medicalHistory.fullCode = (1 + totalCounts).ToString();
+                return medicalHistory;
+            }
         }
 
         private static void AddPatientMeasurement(MedicalHistory medicalHistory)

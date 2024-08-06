@@ -7,7 +7,7 @@ namespace App.Core.Models.SystemBase.Roles.ViewModel
     {
         public Guid systemRoleToken { get; set; }
         public string systemRoleName { get; set; }
-        public EnumUserType systemRoleUserType { get; set; }
+        public EnumUserType systemRoleUserTypeToken { get; set; }
         public bool systemRoleCanUseDefault { get; set; }
     }
 }

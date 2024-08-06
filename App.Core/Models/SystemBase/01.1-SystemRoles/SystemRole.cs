@@ -20,7 +20,7 @@ namespace App.Core.Models.SystemBase.Roles
 
         public string systemRoleName { get; set; }
         public string systemRoleDescription { get; set; }
-        public EnumUserType systemRoleUserToken { get; set; }
+        public EnumUserType systemRoleUserTypeToken { get; set; }
         public bool systemRoleCanUseDefault { get; set; }
         public ICollection<User> usersData { get; set; }
     }
