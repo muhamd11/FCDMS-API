@@ -74,17 +74,16 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
         {
-            #region isAuthorizedUser *
-
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
-
-            if (isAuthorizedUser.Status != EnumStatus.success)
-                return isAuthorizedUser;
-
-            #endregion isAuthorizedUser *
-
             if (inputModel is not null)
             {
+                #region isAuthorizedUser *
+
+                var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
+                if (isAuthorizedUser.Status != EnumStatus.success)
+                    return isAuthorizedUser;
+
+                #endregion isAuthorizedUser *
+
                 var isValidOperationToken = ValidOperationToken(inputModel.elementToken);
                 if (isValidOperationToken.Status != EnumStatus.success)
                     return isValidOperationToken;
@@ -97,27 +96,21 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidAddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate)
         {
-            #region isAuthorizedUser *
-
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationAdd);
-
-            if (isAuthorizedUser.Status != EnumStatus.success)
-                return isAuthorizedUser;
-
-            #endregion isAuthorizedUser *
 
             if (inputModel is not null)
             {
+                #region isAuthorizedUser *
+
+                var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(isUpdate? operationUpdate : operationAdd);
+
+                if (isAuthorizedUser.Status != EnumStatus.success)
+                    return isAuthorizedUser;
+
+                #endregion isAuthorizedUser *
+
+
                 if (isUpdate)
-                {
-                    #region isAuthorizedUser *
-
-                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationUpdate);
-
-                    if (isAuthorizedUser.Status != EnumStatus.success)
-                        return isAuthorizedUser;
-
-                    #endregion isAuthorizedUser *
+                { 
 
                     #region operationId?
 

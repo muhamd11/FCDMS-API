@@ -13,7 +13,7 @@ namespace App.Core.Helper.Validations
                 return true;
         }
 
-        public static bool IsValidString(string str)
+        public static bool IsValidString(string? str)
         {
             if (string.IsNullOrWhiteSpace(str))
                 return false;

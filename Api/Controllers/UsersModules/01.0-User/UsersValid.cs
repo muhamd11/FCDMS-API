@@ -1,4 +1,5 @@
-﻿using Api.Controllers.UsersModules.Users.Interfaces;
+﻿using Api.Controllers.UsersModules._01._2_UserAuthentications;
+using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
@@ -19,9 +20,9 @@ namespace Api.Controllers.UsersModule.Users
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAuthorized _authorized;
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
 
         private readonly string userView = $"{nameof(User)}_{nameof(EnumFunctionsType.view)}";
         private readonly string userAdd = $"{nameof(User)}_{nameof(EnumFunctionsType.add)}";
@@ -32,15 +33,12 @@ namespace Api.Controllers.UsersModule.Users
 
         #region Constructor
 
-        public UsersValid(IUnitOfWork unitOfWork,
-                         ISystemRolesValid systemRolesValid,
-                         IUserProfileValid userProfileValid,
-                         IUserAuthenticationValid userAuthenticationValid)
+        public UsersValid(IUnitOfWork unitOfWork, IAuthorized authorized, ISystemRolesValid systemRolesValid, IUserProfileValid userProfileValid)
         {
             _unitOfWork = unitOfWork;
+            _authorized = authorized;
             _systemRolesValid = systemRolesValid;
             _userProfileValid = userProfileValid;
-            _userAuthenticationValid = userAuthenticationValid;
         }
 
         #endregion Constructor
@@ -51,7 +49,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(userView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -81,7 +79,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(userView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -104,7 +102,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(userAdd);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -115,7 +113,7 @@ namespace Api.Controllers.UsersModule.Users
             {
                 #region isAuthorizedUser *
 
-                isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userUpdate);
+                isAuthorizedUser = _authorized.IsAuthorizedUser(userUpdate);
 
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
@@ -248,7 +246,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(userDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(userDelete);
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 

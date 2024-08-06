@@ -1,8 +1,6 @@
 ﻿using Api.Controllers.UsersModules.Users.Interfaces;
-using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.Users;
-using App.Core.Helper.Json;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.LocalModels;
@@ -19,37 +17,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
     {
         private readonly IMapper _mapper;
         private readonly IUsersValid _usersValid;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly IUnitOfWork _unitOfWork;
 
-        private readonly string _userAuthorizeToken = "userAuthorizeToken";
-
-        public UserAuthenticationValid(IUsersValid usersValid, IMapper mapper, IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        public UserAuthenticationValid(IUsersValid usersValid, IMapper mapper)
         {
             _mapper = mapper;
             _usersValid = usersValid;
-            _httpContextAccessor = httpContextAccessor;
-            _unitOfWork = unitOfWork;
-        }
-
-        public BaseValid IsAuthorizedUser(string functionId)
-        {
-            if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue(_userAuthorizeToken, out var userAuthorizeToken))
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserAuthorizeTokenNotFound);
-
-            var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken);
-
-            var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userAuthorize.userToken);
-
-            if (user == null)
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserDoesNotExists);
-
-            var SystemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.functionId == functionId);
-
-            if (SystemRoleFunction is null)
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorHasNoPermission);
-
-            return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
         public BaseValid IsValidLogin(UserLoginDto inputModel)

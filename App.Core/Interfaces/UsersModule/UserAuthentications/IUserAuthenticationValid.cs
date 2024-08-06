@@ -7,8 +7,6 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
 {
     public interface IUserAuthenticationValid : ITransientService
     {
-        BaseValid IsAuthorizedUser(string functionId);
-
         BaseValid IsValidLogin(UserLoginDto inputModel);
 
         BaseValid IsValidSignUp(UserSignUpDto inputModel);
