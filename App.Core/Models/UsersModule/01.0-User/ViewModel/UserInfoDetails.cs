@@ -6,8 +6,8 @@ namespace App.Core.Models.Users
 {
     public class UserInfoDetails : UserInfo
     {
-        public SystemRoleInfo roleData { get; set; }
-        public UserProfile userProfileData { get; set; }
-        public UserPatientInfo userPatientInfoData { get; set; }
+        public SystemRoleInfo ? roleData { get; set; }
+        public UserProfile ? userProfileData { get; set; }
+        public UserPatientInfo ? userPatientInfoData { get; set; }
     }
 }

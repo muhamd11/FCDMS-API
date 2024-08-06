@@ -56,7 +56,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             }
 
             if (inputModel.systemRoleUserTypeToken.HasValue)
-                criteria.Add(x => x.systemRoleUserTypeToken == inputModel.systemRoleUserTypeToken.Value);
+                criteria.Add(x => x.userTypeToken == inputModel.systemRoleUserTypeToken.Value);
 
             if(inputModel.fullCode is not null)
                 criteria.Add(x => x.fullCode == inputModel.fullCode);
@@ -103,13 +103,13 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             if (!string.IsNullOrEmpty(systemRole.fullCode))
             {
-                systemRole.primaryFullCode = $"{systemRole.systemRoleUserTypeToken.ToString()}_{systemRole.fullCode}";
+                systemRole.primaryFullCode = $"{systemRole.userTypeToken.ToString()}_{systemRole.fullCode}";
                 return systemRole;
             }
             else
             {
-                var totalCounts = _unitOfWork.SystemRoles.Count(x => x.systemRoleUserTypeToken == systemRole.systemRoleUserTypeToken);
-                systemRole.primaryFullCode = $"{systemRole.systemRoleUserTypeToken.ToString()}_{1 + totalCounts}";
+                var totalCounts = _unitOfWork.SystemRoles.Count(x => x.userTypeToken == systemRole.userTypeToken);
+                systemRole.primaryFullCode = $"{systemRole.userTypeToken.ToString()}_{1 + totalCounts}";
                 systemRole.fullCode = (1 + totalCounts).ToString();
                 return systemRole;
             }

@@ -7,6 +7,7 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using App.Core.Models.Users;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -100,13 +101,14 @@ namespace Api.Controllers.UsersModule.Users
         {
             var userOnly = _mapper.Map<User>(inputModel);
 
-            ClearInvalidUserFields(userOnly);
-
-            userOnly = GetUserOnlyWithoutProfiles(userOnly);
+            userOnly = AdaptationUserDataToAdd(userOnly);
 
             if (isUpdate)
             {
                 await DeleteAllOldProfile(userOnly.userToken);
+
+                var oldUser = _unitOfWork.Users.FirstOrDefault(x => x.userToken == inputModel.userToken);
+                userOnly.userPassword = oldUser.userPassword; // privent edit
                 userOnly = _unitOfWork.Users.Update(userOnly);
             }
             else
@@ -122,16 +124,22 @@ namespace Api.Controllers.UsersModule.Users
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }
 
-        private static void ClearInvalidUserFields(User userOnly)
+        public async Task<BaseActionDone<UserInfo>> AddFromSginUp(UserSignUpDto inputModel)
         {
-            if (!ValidationClass.IsValidString(userOnly.userEmail))
-                userOnly.userEmail = null;
-            if (!ValidationClass.IsValidString(userOnly.userLoginName))
-                userOnly.userLoginName = null;
-            if (!ValidationClass.IsValidString(userOnly.userPhone))
-                userOnly.userPhone = null;
-            if (!ValidationClass.IsValidString(userOnly.fullCode))
-                userOnly.fullCode = null;
+            UserAddOrUpdateDTO userAddOrUpdateDTO = new()
+            {
+                userName = inputModel.userName,
+                userEmail = inputModel.userEmail,
+                userPhone = inputModel.userPhone,
+                userPhoneCC = inputModel.userPhoneCC,
+                userPhoneCCName = inputModel.userPhoneCCName,
+                userLoginName = inputModel.userName,
+                userPassword = inputModel.userPassword,
+                userProfileData = inputModel.userProfileData,
+                userPatientData = inputModel.userPatientData
+            };
+
+            return await AddOrUpdate(userAddOrUpdateDTO, false);
         }
 
         private async Task AddNewProfiles(Guid userToken, UserAddOrUpdateDTO inputModel)
@@ -171,10 +179,12 @@ namespace Api.Controllers.UsersModule.Users
             }
         }
 
-        private User GetUserOnlyWithoutProfiles(User user)
+        private User AdaptationUserDataToAdd(User user)
         {
             user = SetFullCode(user);
             user = SetSystemRole(user);
+            //TODO set password in constants class 
+            user.userPassword = ValidationClass.IsValidString(user.userPassword) == false ? "0000" : user.userPassword;
             user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
             user.userProfileData = null;
             user.userPatientData = null;
@@ -205,7 +215,7 @@ namespace Api.Controllers.UsersModule.Users
                 return user;
             else
             {
-                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleUserTypeToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.userTypeToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
                 user.systemRoleToken = systemRole.systemRoleToken;
                 return user;
             }

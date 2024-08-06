@@ -1,11 +1,11 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Interfaces.UsersModule.UserAuthentications.UsersLogin;
-using App.Core.Interfaces.UsersModule.UserAuthentications.UsersSignUp;
+using App.Core.Models.General.LocalModels;
+using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.ViewModel;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
-using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.ViewModel;
+using App.Core.Resources.UsersModules.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -13,14 +13,13 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersAuthController : ControllerBase
+    public class UserAuthenticationController : ControllerBase
     {
         #region Members
 
-        private readonly IUserAuthServices _userAuthServices;
-        private readonly IUsersLoginValid _usersLoginValid;
-        private readonly IUsersSignUpValid _usersSignUpValid;
-        private readonly ILogger<UsersAuthController> _logger;
+        private readonly IUserAuthenticationValid _usersAuthValid;
+        private readonly IUserAuthenticationServices _userAuthServices;
+        private readonly ILogger<UserAuthenticationController> _logger;
         private readonly string userLoginInfo = "userLoginInfo";
         private readonly string userSignupInfo = "userSignupInfo";
 
@@ -28,12 +27,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
 
         #region Constructor
 
-        public UsersAuthController(IUserAuthServices userAuthServices, IUsersLoginValid usersLoginValid, ILogger<UsersAuthController> logger, IUsersSignUpValid usersSignUpValid)
+        public UserAuthenticationController(IUserAuthenticationServices userAuthServices, IUserAuthenticationValid usersAuthValid, ILogger<UserAuthenticationController> logger)
         {
             _userAuthServices = userAuthServices;
-            _usersLoginValid = usersLoginValid;
+            _usersAuthValid = usersAuthValid;
             _logger = logger;
-            _usersSignUpValid = usersSignUpValid;
         }
 
         #endregion Constructor
@@ -45,13 +43,16 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidLogin = _usersLoginValid.IsValidLogin(inputModel);
+                var isValidLogin = _usersAuthValid.IsValidLogin(inputModel);
                 if (isValidLogin.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidLogin, userLoginInfo);
                 else
                 {
                     var userInfo = await _userAuthServices.Login(inputModel);
-                    response = response.CreateResponse(userInfo, userLoginInfo);
+                    if (userInfo != null)
+                        response = response.CreateResponse(userInfo, userLoginInfo);
+                    else
+                        response = response.CreateResponse(BaseValid.createBaseValidError(UsersMessagesAr.errorInvalidUserLoginData), userLoginInfo);
                 }
             }
             catch (Exception ex)
@@ -70,11 +71,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
         [HttpPost("Signup")]
         public async Task<IActionResult> Signup([FromBody] UserSignUpDto inputModel)
         {
-            BaseGetDetailsResponse<UserSignUpInfo> response = new();
+            BaseGetDetailsResponse<UserInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidSignUp = _usersSignUpValid.IsValidSignUp(inputModel);
+                var isValidSignUp = _usersAuthValid.IsValidSginUp(inputModel);
                 if (isValidSignUp.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidSignUp, userSignupInfo);
                 else

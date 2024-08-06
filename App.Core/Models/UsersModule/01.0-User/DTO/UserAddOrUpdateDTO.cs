@@ -10,19 +10,18 @@ namespace App.Core.Models.Users
     {
         public Guid userToken { get; set; }
         public string? fullCode { get; set; }
-        public string userName { get; set; }
-        public string userEmail { get; set; }
-        public string userPhone { get; set; }
-        public string userPhoneCC { get; set; }
-        public string userPhoneCCName { get; set; }
-        public string userLoginName { get; set; }
-        public string userPassword { get; set; }
+        public string? userName { get; set; }
+        public string? userEmail { get; set; }
+        public string? userPhone { get; set; }
+        public string? userPhoneCC { get; set; }
+        public string? userPhoneCCName { get; set; }
+        public string? userLoginName { get; set; }
+        public string? userPassword { get; set; }
         public EnumUserType userTypeToken { get; set; }
-
         public Guid? systemRoleToken { get; set; }
-        public UserProfile userProfileData { get; set; } = new();
-        public UserPatient userPatientData { get; set; } = new();
-        public UserEmployee userEmployeeData { get; set; } = new();
-        public UserDoctor userDoctorData { get; set; } = new();
+        public UserProfile? userProfileData { get; set; } 
+        public UserPatient? userPatientData { get; set; } 
+        public UserEmployee? userEmployeeData { get; set; } 
+        public UserDoctor? userDoctorData { get; set; }
     }
 }

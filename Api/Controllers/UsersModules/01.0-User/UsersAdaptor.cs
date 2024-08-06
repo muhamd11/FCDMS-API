@@ -30,17 +30,17 @@ namespace Api.Controllers.UsersModule.Users
             {
                 userToken = user.userToken,
                 userName = user.userName,
-                userEmail = user.userEmail,
-                userPhone = user.userPhone,
-                userLoginName = user.userLoginName,
+                userEmail = user.userEmail!,
+                userPhone = user.userPhone!,
+                userLoginName = user.userLoginName!,
                 userTypeToken = user.userTypeToken,
-                fullCode = user.fullCode,
+                fullCode = user.fullCode!,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
-                roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
-                userProfileData = user.userProfileData,
-                userPatientInfoData = user.userPatientData != null ? UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData) : new(),
+                roleData =  SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
+                userProfileData = user.userProfileData ,
+                userPatientInfoData = UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData),
             };
         }
 
@@ -68,6 +68,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             if (user == null)
                 return null;
+
             return new UserInfoDetails
             {
                 userToken = user.userToken,

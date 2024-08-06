@@ -16,7 +16,7 @@ namespace Api.Controllers.UsersModule.Users
             };
         }
 
-        public static UserPatientInfo SelectExpressionUserPatientInfo(UserPatient user)
+        public static UserPatientInfo? SelectExpressionUserPatientInfo(UserPatient? user)
         {
             if (user == null)
                 return null;

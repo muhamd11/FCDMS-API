@@ -1,24 +1,30 @@
-﻿using App.Core;
+﻿using Api.Controllers.UsersModules.Users.Interfaces;
+using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Validations;
-using App.Core.Interfaces.UsersModule.UserAuthentications.UsersLogin;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
+using AutoMapper;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLogin
 {
-    public class UsersLoginValid : IUsersLoginValid
+    public class UserAuthenticationValid : IUserAuthenticationValid
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private readonly IUsersValid _usersValid;
 
-        public UsersLoginValid(IUnitOfWork unitOfWork)
+        public UserAuthenticationValid(IUsersValid usersValid, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+            _mapper = mapper;
+            _usersValid = usersValid;
         }
 
         public BaseValid IsValidLogin(UserLoginDto inputModel)
@@ -39,43 +45,37 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
 
                 #endregion userPasswordText *
 
-                #region ValidLoginData *
-
-                var isValidLoginData = IsValidLoginData(inputModel);
-                if (isValidLoginData.Status != EnumStatus.success)
-                    return isValidLoginData;
-
-                #endregion ValidLoginData *
-
                 return BaseValid.createBaseValid(UsersMessagesAr.loginSuccess, EnumStatus.success);
             }
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid IsValidLoginData(UserLoginDto inputModel)
+
+        BaseValid IUserAuthenticationValid.IsValidSginUp(UserSignUpDto inputModel)
         {
-            var hashedPassword = MethodsClass.Encrypt_Base64(inputModel.userPassword);
-
-            var user = _unitOfWork.Users.FirstOrDefault(GetCriteria(inputModel, hashedPassword));
-
-            if (user is not null)
-                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-            else
-                return BaseValid.createBaseValid(UsersMessagesAr.errorInvalidUserLoginData, EnumStatus.error);
-        }
-
-        private static List<Expression<Func<User, bool>>> GetCriteria(UserLoginDto inputModel, string hashedPassword)
-        {
-            var criteria = new List<Expression<Func<User, bool>>>()
+            if (inputModel is not null)
             {
-                user => user.userPassword == hashedPassword,
-                user => user.userLoginName == inputModel.userLoginText
-                || user.userEmail == inputModel.userLoginText
-                || user.userPhone == inputModel.userLoginText
-            };
+                var userAddOrUpdateDTO = _mapper.Map<UserAddOrUpdateDTO>(inputModel);
+                userAddOrUpdateDTO.userTypeToken = EnumUserType.Patient;
 
-            return criteria;
+                #region userPassword *
+
+                if (!ValidationClass.IsValidString(inputModel.userPassword))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorPasswordRequired, EnumStatus.error);
+
+                #endregion userPassword *
+
+                #region ValidUserData*
+                var isValidUserData = _usersValid.ValidUserData(userAddOrUpdateDTO);
+                if (isValidUserData.Status != EnumStatus.success)
+                    return isValidUserData;
+                #endregion
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
     }
 }

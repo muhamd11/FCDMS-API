@@ -13,7 +13,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
+                systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
@@ -28,7 +28,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
+                systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
@@ -37,7 +37,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             };
         }
 
-        public static SystemRoleInfo SelectExpressionSystemRoleInfo(SystemRole systemRole)
+        public static SystemRoleInfo? SelectExpressionSystemRoleInfo(SystemRole? systemRole)
         {
             if (systemRole == null)
                 return null;
@@ -46,8 +46,8 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
-                fullCode = systemRole.fullCode,
+                systemRoleUserTypeToken = systemRole.userTypeToken,
+                fullCode = systemRole.fullCode!,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).updatedDateTime,
@@ -64,7 +64,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
+                systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,

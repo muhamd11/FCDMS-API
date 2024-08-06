@@ -116,4 +116,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\UsersModule\01.2-UserAuthentications\SignUpModule\ViewModel\" />
+  </ItemGroup>
+
 </Project>

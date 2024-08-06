@@ -84,7 +84,7 @@ namespace App.Core.Helper.Validations
 
         public static bool IsEnumValue<TEnum>(TEnum value) where TEnum : Enum
         {
-            return Enum.IsDefined(typeof(TEnum), value);
+                return Enum.IsDefined(typeof(TEnum), value);
         }
 
         #region Validation IsNumber
