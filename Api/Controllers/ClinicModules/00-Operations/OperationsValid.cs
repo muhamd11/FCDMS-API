@@ -11,6 +11,7 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.ClinicModules.Operations;
 using App.Core.Resources.General;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Api.Controllers.SystemBase.Operations
 {
@@ -21,12 +22,7 @@ namespace Api.Controllers.SystemBase.Operations
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
         private readonly IAuthorized _authorized;
-
-        private readonly string operationView = $"{nameof(Operation)}_{nameof(EnumFunctionsType.view)}";
-        private readonly string operationAdd = $"{nameof(Operation)}_{nameof(EnumFunctionsType.add)}";
-        private readonly string operationUpdate = $"{nameof(Operation)}_{nameof(EnumFunctionsType.update)}";
-        private readonly string operationDelete = $"{nameof(Operation)}_{nameof(EnumFunctionsType.delete)}";
-
+        private readonly string moduleToken = nameof(Operation);
         #endregion Members
 
         #region Constructor
@@ -46,8 +42,7 @@ namespace Api.Controllers.SystemBase.Operations
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(operationView);
-
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 
@@ -78,7 +73,7 @@ namespace Api.Controllers.SystemBase.Operations
             {
                 #region isAuthorizedUser *
 
-                var isAuthorizedUser = _authorized.IsAuthorizedUser(operationView);
+                var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
 
@@ -100,9 +95,7 @@ namespace Api.Controllers.SystemBase.Operations
             if (inputModel is not null)
             {
                 #region isAuthorizedUser *
-
-                var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate? operationUpdate : operationAdd);
-
+                var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
 
@@ -110,7 +103,7 @@ namespace Api.Controllers.SystemBase.Operations
 
 
                 if (isUpdate)
-                { 
+                {
 
                     #region operationId?
 
@@ -168,8 +161,7 @@ namespace Api.Controllers.SystemBase.Operations
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(operationDelete);
-
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 

@@ -17,7 +17,6 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
     {
         #region Members
 
-        private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ISystemRoleFunctionsClientService _systemRoleFunctionsClientService;
         private readonly ISystemRoleFunctionsMangerService _systemRoleFunctionsMangerService;
@@ -26,10 +25,9 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         #region Constructor
 
-        public SystemRoleFunctionService(IUnitOfWork unitOfWork, IMapper mapper, ISystemRoleFunctionsClientService systemRoleFunctionsClientService, ISystemRoleFunctionsMangerService systemRoleFunctionsMangerService)
+        public SystemRoleFunctionService(IUnitOfWork unitOfWork, ISystemRoleFunctionsClientService systemRoleFunctionsClientService, ISystemRoleFunctionsMangerService systemRoleFunctionsMangerService)
 
         {
-            _mapper = mapper;
             _unitOfWork = unitOfWork;
             _systemRoleFunctionsClientService = systemRoleFunctionsClientService;
             _systemRoleFunctionsMangerService = systemRoleFunctionsMangerService;

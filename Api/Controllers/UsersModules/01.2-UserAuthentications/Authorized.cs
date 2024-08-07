@@ -1,5 +1,6 @@
 ﻿using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Helper.Json;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
@@ -20,7 +21,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public BaseValid IsAuthorizedUser(string functionFullId)
+        public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType)
         {
             var userAuthorizeToken = GetUserAuthorizeToken();
             if (!ValidationClass.IsValidString(userAuthorizeToken))
@@ -33,7 +34,10 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             if (user == null)
                 return BaseValid.createBaseValidError(UsersMessagesAr.errorUserDoesNotExists);
 
-            var systemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.functionId == functionFullId);
+
+            var systemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken
+                                                                                    && x.moduleId == moduleToken
+                                                                                    && x.functionsType == functionsType);
 
             if (systemRoleFunction?.isHavePrivilege != true)
                 return BaseValid.createBaseValidError(UsersMessagesAr.errorHasNoPermission);
