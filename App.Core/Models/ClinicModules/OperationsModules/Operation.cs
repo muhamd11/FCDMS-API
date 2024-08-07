@@ -25,6 +25,5 @@ namespace App.Core.Models.ClinicModules.OperationsModules
 
         public User userPatientData { get; set; }
 
-        //TODO: Add Clinic Token And Clinic Class
     }
 }

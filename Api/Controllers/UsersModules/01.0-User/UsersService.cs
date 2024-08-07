@@ -1,4 +1,5 @@
 ﻿using App.Core;
+using App.Core.Consts.GeneralModels;
 using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Validations;
@@ -108,7 +109,7 @@ namespace Api.Controllers.UsersModule.Users
                 await DeleteAllOldProfile(userOnly.userToken);
 
                 var oldUser = _unitOfWork.Users.FirstOrDefault(x => x.userToken == inputModel.userToken);
-                userOnly.userPassword = oldUser.userPassword; // privent edit
+                userOnly.userPassword = oldUser.userPassword; // prevent edit
                 userOnly = _unitOfWork.Users.Update(userOnly);
             }
             else
@@ -184,9 +185,8 @@ namespace Api.Controllers.UsersModule.Users
         {
             user = SetFullCode(user);
             user = SetSystemRole(user);
-            //TODO set password in constants class
-            user.userPassword = ValidationClass.IsValidString(user.userPassword) == false ? "0000" : user.userPassword;
-            user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword);
+            user.userPassword = ValidationClass.IsValidString(user.userPassword) ? user.userPassword : ConstantStrings.defaultPassword;
+            user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword!);
             user.userProfileData = null;
             user.userPatientData = null;
             user.userEmployeeData = null;

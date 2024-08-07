@@ -1,6 +1,5 @@
 ﻿using App.Core.Helper.Json;
 using App.Core.Interfaces.GeneralInterfaces;
-using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
@@ -16,7 +15,6 @@ using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.EF.Configurations;
 using App.EF.Configurations.Converter;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
@@ -25,10 +23,11 @@ namespace App.EF
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly IHeaderRequist _headerRequist;
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHeaderRequist headerRequist) : base(options)
+        private readonly IHeaderRequest _headerRequest;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHeaderRequest headerRequest) : base(options)
         {
-            _headerRequist = headerRequist;
+            _headerRequest = headerRequest;
         }
 
         #region override Configurations
@@ -102,7 +101,7 @@ namespace App.EF
         {
             var logEntry = new LogAction
             {
-                userToken = _headerRequist.GetUserToken(),
+                userToken = _headerRequest.GetUserToken(),
                 modelName = entry.Entity.GetType().Name,
                 actionType = entry.State.ToString(),
                 actionDate = DateTime.UtcNow
@@ -130,29 +129,19 @@ namespace App.EF
 
         private void SetStringEmptyByNull()
         {
-            foreach (var entry in ChangeTracker.Entries())
+            var values = ChangeTracker.Entries().Where(e => e.State == EntityState.Added || e.State == EntityState.Modified)
+                                                .Select(x => x.CurrentValues).ToList();
+
+            foreach (var value in values)
             {
-                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
-                {
-                    var properties = entry.CurrentValues.Properties;
-                    foreach (var property in properties)
-                    {
-                        if (property.ClrType == typeof(string))
-                        {
-                            var currentValue = entry.CurrentValues[property] as string;
-                            if (string.IsNullOrWhiteSpace(currentValue))
-                            {
-                                entry.CurrentValues[property] = null;
-                            }
-                        }
-                    }
-                }
+                var properties = value.Properties.Where(p => p.ClrType == typeof(string) && string.IsNullOrWhiteSpace(value[p] as string)).ToList();
+                foreach (var property in properties)
+                    value[property] = null;
             }
         }
 
         private string SerializeProperties(PropertyValues values)
             => JsonConvert.SerializeObject(values.Properties.ToDictionary(p => p.Name, p => values[p]), JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
-
 
         #endregion override SaveChanges
 

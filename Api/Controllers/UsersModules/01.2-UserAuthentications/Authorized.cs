@@ -15,18 +15,18 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
     public class Authorized : IAuthorized
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHeaderRequist _headerRequist;
+        private readonly IHeaderRequest _headerRequest;
 
-        public Authorized(IUnitOfWork unitOfWork, IHeaderRequist headerRequist)
+        public Authorized(IUnitOfWork unitOfWork, IHeaderRequest headerRequest)
         {
             _unitOfWork = unitOfWork;
-            _headerRequist = headerRequist;
+            _headerRequest = headerRequest;
         }
 
 
         public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType)
         {
-            var userToken = _headerRequist.GetUserToken();
+            var userToken = _headerRequest.GetUserToken();
             if (userToken is null)
                 return BaseValid.createBaseValid(UsersMessagesAr.errorUserAuthorizeTokenNotFound, EnumStatus.unauthorized);
 

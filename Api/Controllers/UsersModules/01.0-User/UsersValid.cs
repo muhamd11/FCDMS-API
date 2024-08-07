@@ -11,6 +11,7 @@ using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.Users;
 using App.Core.Resources.General;
+using App.Core.Resources.SystemBase.SystemRoles;
 using App.Core.Resources.UsersModules.User;
 
 namespace Api.Controllers.UsersModule.Users
@@ -185,8 +186,8 @@ namespace Api.Controllers.UsersModule.Users
             else
             {
                 var defaultSystemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.userTypeToken == inputModel.userTypeToken);
-                if (defaultSystemRole == null) //TODO Change Message
-                    return BaseValid.createBaseValid("لا يوجد صلاحية افتراضية الرجاء اضافة صلاحية", EnumStatus.error);
+                if (defaultSystemRole == null) 
+                    return BaseValid.createBaseValid(SystemRolesMessagesAr.errorNoDefaultRole, EnumStatus.error);
             }
 
             #endregion ValidSystemRoleId *

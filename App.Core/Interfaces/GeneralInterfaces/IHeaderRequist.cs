@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Core.Interfaces.GeneralInterfaces
 {
-    public interface IHeaderRequist:ITransientService
+    public interface IHeaderRequest:ITransientService
     {
         public Guid? GetUserToken();
 

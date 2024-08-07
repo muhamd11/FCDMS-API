@@ -5,7 +5,7 @@ using App.Core.Interfaces.GeneralInterfaces;
 
 namespace Api.Controllers.GeneralServices
 {
-    public class HeaderRequistServices : IHeaderRequist
+    public class HeaderRequistServices : IHeaderRequest
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 

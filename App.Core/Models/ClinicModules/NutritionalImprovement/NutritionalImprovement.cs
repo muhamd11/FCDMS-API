@@ -28,6 +28,5 @@ namespace App.Core.Models.ClinicModules.NutritionalImprovementsModules
 
         public User userPatientData { get; set; }
 
-        //TODO: Add Clinic Token And Clinic Class
     }
 }

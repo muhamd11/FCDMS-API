@@ -1,7 +1,6 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Resources.General;
 using System.Diagnostics;
-using System.Net;
 using System.Text;
 using System.Text.Json;
 
@@ -37,7 +36,7 @@ namespace Api.Middlewares
         {
             watch.Stop();
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            context.Response.StatusCode = (int)EnumStatus.success;
 
             var response = new
             {

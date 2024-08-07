@@ -61,6 +61,15 @@ namespace App.Core.Resources.SystemBase.SystemRoles {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to لا يوجد صلاحية افتراضية الرجاء اضافة صلاحية.
+        /// </summary>
+        public static string errorNoDefaultRole {
+            get {
+                return ResourceManager.GetString("errorNoDefaultRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرًا، يجب إدخال اسم الدور الوظيفي.
         /// </summary>
         public static string errorSystemRoleNameIsRequired {
