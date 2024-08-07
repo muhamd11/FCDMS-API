@@ -104,7 +104,7 @@ namespace Api.Controllers.SystemBase.LogActions
 
         public BaseValid ValidLogActionToken(Guid logActionToken)
         {
-            var logAction = _unitOfWork.LogActions.FirstOrDefault(x => x.logActionToken == logActionToken);
+            var logAction = _unitOfWork.LogActions.FirstOrDefault(x => x.logActionId.ToString() == logActionToken.ToString());
             if (logAction is not null)
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             else

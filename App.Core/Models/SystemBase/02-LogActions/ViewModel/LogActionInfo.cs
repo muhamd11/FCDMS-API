@@ -4,7 +4,7 @@ namespace App.Core.Models.SystemBase.LogActions.ViewModel
 {
     public class LogActionInfo
     {
-        public Guid logActionToken { get; set; }
+        public ulong logActionId { get; set; }
         public string modelName { get; set; }
         public DateTimeOffset actionDate { get; set; }
         public string actionType { get; set; }

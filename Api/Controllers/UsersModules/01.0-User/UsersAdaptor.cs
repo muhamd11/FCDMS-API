@@ -34,7 +34,7 @@ namespace Api.Controllers.UsersModule.Users
                 userPhone = user.userPhone!,
                 userLoginName = user.userLoginName!,
                 userTypeToken = user.userTypeToken,
-                fullCode = user.fullCode!,
+                fullCode = user.fullCode,
                 isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,

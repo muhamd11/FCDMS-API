@@ -132,6 +132,7 @@ namespace Api.Controllers.UsersModule.Users
                 userEmail = inputModel.userEmail,
                 userPhone = inputModel.userPhone,
                 userPhoneCC = inputModel.userPhoneCC,
+                userTypeToken = EnumUserType.Patient,
                 userPhoneCCName = inputModel.userPhoneCCName,
                 userLoginName = inputModel.userName,
                 userPassword = inputModel.userPassword,
@@ -215,7 +216,7 @@ namespace Api.Controllers.UsersModule.Users
                 return user;
             else
             {
-                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.userTypeToken == user.userTypeToken && x.systemRoleCanUseDefault == true);
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.userTypeToken == user.userTypeToken);
                 user.systemRoleToken = systemRole.systemRoleToken;
                 return user;
             }

@@ -12,7 +12,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             return logAction => new LogActionInfo
             {
-                logActionToken = logAction.logActionToken,
+                logActionId = logAction.logActionId,
                 modelName = logAction.modelName,
                 actionDate = logAction.actionDate,
                 actionType = logAction.actionType,
@@ -26,7 +26,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             return logAction => new LogActionInfoDetails
             {
-                logActionToken = logAction.logActionToken,
+                logActionId = logAction.logActionId,
                 modelName = logAction.modelName,
                 actionDate = logAction.actionDate,
                 actionType = logAction.actionType,
@@ -42,7 +42,7 @@ namespace Api.Controllers.SystemBase.LogActions
 
             return new LogActionInfo
             {
-                logActionToken = logAction.logActionToken,
+                logActionId = logAction.logActionId,
                 modelName = logAction.modelName,
                 actionDate = logAction.actionDate,
                 actionType = logAction.actionType,
@@ -58,7 +58,7 @@ namespace Api.Controllers.SystemBase.LogActions
 
             return new LogActionInfoDetails
             {
-                logActionToken = logAction.logActionToken,
+                logActionId = logAction.logActionId,
                 modelName = logAction.modelName,
                 actionDate = logAction.actionDate,
                 actionType = logAction.actionType,

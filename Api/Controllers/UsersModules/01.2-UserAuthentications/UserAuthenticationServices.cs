@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.UsersModule.Users;
 using App.Core;
+using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Json;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
@@ -63,8 +64,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             var systemRoleToken = user.roleData?.systemRoleToken;
             UserAuthorize userAuthorize = new()
             {
-                userToken = user.userToken,
-                userType = user.userTypeToken,
+                userToken = (Guid)user.userToken!,
+                userType = (EnumUserType)user.userTypeToken!,
                 systemRoleToken = systemRoleToken.HasValue == true ? (Guid)systemRoleToken : Guid.Empty,
             };
             return JsonConversion.SerializeUserAuthorizeToken(userAuthorize);

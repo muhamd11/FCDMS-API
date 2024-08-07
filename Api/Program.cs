@@ -6,81 +6,59 @@ using App.EF;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Error()
-    .WriteTo.Seq("http://localhost:5341")
-    .CreateLogger();
-
-builder.Services.AddControllers();
-
-// This method gets called by the runtime. Use this method to add services to the container.
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
 {
-    //To Remove Null
-    options.SerializerSettings.ContractResolver = new NullToEmptyStringResolver();
-    //To Return Big Json
-    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-    //TrimmingString
-    options.SerializerSettings.Converters.Add(new TrimmingStringConverter());
-});
+    builder.Services.AddControllers();
 
-// Add services to the container.
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-    b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+    // This method gets called by the runtime. Use this method to add services to the container.
+    builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+    {
+        //To Remove Null
+        options.SerializerSettings.ContractResolver = new NullToEmptyStringResolver();
+        //To Return Big Json
+        options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+        //TrimmingString
+        options.SerializerSettings.Converters.Add(new TrimmingStringConverter());
+    });
 
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+    // DB Context
+    var DBConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(DBConnection, b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName))
+        .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
 
-builder.Services.AddAutoMapper(typeof(Program));
-
-//services
-var assembly = typeof(Program).Assembly;
-
-builder.Services.Scan(s => s.FromAssemblies(assembly)
-.AddClasses(c => c.AssignableTo<ITransientService>())
-.AsImplementedInterfaces()
-.WithTransientLifetime());
-
-builder.Services.Scan(s => s.FromAssemblies(assembly)
-.AddClasses(c => c.AssignableTo<ISingletonService>())
-.AsImplementedInterfaces()
-.WithSingletonLifetime());
-
-builder.Services.Scan(s => s.FromAssemblies(assembly)
-.AddClasses(c => c.AssignableTo<IScopedService>())
-.AsImplementedInterfaces()
-.WithScopedLifetime());
-
-builder.Services.AddHttpContextAccessor();
-
-// to not Valid
-builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+    //services
+    var assembly = typeof(Program).Assembly;
+    builder.Services.Scan(s => s.FromAssemblies(assembly)
+    .AddClasses(c => c.AssignableTo<ITransientService>())
+    .AsImplementedInterfaces()
+    .WithTransientLifetime());
+    builder.Services.Scan(s => s.FromAssemblies(assembly)
+    .AddClasses(c => c.AssignableTo<ISingletonService>())
+    .AsImplementedInterfaces()
+    .WithSingletonLifetime());
+    builder.Services.Scan(s => s.FromAssemblies(assembly)
+    .AddClasses(c => c.AssignableTo<IScopedService>())
+    .AsImplementedInterfaces()
+    .WithScopedLifetime());
+    //custome services
+    builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddAutoMapper(typeof(Program));
+    //to privent modle valid 
+    builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+    //HttpContextAccessor
+    builder.Services.AddHttpContextAccessor();
+}
 
 var app = builder.Build();
+{
+    app.UseHttpsRedirection();
 
-// Configure the HTTP request pipeline.
+    app.UseMiddleware<ExceptionMiddleware>();
 
-//TODO: Disable in production
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
+    app.UseAuthorization();
 
-app.UseHttpsRedirection();
+    app.MapControllers();
 
-app.UseMiddleware<ExceptionMiddleware>();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+    app.Run();
+}

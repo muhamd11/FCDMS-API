@@ -10,7 +10,7 @@ namespace App.Core.Models.SystemBase.LogActions
     public class LogAction
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public Guid logActionToken { get; set; }
+        public ulong logActionId { get; set; }
 
         [ForeignKey(nameof(userData))]
         public Guid? userToken { get; set; }

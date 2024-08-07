@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240806093801_change_filed_name_in_systemRole")]
-    partial class change_filed_name_in_systemRole
+    [Migration("20240807124334_inshlizeDB")]
+    partial class inshlizeDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -213,9 +213,11 @@ namespace App.EF.Migrations
 
             modelBuilder.Entity("App.Core.Models.SystemBase.LogActions.LogAction", b =>
                 {
-                    b.Property<Guid>("logActionToken")
+                    b.Property<decimal>("logActionId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("decimal(20,0)");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<decimal>("logActionId"));
 
                     b.Property<DateTimeOffset>("actionDate")
                         .HasColumnType("datetimeoffset");
@@ -237,7 +239,7 @@ namespace App.EF.Migrations
                     b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("logActionToken");
+                    b.HasKey("logActionId");
 
                     b.HasIndex("userToken");
 
@@ -394,21 +396,19 @@ namespace App.EF.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("userEmail")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userLoginName")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPassword")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhone")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userPhoneCC")
                         .HasColumnType("nvarchar(max)");
@@ -429,18 +429,6 @@ namespace App.EF.Migrations
                         .HasFilter("[primaryFullCode] IS NOT NULL");
 
                     b.HasIndex("systemRoleToken");
-
-                    b.HasIndex("userEmail")
-                        .IsUnique()
-                        .HasFilter("[userEmail] IS NOT NULL");
-
-                    b.HasIndex("userLoginName")
-                        .IsUnique()
-                        .HasFilter("[userLoginName] IS NOT NULL");
-
-                    b.HasIndex("userPhone")
-                        .IsUnique()
-                        .HasFilter("[userPhone] IS NOT NULL");
 
                     b.HasIndex("userTypeToken");
 

@@ -59,7 +59,7 @@ namespace Api.Controllers.SystemBase.LogActions
                 criteria.Add(x => x.userToken == inputModel.userToken.Value);
 
             if (inputModel.elementToken is not null)
-                criteria.Add(x => x.logActionToken == inputModel.elementToken);
+                criteria.Add(x => x.logActionId.ToString() == inputModel.elementToken.ToString());
 
             return criteria;
         }
@@ -68,7 +68,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             var select = LogActionsAdaptor.SelectExpressionLogActionDetails();
 
-            Expression<Func<LogAction, bool>> criteria = (x) => x.logActionToken == inputModel.elementToken;
+            Expression<Func<LogAction, bool>> criteria = (x) => x.logActionId.ToString() == inputModel.elementToken.ToString();
 
             List<Expression<Func<LogAction, object>>> includes = [];
 

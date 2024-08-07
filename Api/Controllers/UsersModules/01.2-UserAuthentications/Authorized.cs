@@ -1,8 +1,10 @@
 ﻿using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
+using App.Core.Consts.Users;
 using App.Core.Helper.Json;
 using App.Core.Helper.Validations;
+using App.Core.Interfaces.GeneralInterfaces;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.General;
@@ -13,39 +15,40 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
     public class Authorized : IAuthorized
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHeaderRequist _headerRequist;
 
-        public Authorized(IHttpContextAccessor httpContextAccessor, IUnitOfWork unitOfWork)
+        public Authorized(IUnitOfWork unitOfWork, IHeaderRequist headerRequist)
         {
             _unitOfWork = unitOfWork;
-            _httpContextAccessor = httpContextAccessor;
+            _headerRequist = headerRequist;
         }
+
 
         public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType)
         {
-            var userAuthorizeToken = GetUserAuthorizeToken();
-            if (!ValidationClass.IsValidString(userAuthorizeToken))
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserAuthorizeTokenNotFound);
+            var userToken = _headerRequist.GetUserToken();
+            if (userToken is null)
+                return BaseValid.createBaseValid(UsersMessagesAr.errorUserAuthorizeTokenNotFound, EnumStatus.unauthorized);
 
-            var userAuthorize = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken!);
-
-            var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userAuthorize.userToken);
-
-            if (user == null)
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorUserDoesNotExists);
+            var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userToken);
+            if (user is null)
+                return BaseValid.createBaseValid(UsersMessagesAr.errorUserDoesNotExists, EnumStatus.unauthorized);
 
 
-            var systemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken
-                                                                                    && x.moduleId == moduleToken
-                                                                                    && x.functionsType == functionsType);
+            if (user.userTypeToken != EnumUserType.Developer)
+            {
+                var systemRoleFunction = _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken
+                                                                                        && x.moduleId == moduleToken
+                                                                                        && x.functionsType == functionsType);
 
-            if (systemRoleFunction?.isHavePrivilege != true)
-                return BaseValid.createBaseValidError(UsersMessagesAr.errorHasNoPermission);
+                if (systemRoleFunction?.isHavePrivilege != true)
+                    return BaseValid.createBaseValidError(UsersMessagesAr.errorHasNoPermission);
+            }
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
 
-        private string? GetUserAuthorizeToken()
-            => _httpContextAccessor?.HttpContext?.Request.Headers["userAuthorizeToken"].FirstOrDefault();
     }
+
+
 }

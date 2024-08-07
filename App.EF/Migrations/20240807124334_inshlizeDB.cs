@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -7,7 +8,7 @@
 namespace App.EF.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDb : Migration
+    public partial class inshlizeDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -51,7 +52,7 @@ namespace App.EF.Migrations
                     systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     systemRoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     systemRoleDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    systemRoleUserType = table.Column<int>(type: "int", nullable: false),
+                    userTypeToken = table.Column<int>(type: "int", nullable: false),
                     systemRoleCanUseDefault = table.Column<bool>(type: "bit", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -70,14 +71,14 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userEmail = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    userPhone = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    userName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userPhoneDialCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userPhoneCC = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userPhoneCCName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    userLoginName = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    userPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    userLoginName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     userTypeToken = table.Column<int>(type: "int", nullable: false),
                     systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -102,7 +103,8 @@ namespace App.EF.Migrations
                 schema: "SystemBase",
                 columns: table => new
                 {
-                    logActionToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    logActionId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     modelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     actionDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
@@ -112,7 +114,7 @@ namespace App.EF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LogActions", x => x.logActionToken);
+                    table.PrimaryKey("PK_LogActions", x => x.logActionId);
                     table.ForeignKey(
                         name: "FK_LogActions_Users_userToken",
                         column: x => x.userToken,
@@ -339,13 +341,13 @@ namespace App.EF.Migrations
             migrationBuilder.InsertData(
                 schema: "SystemBase",
                 table: "SystemRoles",
-                columns: new[] { "systemRoleToken", "createdDate", "fullCode", "isDeleted", "primaryFullCode", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "systemRoleUserType", "updatedDate" },
+                columns: new[] { "systemRoleToken", "createdDate", "fullCode", "isDeleted", "primaryFullCode", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "updatedDate", "userTypeToken" },
                 values: new object[,]
                 {
-                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", 3, null },
-                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", 4, null },
-                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", 1, null },
-                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", 2, null }
+                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", null, 3 },
+                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", null, 4 },
+                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", null, 1 },
+                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", null, 2 }
                 });
 
             migrationBuilder.InsertData(
@@ -464,30 +466,6 @@ namespace App.EF.Migrations
                 schema: "Users",
                 table: "Users",
                 column: "systemRoleToken");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userEmail",
-                schema: "Users",
-                table: "Users",
-                column: "userEmail",
-                unique: true,
-                filter: "[userEmail] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userLoginName",
-                schema: "Users",
-                table: "Users",
-                column: "userLoginName",
-                unique: true,
-                filter: "[userLoginName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Users_userPhone",
-                schema: "Users",
-                table: "Users",
-                column: "userPhone",
-                unique: true,
-                filter: "[userPhone] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_userTypeToken",

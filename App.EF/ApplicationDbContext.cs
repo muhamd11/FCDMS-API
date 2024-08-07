@@ -1,4 +1,6 @@
 ﻿using App.Core.Helper.Json;
+using App.Core.Interfaces.GeneralInterfaces;
+using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
@@ -17,21 +19,16 @@ using App.EF.Configurations.Converter;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace App.EF
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly ILogger<ApplicationDbContext> _logger;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly string _userAuthorizeToken = "userAuthorizeToken";
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger, IHttpContextAccessor httpContextAccessor) : base(options)
+        private readonly IHeaderRequist _headerRequist;
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHeaderRequist headerRequist) : base(options)
         {
-            _logger = logger;
-            _httpContextAccessor = httpContextAccessor;
+            _headerRequist = headerRequist;
         }
 
         #region override Configurations
@@ -59,35 +56,21 @@ namespace App.EF
         public override int SaveChanges()
         {
             LogChanges();
+            SetStringEmptyByNull();
             return base.SaveChanges();
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             LogChanges();
+            SetStringEmptyByNull();
             return await base.SaveChangesAsync(cancellationToken);
-        }
-
-        private Guid GetUserToken()
-        {
-            if (!_httpContextAccessor.HttpContext.Request.Headers.TryGetValue(_userAuthorizeToken, out var userAuthorizeToken) || string.IsNullOrEmpty(userAuthorizeToken))
-                return Guid.Empty;
-
-            var userToken = JsonConversion.DeserializeUserAuthorizeToken(userAuthorizeToken).userToken;
-
-            if (userToken == Guid.Empty)
-                return Guid.Empty;
-
-            return userToken;
         }
 
         private void LogChanges()
         {
             var entries = ChangeTracker.Entries()
-                                       .Where(e => e.Entity is BaseEntity &&
-                                                  (e.State == EntityState.Added ||
-                                                   e.State == EntityState.Modified ||
-                                                   e.State == EntityState.Deleted));
+                                       .Where(e => e.Entity is BaseEntity && (e.State == EntityState.Added || e.State == EntityState.Modified || e.State == EntityState.Deleted));
 
             foreach (var entityEntry in entries)
             {
@@ -96,23 +79,22 @@ namespace App.EF
                 switch (entityEntry.State)
                 {
                     case EntityState.Added:
-                        entity.createdDate = DateTimeOffset.Now;
+                        entity.createdDate = DateTimeOffset.UtcNow;
                         break;
 
                     case EntityState.Modified:
-                        entity.updatedDate = DateTimeOffset.Now;
+                        entity.updatedDate = DateTimeOffset.UtcNow;
                         break;
 
                     case EntityState.Deleted:
                         entity.isDeleted = true;
-                        entity.updatedDate = DateTimeOffset.Now;
+                        entity.updatedDate = DateTimeOffset.UtcNow;
                         break;
                 }
             }
 
-            var logEntries = entries.Select(CreateLogEntry).ToList();
-
             // Add the log entries to the LogActions DbSet after enumeration is complete
+            var logEntries = entries.Select(CreateLogEntry).ToList();
             LogActions.AddRange(logEntries);
         }
 
@@ -120,7 +102,7 @@ namespace App.EF
         {
             var logEntry = new LogAction
             {
-                userToken = GetUserToken() == Guid.Empty ? null : GetUserToken(),
+                userToken = _headerRequist.GetUserToken(),
                 modelName = entry.Entity.GetType().Name,
                 actionType = entry.State.ToString(),
                 actionDate = DateTime.UtcNow
@@ -146,12 +128,31 @@ namespace App.EF
             return logEntry;
         }
 
-        private string SerializeProperties(PropertyValues values)
+        private void SetStringEmptyByNull()
         {
-            return JsonConvert.SerializeObject(
-                values.Properties.ToDictionary(p => p.Name, p => values[p]),
-                JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                if (entry.State == EntityState.Added || entry.State == EntityState.Modified)
+                {
+                    var properties = entry.CurrentValues.Properties;
+                    foreach (var property in properties)
+                    {
+                        if (property.ClrType == typeof(string))
+                        {
+                            var currentValue = entry.CurrentValues[property] as string;
+                            if (string.IsNullOrWhiteSpace(currentValue))
+                            {
+                                entry.CurrentValues[property] = null;
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        private string SerializeProperties(PropertyValues values)
+            => JsonConvert.SerializeObject(values.Properties.ToDictionary(p => p.Name, p => values[p]), JsonSettings.IgnoreSelfReferencesAndSpecificProperties);
+
 
         #endregion override SaveChanges
 

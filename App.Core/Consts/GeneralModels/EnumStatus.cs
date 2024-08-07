@@ -6,5 +6,6 @@
         catchStatus = 500,  // catch
         noContent = 204, // no data
         error = 406, // validation
+        unauthorized = 401, // validation
     }
 }

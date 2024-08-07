@@ -99,7 +99,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -193,14 +193,11 @@ namespace Api.Controllers.UsersModule.Users
 
             #region validUserWasAddedBefore
 
-            var existingUser = _unitOfWork.Users.FirstOrDefault(x => x.userName == inputModel.userName
-                                || x.userEmail == inputModel.userEmail
+            var existingUser = _unitOfWork.Users.FirstOrDefault(x =>
+                                   x.userEmail == inputModel.userEmail
                                 || x.userPhone == inputModel.userPhone
                                 || x.userLoginName == inputModel.userLoginName
                                 || x.fullCode == inputModel.fullCode);
-
-            if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userName == inputModel.userName)
-                return BaseValid.createBaseValid(UsersMessagesAr.errorUsernameWasAdded, EnumStatus.error);
 
             if (existingUser is not null && existingUser.userToken != inputModel.userToken && existingUser.userEmail == inputModel.userEmail)
                 return BaseValid.createBaseValid(UsersMessagesAr.errorUserEmailWasAdded, EnumStatus.error);

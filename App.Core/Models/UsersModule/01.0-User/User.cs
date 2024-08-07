@@ -14,9 +14,6 @@ namespace App.Core.Models.Users
 {
     [Table($"{nameof(User)}s", Schema = nameof(EnumDatabaseSchema.Users))]
     [Index(nameof(userTypeToken))]
-    [Index(nameof(userEmail), IsUnique = true)]
-    [Index(nameof(userPhone), IsUnique = true)]
-    [Index(nameof(userLoginName), IsUnique = true)]
     [Index(nameof(primaryFullCode), IsUnique = true)]
     public class User : BaseEntity
     {
