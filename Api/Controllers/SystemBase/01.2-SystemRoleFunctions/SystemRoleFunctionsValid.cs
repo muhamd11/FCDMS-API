@@ -15,7 +15,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         #region Members
 
         private readonly ISystemRolesValid _systemRolesValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
 
         private readonly string SystemRoleFunctionView = $"{nameof(SystemRoleFunction)}_{nameof(EnumFunctionsType.view)}";
         private readonly string SystemRoleFunctionUpdate = $"{nameof(SystemRoleFunction)}_{nameof(EnumFunctionsType.update)}";
@@ -24,10 +24,10 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         #region Constructor
 
-        public SystemRoleFunctionValid(ISystemRolesValid systemRolesValid, IUserAuthenticationValid userAuthenticationValid)
+        public SystemRoleFunctionValid(ISystemRolesValid systemRolesValid, IAuthorized authorized)
         {
             _systemRolesValid = systemRolesValid;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -38,7 +38,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(SystemRoleFunctionView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(SystemRoleFunctionView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -55,14 +55,14 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         public BaseValid ValidUpdatePrivilege(SystemRoleFunctionDto inputModel)
         {
-            #region isAuthorizedUser *]
+            #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(SystemRoleFunctionUpdate);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(SystemRoleFunctionUpdate);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 
-            #endregion isAuthorizedUser *]
+            #endregion isAuthorizedUser *
 
             if (inputModel is not null)
             {

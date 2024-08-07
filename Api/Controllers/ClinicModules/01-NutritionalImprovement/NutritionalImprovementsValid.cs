@@ -19,7 +19,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
 
         private readonly string nutritionalImprovementView = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.view)}";
         private readonly string nutritionalImprovementAdd = $"{nameof(NutritionalImprovement)}_{nameof(EnumFunctionsType.add)}";
@@ -30,11 +30,11 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
 
         #region Constructor
 
-        public NutritionalImprovementValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
+        public NutritionalImprovementValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IAuthorized authorized)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -45,7 +45,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(nutritionalImprovementView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -75,7 +75,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(nutritionalImprovementView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -98,7 +98,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? nutritionalImprovementUpdate : nutritionalImprovementAdd);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -109,15 +109,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             {
                 if (isUpdate)
                 {
-                    #region isAuthorizedUser *
-
-                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementUpdate);
-
-                    if (isAuthorizedUser.Status != EnumStatus.success)
-                        return isAuthorizedUser;
-
-                    #endregion isAuthorizedUser *
-
                     #region nutritionalImprovementId?
 
                     var isValidNutritionalImprovementToken = ValidNutritionalImprovementToken(inputModel.nutritionalImprovementToken);
@@ -163,7 +154,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(nutritionalImprovementDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(nutritionalImprovementDelete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

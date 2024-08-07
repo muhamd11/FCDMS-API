@@ -20,7 +20,7 @@ namespace Api.Controllers.SystemBase.Operations
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
 
         private readonly string operationView = $"{nameof(Operation)}_{nameof(EnumFunctionsType.view)}";
         private readonly string operationAdd = $"{nameof(Operation)}_{nameof(EnumFunctionsType.add)}";
@@ -31,11 +31,11 @@ namespace Api.Controllers.SystemBase.Operations
 
         #region Constructor
 
-        public OperationValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
+        public OperationValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IAuthorized authorized)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -46,7 +46,7 @@ namespace Api.Controllers.SystemBase.Operations
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(operationView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -78,7 +78,7 @@ namespace Api.Controllers.SystemBase.Operations
             {
                 #region isAuthorizedUser *
 
-                var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationView);
+                var isAuthorizedUser = _authorized.IsAuthorizedUser(operationView);
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
 
@@ -101,7 +101,7 @@ namespace Api.Controllers.SystemBase.Operations
             {
                 #region isAuthorizedUser *
 
-                var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(isUpdate? operationUpdate : operationAdd);
+                var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate? operationUpdate : operationAdd);
 
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
@@ -168,7 +168,7 @@ namespace Api.Controllers.SystemBase.Operations
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(operationDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(operationDelete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

@@ -15,6 +15,6 @@ namespace App.Core.Interfaces.SystemBase.MedicalHistories
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
-        BaseValid ValidMedicalHistoryToken(Guid systemRoleToken);
+        BaseValid ValidMedicalHistoryToken(Guid medicalHistoryToken);
     }
 }

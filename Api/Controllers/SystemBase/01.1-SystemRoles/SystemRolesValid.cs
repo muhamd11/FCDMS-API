@@ -18,7 +18,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         #region Members
 
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
 
         private readonly string systemRoleView = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.view)}";
         private readonly string systemRoleAdd = $"{nameof(SystemRole)}_{nameof(EnumFunctionsType.add)}";
@@ -29,10 +29,10 @@ namespace Api.Controllers.SystemBase.SystemRoles
 
         #region Constructor
 
-        public SystemRoleValid(IUnitOfWork unitOfWork, IUserAuthenticationValid userAuthenticationValid)
+        public SystemRoleValid(IUnitOfWork unitOfWork, IAuthorized authorized)
         {
             _unitOfWork = unitOfWork;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -43,7 +43,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(systemRoleView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -73,7 +73,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(systemRoleView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -96,7 +96,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? systemRoleUpdate : systemRoleAdd);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -107,14 +107,6 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 if (isUpdate)
                 {
-                    #region isAuthorizedUser *
-
-                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleUpdate);
-
-                    if (isAuthorizedUser.Status != EnumStatus.success)
-                        return isAuthorizedUser;
-
-                    #endregion isAuthorizedUser *
 
                     #region systemRoleId?
 
@@ -155,7 +147,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(systemRoleDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(systemRoleDelete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

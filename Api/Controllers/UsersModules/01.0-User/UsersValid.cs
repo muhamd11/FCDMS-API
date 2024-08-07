@@ -1,5 +1,4 @@
-﻿using Api.Controllers.UsersModules._01._2_UserAuthentications;
-using Api.Controllers.UsersModules.Users.Interfaces;
+﻿using Api.Controllers.UsersModules.Users.Interfaces;
 using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
@@ -102,7 +101,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(userAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? userUpdate : userAdd);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -111,15 +110,6 @@ namespace Api.Controllers.UsersModule.Users
 
             if (inputModel is not null)
             {
-                #region isAuthorizedUser *
-
-                isAuthorizedUser = _authorized.IsAuthorizedUser(userUpdate);
-
-                if (isAuthorizedUser.Status != EnumStatus.success)
-                    return isAuthorizedUser;
-
-                #endregion isAuthorizedUser *
-
                 #region userId?
 
                 if (isUpdate)

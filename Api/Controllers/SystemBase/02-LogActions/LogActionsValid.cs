@@ -19,18 +19,18 @@ namespace Api.Controllers.SystemBase.LogActions
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
         private readonly string logActionView = $"{nameof(LogAction)}_{nameof(EnumFunctionsType.view)}";
 
         #endregion Members
 
         #region Constructor
 
-        public LogActionValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
+        public LogActionValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IAuthorized authorized)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -41,7 +41,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(logActionView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(logActionView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -82,7 +82,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(logActionView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(logActionView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

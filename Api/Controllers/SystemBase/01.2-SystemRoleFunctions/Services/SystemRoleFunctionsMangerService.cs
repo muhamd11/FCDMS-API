@@ -35,7 +35,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             #region SystemBase
 
             systemRoleFuncations.AddRange(GetPrivilageModuleSystemRole());
-            systemRoleFuncations.AddRange(GetPrivilageModuleSystemRoleFunctions());
+            systemRoleFuncations.AddRange(GetPrivilageModuleSystemRoleFunction());
             systemRoleFuncations.AddRange(GetPrivilageModuleLogAction());
 
             #endregion SystemBase
@@ -65,7 +65,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRole() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRole));
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRoleFunctions() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRoleFunctions));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRoleFunction() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRoleFunction));
 
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleLogAction() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(LogAction));
 

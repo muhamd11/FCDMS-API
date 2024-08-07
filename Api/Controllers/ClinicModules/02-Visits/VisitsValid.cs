@@ -19,7 +19,7 @@ namespace Api.Controllers.SystemBase.Visits
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
-        private readonly IUserAuthenticationValid _userAuthenticationValid;
+        private readonly IAuthorized _authorized;
 
         private readonly string visitView = $"{nameof(Visit)}_{nameof(EnumFunctionsType.view)}";
         private readonly string visitAdd = $"{nameof(Visit)}_{nameof(EnumFunctionsType.add)}";
@@ -30,11 +30,11 @@ namespace Api.Controllers.SystemBase.Visits
 
         #region Constructor
 
-        public VisitValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IUserAuthenticationValid userAuthenticationValid)
+        public VisitValid(IUnitOfWork unitOfWork, IUsersValid usersValid, IAuthorized authorized)
         {
             _unitOfWork = unitOfWork;
             _usersValid = usersValid;
-            _userAuthenticationValid = userAuthenticationValid;
+            _authorized = authorized;
         }
 
         #endregion Constructor
@@ -45,7 +45,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(visitView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -75,7 +75,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(visitView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitView);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -98,7 +98,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(visitAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? visitUpdate : visitAdd);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -109,15 +109,6 @@ namespace Api.Controllers.SystemBase.Visits
             {
                 if (isUpdate)
                 {
-                    #region isAuthorizedUser *
-
-                    isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(visitUpdate);
-
-                    if (isAuthorizedUser.Status != EnumStatus.success)
-                        return isAuthorizedUser;
-
-                    #endregion isAuthorizedUser *
-
                     #region VisitId?
 
                     var isValidVisitToken = ValidVisitToken(inputModel.visitToken);
@@ -163,7 +154,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _userAuthenticationValid.IsAuthorizedUser(visitDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitDelete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
