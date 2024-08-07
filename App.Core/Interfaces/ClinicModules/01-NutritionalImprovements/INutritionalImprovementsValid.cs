@@ -15,6 +15,6 @@ namespace App.Core.Interfaces.SystemBase.NutritionalImprovements
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
-        BaseValid ValidNutritionalImprovementToken(Guid systemRoleToken);
+        BaseValid ValidNutritionalImprovementToken(Guid nutritionalImprovementToken);
     }
 }

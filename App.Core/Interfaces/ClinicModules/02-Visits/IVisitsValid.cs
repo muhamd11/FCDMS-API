@@ -15,6 +15,6 @@ namespace App.Core.Interfaces.SystemBase.Visits
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
-        BaseValid ValidVisitToken(Guid systemRoleToken);
+        BaseValid ValidVisitToken(Guid visitToken);
     }
 }

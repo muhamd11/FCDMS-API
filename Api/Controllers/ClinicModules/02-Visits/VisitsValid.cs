@@ -4,6 +4,7 @@ using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.Visits;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -20,11 +21,7 @@ namespace Api.Controllers.SystemBase.Visits
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
         private readonly IAuthorized _authorized;
-
-        private readonly string visitView = $"{nameof(Visit)}_{nameof(EnumFunctionsType.view)}";
-        private readonly string visitAdd = $"{nameof(Visit)}_{nameof(EnumFunctionsType.add)}";
-        private readonly string visitUpdate = $"{nameof(Visit)}_{nameof(EnumFunctionsType.update)}";
-        private readonly string visitDelete = $"{nameof(Visit)}_{nameof(EnumFunctionsType.delete)}";
+        private readonly string moduleToken = nameof(Visit);
 
         #endregion Members
 
@@ -45,7 +42,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -75,7 +72,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -98,7 +95,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? visitUpdate : visitAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -154,7 +151,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(visitDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

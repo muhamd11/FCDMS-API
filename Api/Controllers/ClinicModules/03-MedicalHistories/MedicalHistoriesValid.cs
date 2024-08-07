@@ -6,6 +6,7 @@ using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.ClinicModules.MedicalHistories;
@@ -20,11 +21,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         private readonly IUnitOfWork _unitOfWork;
         private readonly IUsersValid _usersValid;
         private readonly IAuthorized _authorized;
-
-        private readonly string medicalHistoryView = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.view)}";
-        private readonly string medicalHistoryAdd = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.add)}";
-        private readonly string medicalHistoryUpdate = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.update)}";
-        private readonly string medicalHistoryDelete = $"{nameof(MedicalHistory)}_{nameof(EnumFunctionsType.delete)}";
+        private readonly string moduleToken = nameof(MedicalHistory);
 
         #endregion Members
 
@@ -45,7 +42,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(medicalHistoryView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -75,7 +72,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(medicalHistoryView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -98,7 +95,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate? medicalHistoryUpdate : medicalHistoryAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add); 
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -154,7 +151,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(medicalHistoryDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

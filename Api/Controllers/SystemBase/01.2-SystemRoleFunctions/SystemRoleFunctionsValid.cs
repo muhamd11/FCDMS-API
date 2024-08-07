@@ -3,6 +3,7 @@ using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
@@ -16,9 +17,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
 
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IAuthorized _authorized;
-
-        private readonly string SystemRoleFunctionView = $"{nameof(SystemRoleFunction)}_{nameof(EnumFunctionsType.view)}";
-        private readonly string SystemRoleFunctionUpdate = $"{nameof(SystemRoleFunction)}_{nameof(EnumFunctionsType.update)}";
+        private readonly string moduleToken = nameof(SystemRoleFunction);
 
         #endregion Members
 
@@ -38,7 +37,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(SystemRoleFunctionView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -57,7 +56,7 @@ namespace Api.Controllers.SystemBase.SystemRoleFunctions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(SystemRoleFunctionUpdate);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.update);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

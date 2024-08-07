@@ -8,6 +8,7 @@ using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.Users;
 using App.Core.Resources.General;
 using App.Core.Resources.UsersModules.User;
@@ -22,11 +23,8 @@ namespace Api.Controllers.UsersModule.Users
         private readonly IAuthorized _authorized;
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
+        private readonly string moduleToken = nameof(User);
 
-        private readonly string userView = $"{nameof(User)}_{nameof(EnumFunctionsType.view)}";
-        private readonly string userAdd = $"{nameof(User)}_{nameof(EnumFunctionsType.add)}";
-        private readonly string userUpdate = $"{nameof(User)}_{nameof(EnumFunctionsType.update)}";
-        private readonly string userDelete = $"{nameof(User)}_{nameof(EnumFunctionsType.delete)}";
 
         #endregion Members
 
@@ -48,7 +46,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(userView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -78,7 +76,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(userView);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -101,7 +99,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(isUpdate ? userUpdate : userAdd);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -236,7 +234,7 @@ namespace Api.Controllers.UsersModule.Users
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(userDelete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 
