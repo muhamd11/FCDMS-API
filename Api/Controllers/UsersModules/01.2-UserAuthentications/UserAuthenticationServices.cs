@@ -43,7 +43,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
         #endregion Constructor
 
-        #region Methods 
+        #region Methods
 
         public async Task<UserLoginInfo> Login(UserLoginDto inputModel)
         {
@@ -55,11 +55,11 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
             var userInfoDetails = await _unitOfWork.Users.FirstOrDefaultAsync(criteria, select);
 
-            var userAuthorizeToken = GenerateUserAuthorizeToken(userInfoDetails) ;
+            var userAuthorizeToken = GenerateUserAuthorizeToken(userInfoDetails);
 
-            if(userInfoDetails is null || userAuthorizeToken is null) return null;
+            if (userInfoDetails is null || userAuthorizeToken is null) return null;
 
-            return new() { userAuthorizeToken = userAuthorizeToken, userInfoDetails = userInfoDetails  } ;
+            return new() { userAuthorizeToken = userAuthorizeToken, userInfoDetails = userInfoDetails };
         }
 
         public async Task<UserInfo> Signup(UserSignUpDto inputModel)
@@ -68,9 +68,9 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             return userData.Data;
         }
 
-        public async Task<BaseActionDone<ForgetPasswordInfo>> ForgetPassword(ForgetPasswordDTO inputModel)
+        public async Task<BaseActionDone<SendOtpInfo>> SendOtp(SendOtpDTO inputModel)
         {
-            ForgetPassword forgetPassword = new();
+            OtpRecord forgetPassword = new();
 
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userEmail == inputModel.forgetPasswordText || x.userPhone == inputModel.forgetPasswordText);
             forgetPassword.userToken = user.userToken;
@@ -80,7 +80,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             await _unitOfWork.ForgetPasswords.AddAsync(forgetPassword);
             var isDone = await _unitOfWork.CommitAsync();
 
-            return BaseActionDone<ForgetPasswordInfo>.GenrateBaseActionDone(isDone, new ForgetPasswordInfo() { userOtp = isDone > 0 ? forgetPassword.userOtp : 0 });
+            return BaseActionDone<SendOtpInfo>.GenrateBaseActionDone(isDone, new SendOtpInfo() { userOtp = isDone > 0 ? forgetPassword.userOtp : 0 });
         }
 
         public async Task<VerifyOtpInfo> VerifyOtp(VerifyOtpDTO inputModel)
@@ -104,7 +104,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == userAuth.userToken);
 
-            if(user is null) return null;
+            if (user is null) return null;
 
             user.userPassword = MethodsClass.Encrypt_Base64(inputModel.newUserPassword);
 
@@ -124,7 +124,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
         private string GenerateUserAuthorizeToken(UserInfoDetails user)
         {
-            if(user is null) return null;
+            if (user is null) return null;
 
             var systemRoleToken = user.roleData?.systemRoleToken;
             UserAuthorize userAuthorize = new()

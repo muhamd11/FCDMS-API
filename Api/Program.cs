@@ -44,7 +44,7 @@ var builder = WebApplication.CreateBuilder(args);
     //custome services
     builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
     builder.Services.AddAutoMapper(typeof(Program));
-    //to privent modle valid 
+    //to privent modle valid
     builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
     //HttpContextAccessor
     builder.Services.AddHttpContextAccessor();

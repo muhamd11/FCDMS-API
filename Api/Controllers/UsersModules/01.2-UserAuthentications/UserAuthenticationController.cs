@@ -102,19 +102,19 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             return Ok(response);
         }
 
-        [HttpPost("ForgetPassword")]
-        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordDTO inputModel)
+        [HttpPost("SendOtp")]
+        public async Task<IActionResult> SendOtp([FromBody] SendOtpDTO inputModel)
         {
-            BaseActionResponse<ForgetPasswordInfo> response = new();
+            BaseActionResponse<SendOtpInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidForgetPassword = _usersAuthValid.IsValidForgetPassword(inputModel);
-                if (isValidForgetPassword.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidForgetPassword, userForgetPasswordInfo);
+                var isValidSendOtp = _usersAuthValid.IsValidSendOtp(inputModel);
+                if (isValidSendOtp.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidSendOtp, userForgetPasswordInfo);
                 else
                 {
-                    var userInfo = await _userAuthServices.ForgetPassword(inputModel);
+                    var userInfo = await _userAuthServices.SendOtp(inputModel);
                     response = response.CreateResponse(userInfo, userForgetPasswordInfo);
                 }
             }
@@ -173,7 +173,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
                 else
                 {
                     var userInfoDetails = await _userAuthServices.ChangePassword(inputModel);
-                    if(userInfoDetails != null)
+                    if (userInfoDetails != null)
                         response = response.CreateResponse(userInfoDetails, changePasswordInfo);
                     else
                         response = response.CreateResponse(BaseValid.createBaseValidError(UsersMessagesAr.errorInvalidUserLoginData), userLoginInfo);

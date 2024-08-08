@@ -6,7 +6,6 @@ using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.ClinicModules.MedicalHistories;
@@ -95,7 +94,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add); 
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

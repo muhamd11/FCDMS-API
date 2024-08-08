@@ -11,7 +11,6 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.ClinicModules.Operations;
 using App.Core.Resources.General;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Api.Controllers.SystemBase.Operations
 {
@@ -23,6 +22,7 @@ namespace Api.Controllers.SystemBase.Operations
         private readonly IUsersValid _usersValid;
         private readonly IAuthorized _authorized;
         private readonly string moduleToken = nameof(Operation);
+
         #endregion Members
 
         #region Constructor
@@ -91,20 +91,18 @@ namespace Api.Controllers.SystemBase.Operations
 
         public BaseValid ValidAddOrUpdate(OperationAddOrUpdateDTO inputModel, bool isUpdate)
         {
-
             if (inputModel is not null)
             {
                 #region isAuthorizedUser *
+
                 var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
                 if (isAuthorizedUser.Status != EnumStatus.success)
                     return isAuthorizedUser;
 
                 #endregion isAuthorizedUser *
 
-
                 if (isUpdate)
                 {
-
                     #region operationId?
 
                     var isValidOperationToken = ValidOperationToken(inputModel.operationToken);

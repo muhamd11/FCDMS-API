@@ -48,10 +48,11 @@ namespace App.EF
 
         #endregion ClinicModules
 
-        #region AuthenticationModules 
+        #region AuthenticationModules
 
-        public IBaseRepository<ForgetPassword> ForgetPasswords { get; private set; }
-        #endregion
+        public IBaseRepository<OtpRecord> ForgetPasswords { get; private set; }
+
+        #endregion AuthenticationModules
 
         public UnitOfWork(ApplicationDbContext context)
         {
@@ -84,15 +85,14 @@ namespace App.EF
 
             #endregion ClinicModules
 
-            #region AuthenticationModules 
+            #region AuthenticationModules
 
-            ForgetPasswords = new BaseRepository<ForgetPassword>(_context);
+            ForgetPasswords = new BaseRepository<OtpRecord>(_context);
 
-
-            #endregion
+            #endregion AuthenticationModules
         }
 
-        public async Task<int> CommitAsync()    
+        public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();
         }

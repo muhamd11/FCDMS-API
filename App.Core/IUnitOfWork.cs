@@ -46,8 +46,10 @@ namespace App.Core
         #endregion ClinicModules
 
         #region AuthenticationModules
-        IBaseRepository<ForgetPassword> ForgetPasswords { get; }
-        #endregion
+
+        IBaseRepository<OtpRecord> ForgetPasswords { get; }
+
+        #endregion AuthenticationModules
 
         Task<int> CommitAsync();
     }

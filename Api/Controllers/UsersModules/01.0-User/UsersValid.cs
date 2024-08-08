@@ -8,7 +8,6 @@ using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
-using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.Users;
 using App.Core.Resources.General;
 using App.Core.Resources.SystemBase.SystemRoles;
@@ -25,7 +24,6 @@ namespace Api.Controllers.UsersModule.Users
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
         private readonly string moduleToken = nameof(User);
-
 
         #endregion Members
 
@@ -208,7 +206,7 @@ namespace Api.Controllers.UsersModule.Users
             else
             {
                 var defaultSystemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.userTypeToken == inputModel.userTypeToken);
-                if (defaultSystemRole == null) 
+                if (defaultSystemRole == null)
                     return BaseValid.createBaseValid(SystemRolesMessagesAr.errorNoDefaultRole, EnumStatus.error);
             }
 

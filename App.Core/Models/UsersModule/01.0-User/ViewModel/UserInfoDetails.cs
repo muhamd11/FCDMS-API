@@ -2,7 +2,6 @@
 using App.Core.Models.SystemBase.Roles.ViewModel;
 using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
 using App.Core.Models.UsersModule._01_1_UserTypes;
-using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users
 {

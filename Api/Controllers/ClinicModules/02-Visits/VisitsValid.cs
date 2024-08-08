@@ -4,7 +4,6 @@ using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.Visits;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -95,7 +94,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, isUpdate ? EnumFunctionsType.update : EnumFunctionsType.add);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

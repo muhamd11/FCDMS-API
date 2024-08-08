@@ -179,7 +179,7 @@ namespace App.EF
 
         #region AuthenticationModule
 
-        public DbSet<ForgetPassword> ForgetPasswords { get; set; }
+        public DbSet<OtpRecord> ForgetPasswords { get; set; }
 
         #endregion AuthenticationModule
 

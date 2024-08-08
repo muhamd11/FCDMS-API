@@ -1,6 +1,4 @@
 ﻿using App.Core.Consts.Users;
-using App.Core.Models.SystemBase.BaseClass;
-using System.Text.Json.Serialization;
 
 namespace App.Core.Models.Users
 {
@@ -17,6 +15,7 @@ namespace App.Core.Models.Users
         public string? createdDateTime { get; set; }
         public string? updatedDateTime { get; set; }
     }
+
     public interface IUserInfo
     {
         public Guid? userToken { get; set; }

@@ -8,7 +8,6 @@ using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.DTO;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel;
 using App.Core.Models.SystemBase.Roles;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers.SystemBase.SystemRoleFunctions

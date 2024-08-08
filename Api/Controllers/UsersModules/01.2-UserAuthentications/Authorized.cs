@@ -21,7 +21,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             _headerRequest = headerRequest;
         }
 
-
         public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType)
         {
             var userToken = _headerRequest.GetUserToken();
@@ -31,7 +30,6 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             var user = _unitOfWork.Users.FirstOrDefault(x => x.userToken == userToken);
             if (user is null)
                 return BaseValid.createBaseValid(UsersMessagesAr.errorUserDoesNotExists, EnumStatus.unauthorized);
-
 
             if (user.userTypeToken != EnumUserType.Developer)
             {
@@ -45,8 +43,5 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }
-
     }
-
-
 }

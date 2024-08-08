@@ -54,6 +54,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
+
         public BaseValid IsValidSignUp(UserSignUpDto inputModel)
         {
             if (inputModel is not null)
@@ -81,7 +82,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
-        public BaseValid IsValidForgetPassword(ForgetPasswordDTO inputModel)
+
+        public BaseValid IsValidSendOtp(SendOtpDTO inputModel)
         {
             if (inputModel is not null)
             {
@@ -97,17 +99,19 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
+
         public BaseValid IsValidOtp(VerifyOtpDTO inputModel)
         {
             if (inputModel is not null)
             {
                 #region ValidOtp *
-                var forgetPasswordrecord =  _unitOfWork.ForgetPasswords.FirstOrDefault(x => x.userOtp == inputModel.userOtp);
-                    
+
+                var forgetPasswordrecord = _unitOfWork.ForgetPasswords.FirstOrDefault(x => x.userOtp == inputModel.userOtp);
+
                 if (forgetPasswordrecord == null)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorInvalidUserOtp, EnumStatus.error);
 
-                if(DateTime.UtcNow > forgetPasswordrecord.expireDate)
+                if (DateTime.UtcNow > forgetPasswordrecord.expireDate)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorOtpExpired, EnumStatus.error);
 
                 #endregion ValidOtp *
@@ -117,6 +121,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
+
         public BaseValid IsValidChangePassword(ChangePasswordDTO inputModel)
         {
             if (inputModel is not null)
@@ -126,7 +131,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
                 if (!ValidationClass.IsValidString(inputModel.userAuthorizeToken))
                     return BaseValid.createBaseValid(UsersMessagesAr.errorUserAuthorizeTokenNotFound, EnumStatus.error);
 
-                #endregion
+                #endregion userAuthorizeToken *
 
                 #region newUserPassword *
 

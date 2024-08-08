@@ -4,7 +4,6 @@ using App.Core.Consts.SystemBase;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.SystemBase.Roles;
@@ -104,7 +103,6 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 if (isUpdate)
                 {
-
                     #region systemRoleId?
 
                     var isValidSystemRoleToken = ValidSystemRoleToken(inputModel.systemRoleToken);

@@ -6,7 +6,6 @@ using App.Core.Interfaces.SystemBase.LogActions;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
-using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.LogActions.DTO;
 using App.Core.Resources.General;
@@ -42,7 +41,7 @@ namespace Api.Controllers.SystemBase.LogActions
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,EnumFunctionsType.view);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

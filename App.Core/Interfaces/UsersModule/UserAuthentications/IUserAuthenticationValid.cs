@@ -9,9 +9,13 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
     public interface IUserAuthenticationValid : ITransientService
     {
         BaseValid IsValidLogin(UserLoginDto inputModel);
+
         BaseValid IsValidSignUp(UserSignUpDto inputModel);
-        BaseValid IsValidForgetPassword(ForgetPasswordDTO inputModel);
+
+        BaseValid IsValidSendOtp(SendOtpDTO inputModel);
+
         BaseValid IsValidOtp(VerifyOtpDTO inputModel);
+
         BaseValid IsValidChangePassword(ChangePasswordDTO inputModel);
     }
 }

@@ -24,6 +24,5 @@ namespace App.Core.Models.ClinicModules.OperationsModules
         public Guid userPatientToken { get; set; }
 
         public User userPatientData { get; set; }
-
     }
 }

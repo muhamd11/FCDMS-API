@@ -19,5 +19,4 @@ namespace Api.Controllers.UsersModules.Users.Interfaces
 
         BaseValid IsValidUserToken(Guid userToken);
     }
-
 }

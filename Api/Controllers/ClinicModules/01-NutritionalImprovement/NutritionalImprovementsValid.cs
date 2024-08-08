@@ -10,7 +10,6 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Resources.ClinicModules.NutritionalImprovements;
 using App.Core.Resources.General;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Api.Controllers.SystemBase.NutritionalImprovements
 {
@@ -42,7 +41,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,EnumFunctionsType.view);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.view);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
@@ -151,7 +150,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
         {
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken,EnumFunctionsType.delete);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
 
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;

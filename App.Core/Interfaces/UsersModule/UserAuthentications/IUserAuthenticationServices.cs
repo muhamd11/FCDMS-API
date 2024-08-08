@@ -14,8 +14,11 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
         Task<UserLoginInfo> Login(UserLoginDto inputModel);
 
         Task<UserInfo> Signup(UserSignUpDto inputModel);
-        Task<BaseActionDone<ForgetPasswordInfo>> ForgetPassword(ForgetPasswordDTO inputModel);
+
+        Task<BaseActionDone<SendOtpInfo>> SendOtp(SendOtpDTO inputModel);
+
         Task<VerifyOtpInfo> VerifyOtp(VerifyOtpDTO inputModel);
+
         Task<BaseActionDone<ChangePasswordInfo>> ChangePassword(ChangePasswordDTO inputModel);
     }
 }
