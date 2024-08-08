@@ -2,6 +2,6 @@
 {
     public class SendOtpInfo
     {
-        public int userOtp { get; set; }
+        public string userOtp { get; set; }
     }
 }

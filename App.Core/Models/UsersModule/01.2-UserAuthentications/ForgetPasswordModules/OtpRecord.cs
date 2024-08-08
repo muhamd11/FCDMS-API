@@ -11,7 +11,7 @@ namespace App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordM
         public Guid OtpToken { get; set; }
 
         public Guid userToken { get; set; }
-        public int userOtp { get; set; }
+        public string userOtp { get; set; }
         public DateTime expireDate { get; set; }
     }
 }

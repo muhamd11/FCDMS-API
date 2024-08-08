@@ -117,9 +117,26 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             return BaseActionDone<ChangePasswordInfo>.GenrateBaseActionDone(isDone, new ChangePasswordInfo() { userInfoDetails = userInfoDetails });
         }
 
-        private int GenerateOtp()
+        private string GenerateOtp()
         {
-            return Random.Shared.Next(100000, 999999);
+            int maxNumber = 6;
+            string result;
+            Random random = new Random();
+            int value = random.Next(0, 999999);
+            if (value.ToString().Length == maxNumber)
+            {
+                result = "" + value;
+                return result;
+            }
+            else
+            {
+                result = "" + value;
+                for (int i = result.ToString().Length; i < maxNumber; i++)
+                {
+                    result += "" + random.Next(0, 9);
+                }
+                return result;
+            }
         }
 
         private string GenerateUserAuthorizeToken(UserInfoDetails user)
