@@ -11,6 +11,7 @@ using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.EF.Configurations;
@@ -175,6 +176,12 @@ namespace App.EF
         public DbSet<MedicalHistory> MedicalHistories { get; set; }
 
         #endregion ClinicModules
+
+        #region AuthenticationModule
+
+        public DbSet<ForgetPassword> ForgetPasswords { get; set; }
+
+        #endregion AuthenticationModule
 
         #endregion DB Tables
     }

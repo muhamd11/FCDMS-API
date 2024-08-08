@@ -10,6 +10,7 @@ using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using App.EF.Repositories;
@@ -47,6 +48,11 @@ namespace App.EF
 
         #endregion ClinicModules
 
+        #region AuthenticationModules 
+
+        public IBaseRepository<ForgetPassword> ForgetPasswords { get; private set; }
+        #endregion
+
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -77,16 +83,20 @@ namespace App.EF
             MedicalHistories = new BaseRepository<MedicalHistory>(_context);
 
             #endregion ClinicModules
+
+            #region AuthenticationModules 
+
+            ForgetPasswords = new BaseRepository<ForgetPassword>(_context);
+
+
+            #endregion
         }
 
-        public async Task<int> CommitAsync()
+        public async Task<int> CommitAsync()    
         {
             return await _context.SaveChangesAsync();
         }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+        public void Dispose() => _context.Dispose();
     }
 }

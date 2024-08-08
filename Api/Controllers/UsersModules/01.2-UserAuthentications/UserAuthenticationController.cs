@@ -2,6 +2,8 @@
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.Users;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules.DTO;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules.ViewModel;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.ViewModel;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
@@ -22,6 +24,9 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
         private readonly ILogger<UserAuthenticationController> _logger;
         private readonly string userLoginInfo = "userLoginInfo";
         private readonly string userSignupInfo = "userSignupInfo";
+        private readonly string userForgetPasswordInfo = "userForgetPasswordInfo";
+        private readonly string verifyOtpInfo = "verifyOtpInfo";
+        private readonly string changePasswordInfo = "changePasswordInfo";
 
         #endregion Members
 
@@ -87,6 +92,96 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             catch (Exception ex)
             {
                 response = response.CreateResponseCatch(userSignupInfo);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword([FromBody] ForgetPasswordDTO inputModel)
+        {
+            BaseActionResponse<ForgetPasswordInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidForgetPassword = _usersAuthValid.IsValidForgetPassword(inputModel);
+                if (isValidForgetPassword.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidForgetPassword, userForgetPasswordInfo);
+                else
+                {
+                    var userInfo = await _userAuthServices.ForgetPassword(inputModel);
+                    response = response.CreateResponse(userInfo, userForgetPasswordInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(userForgetPasswordInfo);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("VerifyOtp")]
+        public async Task<IActionResult> VerifyOtp([FromBody] VerifyOtpDTO inputModel)
+        {
+            BaseGetDetailsResponse<VerifyOtpInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidForgetPassword = _usersAuthValid.IsValidOtp(inputModel);
+                if (isValidForgetPassword.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidForgetPassword, verifyOtpInfo);
+                else
+                {
+                    var verifyOtp = await _userAuthServices.VerifyOtp(inputModel);
+                    response = response.CreateResponse(verifyOtp, verifyOtpInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(verifyOtpInfo);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDTO inputModel)
+        {
+            BaseActionResponse<ChangePasswordInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidForgetPassword = _usersAuthValid.IsValidChangePassword(inputModel);
+                if (isValidForgetPassword.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidForgetPassword, changePasswordInfo);
+                else
+                {
+                    var userInfoDetails = await _userAuthServices.ChangePassword(inputModel);
+                    if(userInfoDetails != null)
+                        response = response.CreateResponse(userInfoDetails, changePasswordInfo);
+                    else
+                        response = response.CreateResponse(BaseValid.createBaseValidError(UsersMessagesAr.errorInvalidUserLoginData), userLoginInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(changePasswordInfo);
                 _logger.LogError(ex, ex.Message);
             }
             finally

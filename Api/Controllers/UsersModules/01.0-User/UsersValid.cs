@@ -134,6 +134,28 @@ namespace Api.Controllers.UsersModule.Users
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
+        public BaseValid ValidDelete(BaseDeleteDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidUserToken = IsValidUserToken(inputModel.elementToken);
+                if (isValidUserToken.Status != EnumStatus.success)
+                    return isValidUserToken;
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
+        }
+
         public BaseValid ValidUserData(UserAddOrUpdateDTO inputModel)
         {
             #region userName &&  userLoginName && userEmail
@@ -226,28 +248,6 @@ namespace Api.Controllers.UsersModule.Users
             #endregion validUserProfile
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-        }
-
-        public BaseValid ValidDelete(BaseDeleteDto inputModel)
-        {
-            #region isAuthorizedUser *
-
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.delete);
-            if (isAuthorizedUser.Status != EnumStatus.success)
-                return isAuthorizedUser;
-
-            #endregion isAuthorizedUser *
-
-            if (inputModel is not null)
-            {
-                var isValidUserToken = IsValidUserToken(inputModel.elementToken);
-                if (isValidUserToken.Status != EnumStatus.success)
-                    return isValidUserToken;
-
-                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
-            }
-            else
-                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid IsValidUserToken(Guid userToken)

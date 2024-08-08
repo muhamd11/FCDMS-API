@@ -9,6 +9,7 @@ using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
+using App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 
@@ -43,6 +44,10 @@ namespace App.Core
         IBaseRepository<MedicalHistory> MedicalHistories { get; }
 
         #endregion ClinicModules
+
+        #region AuthenticationModules
+        IBaseRepository<ForgetPassword> ForgetPasswords { get; }
+        #endregion
 
         Task<int> CommitAsync();
     }

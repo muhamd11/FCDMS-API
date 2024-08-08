@@ -106,6 +106,24 @@ namespace App.Core.Resources.UsersModules.User {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to كود المصادقة لتغيير كلمة السر خاطئ.
+        /// </summary>
+        public static string errorInvalidUserOtp {
+            get {
+                return ResourceManager.GetString("errorInvalidUserOtp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to كود المصادقة لتغيير كلمة السر انتهي صلاحيته.
+        /// </summary>
+        public static string errorOtpExpired {
+            get {
+                return ResourceManager.GetString("errorOtpExpired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرًا، يجب إدخال كلمة السر.
         /// </summary>
         public static string errorPasswordRequired {

@@ -133,6 +133,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to من فضلك قم بادخال البيانات لتغير كلمة السر .
+        /// </summary>
+        public static string errorForgetPasswordTextRequired {
+            get {
+                return ResourceManager.GetString("errorForgetPasswordTextRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to كود المعرف تم اضافتة من قبل .
         /// </summary>
         public static string errorFullCodeExists {

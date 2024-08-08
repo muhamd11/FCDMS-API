@@ -132,6 +132,12 @@
   <data name="errorInvalidUserLoginData" xml:space="preserve">
     <value>عذرًا، بيانات تسجيل الدخول غير صالحة.</value>
   </data>
+  <data name="errorInvalidUserOtp" xml:space="preserve">
+    <value>كود المصادقة لتغيير كلمة السر خاطئ</value>
+  </data>
+  <data name="errorOtpExpired" xml:space="preserve">
+    <value>كود المصادقة لتغيير كلمة السر انتهي صلاحيته</value>
+  </data>
   <data name="errorPasswordRequired" xml:space="preserve">
     <value>عذرًا، يجب إدخال كلمة السر</value>
   </data>
