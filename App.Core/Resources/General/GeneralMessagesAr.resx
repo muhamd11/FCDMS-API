@@ -135,6 +135,9 @@
   <data name="errorActionFailed" xml:space="preserve">
     <value>عملية فاشلة</value>
   </data>
+  <data name="errorActivationType" xml:space="preserve">
+    <value>عذرًا، كود التفعيل خاطئ</value>
+  </data>
   <data name="errorDataNotFound" xml:space="preserve">
     <value>عذرا , لا توجد بيانات</value>
   </data>

@@ -1,6 +1,5 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.SystemBase.SystemRoles;
-using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.Users;
 using System.Linq.Expressions;
 

@@ -12,7 +12,7 @@ namespace App.Core.Models.Users
         public string? userLoginName { get; set; }
         public EnumUserType? userTypeToken { get; set; }
         public string? fullCode { get; set; }
-        public EnumEntityStatus? activationType { get; set; }
+        public EnumActivationType? activationType { get; set; }
         public string? createdDateTime { get; set; }
         public string? updatedDateTime { get; set; }
     }
@@ -26,7 +26,7 @@ namespace App.Core.Models.Users
         public string? userLoginName { get; set; }
         public EnumUserType? userTypeToken { get; set; }
         public string? fullCode { get; set; }
-        public EnumEntityStatus? activationType { get; set; }
+        public EnumActivationType? activationType { get; set; }
         public string? createdDateTime { get; set; }
         public string? updatedDateTime { get; set; }
     }

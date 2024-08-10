@@ -1,8 +1,10 @@
-﻿using App.Core.Consts.Users;
+﻿using App.Core.Consts.SystemBase;
+using App.Core.Consts.Users;
 using App.Core.Models.UsersModule._01._1_UserTypes._04_UserDoctor;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01_1_UserTypes;
 using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
+using Newtonsoft.Json;
 
 namespace App.Core.Models.Users
 {
@@ -23,5 +25,8 @@ namespace App.Core.Models.Users
         public UserPatient? userPatientData { get; set; }
         public UserEmployee? userEmployeeData { get; set; }
         public UserDoctor? userDoctorData { get; set; }
+
+        [JsonIgnore]
+        public EnumActivationType activationType { get; set; }
     }
 }

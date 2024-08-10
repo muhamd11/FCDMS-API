@@ -37,7 +37,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             _userAuthServices = userAuthServices;
             _usersAuthValid = usersAuthValid;
             _logger = logger;
-        } 
+        }
 
         #endregion Constructor
 

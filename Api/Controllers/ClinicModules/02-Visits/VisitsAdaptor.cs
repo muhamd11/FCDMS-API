@@ -1,6 +1,5 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.UsersModule.Users;
-using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using System.Linq.Expressions;
 

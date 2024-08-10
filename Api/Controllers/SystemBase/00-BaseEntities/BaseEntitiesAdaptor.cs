@@ -10,7 +10,7 @@ namespace Api.Controllers.SystemBase.BaseEntitys
         {
             return baseEntity => new BaseEntityInfo()
             {
-                activationType = baseEntity.activationType ?? EnumEntityStatus.active,
+                activationType = baseEntity.activationType ?? EnumActivationType.active,
                 createdDateTime = GetDateTimeLocal(baseEntity.createdDate),
                 updatedDateTime = GetDateTimeLocal(baseEntity.updatedDate.GetValueOrDefault()),
             };
@@ -23,7 +23,7 @@ namespace Api.Controllers.SystemBase.BaseEntitys
 
             return new BaseEntityInfo
             {
-                activationType = baseEntity.activationType ?? EnumEntityStatus.active,
+                activationType = baseEntity.activationType ?? EnumActivationType.active,
                 createdDateTime = GetDateTimeLocal(baseEntity.createdDate),
                 updatedDateTime = GetDateTimeLocal(baseEntity.updatedDate.GetValueOrDefault()),
             };

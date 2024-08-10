@@ -89,7 +89,7 @@ namespace App.EF
                         break;
 
                     case EntityState.Deleted:
-                        entity.activationType = EnumEntityStatus.blocked;
+                        entity.activationType = EnumActivationType.blocked;
                         entity.updatedDate = DateTimeOffset.UtcNow;
                         break;
                 }

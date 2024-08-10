@@ -1,5 +1,6 @@
 ﻿using App.Core;
 using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Helper.Validations;
@@ -7,6 +8,7 @@ using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using AutoMapper;
@@ -58,7 +60,7 @@ namespace Api.Controllers.UsersModule.Users
             if (inputModel.textSearch is not null)
                 criteria.Add(x => x.userName.Contains(inputModel.textSearch));
 
-            if(inputModel.activationType is not null)
+            if (inputModel.activationType is not null)
                 criteria.Add(x => x.activationType == inputModel.activationType);
 
             if (inputModel.fullCode is not null)
@@ -125,6 +127,32 @@ namespace Api.Controllers.UsersModule.Users
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }
 
+
+        public async Task<BaseActionDone<UserInfo>> ChangeUserActivationType(BaseChangeActivationDto inputModel)
+        {
+            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == inputModel.elementToken);
+
+            UserAddOrUpdateDTO userAddOrUpdateDTO = new()
+            {
+                userToken = user.userToken,
+                userName = user.userName,
+                userEmail = user.userEmail,
+                userPhone = user.userPhone,
+                userPhoneCC = user.userPhoneCC,
+                userTypeToken = user.userTypeToken,
+                userPhoneCCName = user.userPhoneCCName,
+                userLoginName = user.userName,
+                userPassword = user.userPassword,
+                userProfileData = user.userProfileData,
+                userPatientData = user.userPatientData,
+                
+                // Update User Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(userAddOrUpdateDTO, true);
+        }
+
         public async Task<BaseActionDone<UserInfo>> AddFromSginUp(UserSignUpDto inputModel)
         {
             UserAddOrUpdateDTO userAddOrUpdateDTO = new()
@@ -138,7 +166,8 @@ namespace Api.Controllers.UsersModule.Users
                 userLoginName = inputModel.userName,
                 userPassword = inputModel.userPassword,
                 userProfileData = inputModel.userProfileData,
-                userPatientData = inputModel.userPatientData
+                userPatientData = inputModel.userPatientData,
+                activationType = EnumActivationType.active
             };
 
             return await AddOrUpdate(userAddOrUpdateDTO, false);
@@ -187,6 +216,7 @@ namespace Api.Controllers.UsersModule.Users
             user = SetSystemRole(user);
             user.userPassword = ValidationClass.IsValidString(user.userPassword) ? user.userPassword : ConstantStrings.defaultPassword;
             user.userPassword = MethodsClass.Encrypt_Base64(user.userPassword!);
+            user.activationType = user.activationType == 0 ? EnumActivationType.active : user.activationType;
             user.userProfileData = null;
             user.userPatientData = null;
             user.userEmployeeData = null;

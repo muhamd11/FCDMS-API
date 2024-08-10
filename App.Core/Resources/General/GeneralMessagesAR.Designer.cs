@@ -115,6 +115,15 @@ namespace App.Core.Resources.General {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to عذرًا، كود التفعيل خاطئ.
+        /// </summary>
+        public static string errorActivationType {
+            get {
+                return ResourceManager.GetString("errorActivationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to عذرا , لا توجد بيانات.
         /// </summary>
         public static string errorDataNotFound {

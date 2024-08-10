@@ -1,4 +1,6 @@
-﻿namespace App.Core.Consts.SystemBase
+﻿using App.Core.Consts.Users;
+
+namespace App.Core.Consts.SystemBase
 {
     public enum EnumFunctionsType
     {
@@ -7,6 +9,6 @@
         update,
         delete,
         finalDelete,
-        customize
+        customize,
     }
 }

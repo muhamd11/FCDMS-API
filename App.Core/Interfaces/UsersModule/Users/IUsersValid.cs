@@ -1,6 +1,7 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 
 namespace Api.Controllers.UsersModules.Users.Interfaces
@@ -14,7 +15,9 @@ namespace Api.Controllers.UsersModules.Users.Interfaces
         BaseValid ValidAddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate);
 
         BaseValid ValidUserData(UserAddOrUpdateDTO inputModel);
-
+        
+        BaseValid isValidChangeActivationTypeUser(BaseChangeActivationDto inputModel);
+        
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
         BaseValid IsValidUserToken(Guid userToken);

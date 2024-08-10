@@ -33,15 +33,12 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         public SystemRoleFunction GetFunctionCustomize(string moduleId, EnumFunctionsType customize) => GetFunction(moduleId, customize);
 
-        private SystemRoleFunction GetFunction(string moduleId, EnumFunctionsType enumFuncationsType)
+        private SystemRoleFunction GetFunction(string moduleId, EnumFunctionsType enumFuncationsType) => new SystemRoleFunction()
         {
-            return new SystemRoleFunction()
-            {
-                functionsType = enumFuncationsType,
-                moduleId = moduleId,
-                functionId = $"{moduleId}_{enumFuncationsType}",
-                isHavePrivilege = false
-            };
-        }
+            functionsType = enumFuncationsType,
+            moduleId = moduleId,
+            functionId = $"{moduleId}_{enumFuncationsType}",
+            isHavePrivilege = false
+        };
     }
 }

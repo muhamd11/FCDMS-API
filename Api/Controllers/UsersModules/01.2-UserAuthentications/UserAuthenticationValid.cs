@@ -87,7 +87,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
         {
             if (inputModel is not null)
             {
-                #region  userPhoneNumberOrEmail *
+                #region userPhoneNumberOrEmail *
 
                 if (!ValidationClass.IsValidString(inputModel.userPhoneNumberOrEmail))
                     return BaseValid.createBaseValid(GeneralMessagesAr.errorPhoneNumberOrEmailRequired, EnumStatus.error);

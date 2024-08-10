@@ -2,6 +2,7 @@
 using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -190,6 +191,35 @@ namespace Api.Controllers.ClinicModules.Users
             return Ok(response);
         }
 
+        [HttpPost("ChangeUserActivationType")]
+        public async Task<IActionResult> ChangeUserActivationType([FromQuery] BaseChangeActivationDto inputModel)
+        {
+            string userInfoData = "userInfoData";
+            BaseActionResponse<UserInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidUser = _usersValid.isValidChangeActivationTypeUser(inputModel);
+                if (isValidUser.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidUser, userInfoData);
+                else
+                {
+                    var userData = await _usersServices.ChangeUserActivationType(inputModel);
+                    response = response.CreateResponse(userData, userInfoData);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(userInfoData);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
         #endregion Methods
     }
 }

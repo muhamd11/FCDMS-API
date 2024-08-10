@@ -1,6 +1,5 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Resources.General;
-using Azure;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -50,7 +49,6 @@ namespace Api.Middlewares
                 msg = GeneralMessagesAr.errorSomthingWrong,
                 executionTimeMilliseconds = watch.ElapsedMilliseconds
             };
-
         }
     }
 }

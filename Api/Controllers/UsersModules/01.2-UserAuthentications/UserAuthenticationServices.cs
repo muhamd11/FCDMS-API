@@ -18,7 +18,6 @@ using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 {

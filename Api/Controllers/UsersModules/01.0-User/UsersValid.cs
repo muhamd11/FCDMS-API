@@ -8,10 +8,12 @@ using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using App.Core.Resources.General;
 using App.Core.Resources.SystemBase.SystemRoles;
 using App.Core.Resources.UsersModules.User;
+using Microsoft.Identity.Client;
 
 namespace Api.Controllers.UsersModule.Users
 {
@@ -246,6 +248,32 @@ namespace Api.Controllers.UsersModule.Users
             #endregion validUserProfile
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+        }
+
+        public BaseValid isValidChangeActivationTypeUser(BaseChangeActivationDto inputModel)
+        {
+            //TODO: Change Authorize Token in user Change activation 
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize);
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidUserToken = IsValidUserToken(inputModel.elementToken);
+                if (isValidUserToken.Status != EnumStatus.success)
+                    return isValidUserToken;
+
+                if(!ValidationClass.IsEnumValue(inputModel.activationType))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorActivationType, EnumStatus.error);
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid IsValidUserToken(Guid userToken)

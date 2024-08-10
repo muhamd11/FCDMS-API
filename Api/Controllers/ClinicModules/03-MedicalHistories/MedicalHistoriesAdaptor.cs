@@ -2,7 +2,6 @@
 using Api.Controllers.UsersModule.Users;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
-using App.Core.Models.ClinicModules.VisitsModules;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase.MedicalHistories

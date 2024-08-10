@@ -1,6 +1,7 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 
@@ -16,6 +17,9 @@ namespace App.Core.Interfaces.UsersModule.Users
 
         Task<BaseActionDone<UserInfo>> AddFromSginUp(UserSignUpDto inputModel);
 
+        Task<BaseActionDone<UserInfo>> ChangeUserActivationType(BaseChangeActivationDto inputModel);
+
         Task<BaseActionDone<UserInfo>> DeleteAsync(BaseDeleteDto inputModel);
+
     }
 }
