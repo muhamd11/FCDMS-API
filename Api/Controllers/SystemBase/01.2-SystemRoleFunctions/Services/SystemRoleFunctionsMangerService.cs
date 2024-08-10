@@ -1,4 +1,5 @@
-﻿using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
+﻿using App.Core.Consts.Users;
+using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.OperationsModules;
@@ -73,7 +74,13 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         #region UserModules
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleUser() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(User));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleUser()
+        {
+            string moduleId = nameof(User);
+            List<SystemRoleFunction> systemRoleFunctions = [_systemRoleFunctionsBaseService.GetFunctionView(moduleId)];
+            systemRoleFunctions.Add(_systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumUserCustomFunctions.changeActivationType.ToString()));
+            return systemRoleFunctions;
+         }
 
         #endregion UserModules
     }
