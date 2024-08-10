@@ -1,4 +1,5 @@
-﻿using App.Core.Models.SystemBase.BaseClass;
+﻿using App.Core.Consts.SystemBase;
+using App.Core.Models.SystemBase.BaseClass;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase.BaseEntitys
@@ -9,7 +10,7 @@ namespace Api.Controllers.SystemBase.BaseEntitys
         {
             return baseEntity => new BaseEntityInfo()
             {
-                isDeleted = baseEntity.isDeleted ?? false,
+                activationType = baseEntity.activationType ?? EnumEntityStatus.active,
                 createdDateTime = GetDateTimeLocal(baseEntity.createdDate),
                 updatedDateTime = GetDateTimeLocal(baseEntity.updatedDate.GetValueOrDefault()),
             };
@@ -22,7 +23,7 @@ namespace Api.Controllers.SystemBase.BaseEntitys
 
             return new BaseEntityInfo
             {
-                isDeleted = baseEntity.isDeleted ?? false,
+                activationType = baseEntity.activationType ?? EnumEntityStatus.active,
                 createdDateTime = GetDateTimeLocal(baseEntity.createdDate),
                 updatedDateTime = GetDateTimeLocal(baseEntity.updatedDate.GetValueOrDefault()),
             };

@@ -62,11 +62,15 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             if (inputModel.textSearch is not null)
                 criteria.Add(x => x.patientWeightInKg.ToString().Contains(inputModel.textSearch) || x.patientHeightInCm.ToString().Contains(inputModel.textSearch));
 
+
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.nutritionalImprovementToken == inputModel.elementToken);
 
             if (inputModel.userPatientToken is not null)
                 criteria.Add(x => x.userPatientToken == inputModel.userPatientToken);
+
+            if (inputModel.activationType is not null)
+                criteria.Add(x => x.activationType == inputModel.activationType);
 
             if (inputModel.fullCode is not null)
                 criteria.Add(x => x.fullCode == inputModel.fullCode);

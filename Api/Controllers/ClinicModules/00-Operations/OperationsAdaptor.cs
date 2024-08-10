@@ -1,6 +1,7 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.UsersModule.Users;
 using App.Core.Models.ClinicModules.OperationsModules;
+using App.Core.Models.SystemBase.Roles;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase.Operations
@@ -14,9 +15,9 @@ namespace Api.Controllers.SystemBase.Operations
                 operationToken = operation.operationToken,
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
-                userPatientInfo = includeUserPatientInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(operation.userPatientData),
+                userPatientInfo = includeUserPatientInfoData ? UsersAdaptor.SelectExpressionUserInfo(operation.userPatientData) : null,
                 fullCode = operation.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
             };
@@ -30,7 +31,7 @@ namespace Api.Controllers.SystemBase.Operations
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
                 fullCode = operation.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
                 userPatientInfo = UsersAdaptor.SelectExpressionUserInfo(operation.userPatientData)
@@ -48,7 +49,7 @@ namespace Api.Controllers.SystemBase.Operations
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
                 fullCode = operation.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime
             };
@@ -65,10 +66,9 @@ namespace Api.Controllers.SystemBase.Operations
                 operationName = operation.operationName,
                 operationDate = operation.operationDate,
                 fullCode = operation.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(operation).createdDateTime,
-                //userPatientInfoDetails =  UsersAdaptor.SelectExpressionUserInfoDetails(operation.userPatientData)
             };
         }
     }

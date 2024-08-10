@@ -16,7 +16,9 @@ using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.DTO;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.LoginModule.ViewModel;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 {
@@ -68,28 +70,33 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             return userData.Data;
         }
 
-        public async Task<BaseActionDone<SendOtpInfo>> SendOtp(SendOtpDTO inputModel)
+        public async Task<BaseActionDone<CheckUserForOtpInfo>> CheckUserForOtp(CheckUserForOtpDTO inputModel)
         {
-            OtpRecord forgetPassword = new();
+            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userEmail == inputModel.userPhoneNumberOrEmail || x.userPhone == inputModel.userPhoneNumberOrEmail);
+            return await AddOtpRecord(user);
+        }
 
-            var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userEmail == inputModel.forgetPasswordText || x.userPhone == inputModel.forgetPasswordText);
-            forgetPassword.userToken = user.userToken;
-            forgetPassword.expireDate = DateTime.UtcNow.AddMinutes(10);
-            forgetPassword.userOtp = GenerateOtp();
+        private async Task<BaseActionDone<CheckUserForOtpInfo>> AddOtpRecord(User user)
+        {
+            OtpRecord otpRecord = new();
+            otpRecord.userToken = user.userToken;
+            otpRecord.expireDate = DateTime.UtcNow.AddMinutes(10);
+            otpRecord.userOtp = GenerateOtp();
 
-            await _unitOfWork.ForgetPasswords.AddAsync(forgetPassword);
+            await _unitOfWork.OtpRecords.AddAsync(otpRecord);
+
             var isDone = await _unitOfWork.CommitAsync();
 
-            return BaseActionDone<SendOtpInfo>.GenrateBaseActionDone(isDone, new SendOtpInfo() { userOtp = isDone > 0 ? forgetPassword.userOtp : 0 });
+            return BaseActionDone<CheckUserForOtpInfo>.GenrateBaseActionDone(isDone, new CheckUserForOtpInfo() { userOtp = otpRecord.userOtp });
         }
 
         public async Task<VerifyOtpInfo> VerifyOtp(VerifyOtpDTO inputModel)
         {
             var select = UsersAdaptor.SelectExpressionUserInfoDetails();
 
-            var forgetPassword = await _unitOfWork.ForgetPasswords.FirstOrDefaultAsync(x => x.userOtp == inputModel.userOtp);
+            var otpRecord = await _unitOfWork.OtpRecords.FirstOrDefaultAsync(x => x.userOtp == inputModel.userOtp);
 
-            var userInfoDetails = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == forgetPassword.userToken, select);
+            var userInfoDetails = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == otpRecord.userToken, select);
 
             var userAuthorizeToken = GenerateUserAuthorizeToken(userInfoDetails);
 
@@ -111,6 +118,9 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             _unitOfWork.Users.Update(user);
 
             var isDone = await _unitOfWork.CommitAsync();
+
+            if (isDone > 0)
+                await _unitOfWork.OtpRecords.AsQueryable().Where(x => x.userToken == user.userToken).ExecuteDeleteAsync();
 
             var userInfoDetails = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == user.userToken, select);
 

@@ -83,16 +83,16 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid IsValidSendOtp(SendOtpDTO inputModel)
+        public BaseValid IsValidUserForOtp(CheckUserForOtpDTO inputModel)
         {
             if (inputModel is not null)
             {
-                #region forgetPasswordText *
+                #region  userPhoneNumberOrEmail *
 
-                if (!ValidationClass.IsValidString(inputModel.forgetPasswordText))
-                    return BaseValid.createBaseValid(GeneralMessagesAr.errorForgetPasswordTextRequired, EnumStatus.error);
+                if (!ValidationClass.IsValidString(inputModel.userPhoneNumberOrEmail))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorPhoneNumberOrEmailRequired, EnumStatus.error);
 
-                #endregion forgetPasswordText *
+                #endregion userPhoneNumberOrEmail *
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }
@@ -106,12 +106,12 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             {
                 #region ValidOtp *
 
-                var forgetPasswordrecord = _unitOfWork.ForgetPasswords.FirstOrDefault(x => x.userOtp == inputModel.userOtp);
+                var OtpRecord = _unitOfWork.OtpRecords.FirstOrDefault(x => x.userOtp == inputModel.userOtp);
 
-                if (forgetPasswordrecord == null)
+                if (OtpRecord == null)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorInvalidUserOtp, EnumStatus.error);
 
-                if (DateTime.UtcNow > forgetPasswordrecord.expireDate)
+                if (DateTime.UtcNow > OtpRecord.expireDate)
                     return BaseValid.createBaseValid(UsersMessagesAr.errorOtpExpired, EnumStatus.error);
 
                 #endregion ValidOtp *

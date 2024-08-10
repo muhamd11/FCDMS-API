@@ -16,7 +16,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).createdDateTime
             };
@@ -31,7 +31,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).createdDateTime
             };
@@ -49,7 +49,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode!,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).createdDateTime
             };
@@ -67,7 +67,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 systemRoleUserTypeToken = systemRole.userTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).createdDateTime
             };

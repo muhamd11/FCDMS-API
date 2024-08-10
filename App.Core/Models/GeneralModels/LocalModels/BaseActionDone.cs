@@ -7,7 +7,7 @@ namespace App.Core.Models.General.LocalModels
     {
         public EnumStatus Status { get; set; }
         public string Message { get; set; }
-        public T Data { get; set; }
+        public T? Data { get; set; }
 
         public static BaseActionDone<T> GenrateBaseActionDone(int countRowEffectInDB, T data)
         {
@@ -15,7 +15,7 @@ namespace App.Core.Models.General.LocalModels
             {
                 Status = countRowEffectInDB > 0 ? EnumStatus.success : EnumStatus.error,
                 Message = countRowEffectInDB > 0 ? GeneralMessagesAr.actionSuccess : GeneralMessagesAr.errorActionFailed,
-                Data = data,
+                Data = countRowEffectInDB > 0 ? data : default,
             };
         }
     }

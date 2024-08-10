@@ -2,6 +2,7 @@
 using Api.Controllers.UsersModule.Users;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
+using App.Core.Models.ClinicModules.VisitsModules;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase.MedicalHistories
@@ -16,9 +17,9 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement,
                 patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
                 patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
-                userPatientInfo = includeUserPatientInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(medicalHistory.userPatientData),
+                userPatientInfo = includeUserPatientInfoData ? UsersAdaptor.SelectExpressionUserInfo(medicalHistory.userPatientData) : null,
                 fullCode = medicalHistory.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).createdDateTime,
             };
@@ -33,7 +34,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
                 patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
                 fullCode = medicalHistory.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).createdDateTime,
             };
@@ -51,7 +52,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
                 patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
                 fullCode = medicalHistory.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).createdDateTime,
             };
@@ -69,7 +70,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
                 patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
                 fullCode = medicalHistory.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(medicalHistory).createdDateTime,
             };

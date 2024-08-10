@@ -141,9 +141,6 @@
   <data name="errorDescriptionMaxLength" xml:space="preserve">
     <value> الوصف لا يمكن أن يكون أطول من {0} حرف</value>
   </data>
-  <data name="errorForgetPasswordTextRequired" xml:space="preserve">
-    <value>من فضلك قم بادخال البيانات لتغير كلمة السر </value>
-  </data>
   <data name="errorFullCodeExists" xml:space="preserve">
     <value>كود المعرف تم اضافتة من قبل </value>
   </data>
@@ -206,6 +203,9 @@
   </data>
   <data name="errorPasswordRequired" xml:space="preserve">
     <value>عذرًا ، يجب ادخال كلمة السر</value>
+  </data>
+  <data name="errorPhoneNumberOrEmailRequired" xml:space="preserve">
+    <value>من فضلك قم بادخال رقم التيليفون او البريد لإلكتروني لتغير كلمة السر </value>
   </data>
   <data name="errorSendLoginData" xml:space="preserve">
     <value>يرجى إرسال بيانات تسجيل الدخول</value>

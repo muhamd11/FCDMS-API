@@ -56,13 +56,13 @@ namespace Api.Controllers.UsersModule.Users
             List<Expression<Func<User, bool>>> criteria = [];
             // TODO: Complete Search Function For User
             if (inputModel.textSearch is not null)
-            {
-                criteria.Add(x =>
-                x.userName.Contains(inputModel.textSearch));
-            }
+                criteria.Add(x => x.userName.Contains(inputModel.textSearch));
+
+            if(inputModel.activationType is not null)
+                criteria.Add(x => x.activationType == inputModel.activationType);
 
             if (inputModel.fullCode is not null)
-                criteria.Add(x => x.fullCode.Contains(inputModel.fullCode));
+                criteria.Add(x => x.fullCode!.Contains(inputModel.fullCode));
 
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.userToken == inputModel.elementToken);

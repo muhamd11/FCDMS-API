@@ -57,6 +57,9 @@ namespace Api.Controllers.SystemBase.SystemRoles
             if (inputModel.systemRoleUserTypeToken.HasValue)
                 criteria.Add(x => x.userTypeToken == inputModel.systemRoleUserTypeToken.Value);
 
+            if (inputModel.activationType is not null)
+                criteria.Add(x => x.activationType == inputModel.activationType);
+
             if (inputModel.fullCode is not null)
                 criteria.Add(x => x.fullCode == inputModel.fullCode);
 

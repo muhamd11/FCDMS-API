@@ -1,6 +1,7 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel;
+using App.Core.Models.SystemBase.Roles;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
@@ -16,7 +17,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
                 functionId = systemRoleFunction.functionId,
                 moduleId = systemRoleFunction.moduleId,
                 isHavePrivilege = systemRoleFunction.isHavePrivilege,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).createdDateTime
             };
@@ -34,7 +35,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
                 functionId = systemRoleFunction.functionId,
                 moduleId = systemRoleFunction.moduleId,
                 isHavePrivilege = systemRoleFunction.isHavePrivilege,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).createdDateTime
             };

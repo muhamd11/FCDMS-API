@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using App.Core.Consts.SystemBase;
+using Newtonsoft.Json;
 
 namespace App.Core.Models.SystemBase.BaseClass
 {
@@ -8,8 +9,7 @@ namespace App.Core.Models.SystemBase.BaseClass
 
         [JsonIgnore]
         public string? primaryFullCode { get; set; }
-
-        public bool? isDeleted { get; set; }
+        public EnumEntityStatus? activationType { get; set; }
         public DateTimeOffset createdDate { get; set; } = DateTimeOffset.Now;
         public DateTimeOffset? updatedDate { get; set; }
     }

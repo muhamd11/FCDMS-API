@@ -60,6 +60,9 @@ namespace Api.Controllers.SystemBase.Operations
             if (inputModel.textSearch is not null)
                 criteria.Add(x => x.operationName.Contains(inputModel.textSearch));
 
+            if (inputModel.activationType is not null)
+                criteria.Add(x => x.activationType == inputModel.activationType);
+
             if (inputModel.elementToken is not null)
                 criteria.Add(x => x.operationToken == inputModel.elementToken);
 

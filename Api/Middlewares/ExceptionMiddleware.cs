@@ -1,5 +1,6 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Resources.General;
+using Azure;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -11,6 +12,7 @@ namespace Api.Middlewares
         private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
         private readonly Stopwatch watch = new();
+        private object response = new();
 
         public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
         {
@@ -28,27 +30,27 @@ namespace Api.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
-                await HandleExceptionAsync(httpContext);
+                response = HandleExceptionAsync(httpContext);
+                var jsonResponse = JsonSerializer.Serialize(response);
+                var byteArray = Encoding.UTF8.GetBytes(jsonResponse);
+
+                await httpContext.Response.Body.WriteAsync(byteArray);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context)
+        private object HandleExceptionAsync(HttpContext context)
         {
             watch.Stop();
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)EnumStatus.success;
 
-            var response = new
+            return new
             {
                 status = EnumStatus.catchStatus,
                 msg = GeneralMessagesAr.errorSomthingWrong,
                 executionTimeMilliseconds = watch.ElapsedMilliseconds
             };
 
-            var jsonResponse = JsonSerializer.Serialize(response);
-            var byteArray = Encoding.UTF8.GetBytes(jsonResponse);
-
-            return context.Response.Body.WriteAsync(byteArray, 0, byteArray.Length);
         }
     }
 }

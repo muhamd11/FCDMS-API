@@ -4,14 +4,9 @@ using App.Core.Interfaces.GeneralInterfaces;
 
 namespace Api.Controllers.GeneralServices
 {
-    public class HeaderRequistServices : IHeaderRequest
+    public class HeaderRequestServices(IHttpContextAccessor httpContextAccessor) : IHeaderRequest
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        public HeaderRequistServices(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
+        private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
         public Guid? GetUserToken()
         {
@@ -25,7 +20,6 @@ namespace Api.Controllers.GeneralServices
             }
         }
 
-        private string? GetUserAuthorizeToken()
-                         => _httpContextAccessor?.HttpContext?.Request.Headers["userAuthorizeToken"].FirstOrDefault();
+        private string? GetUserAuthorizeToken() => _httpContextAccessor?.HttpContext?.Request.Headers["userAuthorizeToken"].FirstOrDefault();
     }
 }

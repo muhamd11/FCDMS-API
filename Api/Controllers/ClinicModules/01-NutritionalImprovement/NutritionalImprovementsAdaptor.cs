@@ -16,9 +16,9 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 patientHeightInCm = nutritionalImprovement.patientHeightInCm,
                 patientWeightInKg = nutritionalImprovement.patientWeightInKg,
                 patientBmr = nutritionalImprovement.patientBmr,
-                userPatientInfo = includeUserPatientInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(nutritionalImprovement.userPatientData),
+                userPatientInfo = includeUserPatientInfoData ? UsersAdaptor.SelectExpressionUserInfo(nutritionalImprovement.userPatientData) : null,
                 fullCode = nutritionalImprovement.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).createdDateTime,
             };
@@ -33,7 +33,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 patientWeightInKg = nutritionalImprovement.patientWeightInKg,
                 patientBmr = nutritionalImprovement.patientBmr,
                 fullCode = nutritionalImprovement.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).createdDateTime,
             };
@@ -51,7 +51,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 patientWeightInKg = nutritionalImprovement.patientWeightInKg,
                 patientBmr = nutritionalImprovement.patientBmr,
                 fullCode = nutritionalImprovement.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).createdDateTime,
             };
@@ -69,7 +69,7 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 patientWeightInKg = nutritionalImprovement.patientWeightInKg,
                 patientBmr = nutritionalImprovement.patientBmr,
                 fullCode = nutritionalImprovement.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(nutritionalImprovement).createdDateTime,
             };

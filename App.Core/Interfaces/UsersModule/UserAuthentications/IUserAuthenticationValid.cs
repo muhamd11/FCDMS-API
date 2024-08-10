@@ -12,7 +12,7 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
 
         BaseValid IsValidSignUp(UserSignUpDto inputModel);
 
-        BaseValid IsValidSendOtp(SendOtpDTO inputModel);
+        BaseValid IsValidUserForOtp(CheckUserForOtpDTO inputModel);
 
         BaseValid IsValidOtp(VerifyOtpDTO inputModel);
 

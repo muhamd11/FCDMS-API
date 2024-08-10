@@ -37,7 +37,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             _userAuthServices = userAuthServices;
             _usersAuthValid = usersAuthValid;
             _logger = logger;
-        }
+        } 
 
         #endregion Constructor
 
@@ -102,19 +102,19 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             return Ok(response);
         }
 
-        [HttpPost("SendOtp")]
-        public async Task<IActionResult> SendOtp([FromBody] SendOtpDTO inputModel)
+        [HttpPost("CheckUserForOtp")]
+        public async Task<IActionResult> CheckUserForOtp([FromBody] CheckUserForOtpDTO inputModel)
         {
-            BaseActionResponse<SendOtpInfo> response = new();
+            BaseActionResponse<CheckUserForOtpInfo> response = new();
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidSendOtp = _usersAuthValid.IsValidSendOtp(inputModel);
+                var isValidSendOtp = _usersAuthValid.IsValidUserForOtp(inputModel);
                 if (isValidSendOtp.Status != EnumStatus.success)
                     response = response.CreateResponse(isValidSendOtp, userForgetPasswordInfo);
                 else
                 {
-                    var userInfo = await _userAuthServices.SendOtp(inputModel);
+                    var userInfo = await _userAuthServices.CheckUserForOtp(inputModel);
                     response = response.CreateResponse(userInfo, userForgetPasswordInfo);
                 }
             }
@@ -167,16 +167,16 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications._01._0_UsersLo
             var watch = Stopwatch.StartNew();
             try
             {
-                var isValidForgetPassword = _usersAuthValid.IsValidChangePassword(inputModel);
-                if (isValidForgetPassword.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidForgetPassword, changePasswordInfo);
+                var isValidChangePassword = _usersAuthValid.IsValidChangePassword(inputModel);
+                if (isValidChangePassword.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidChangePassword, changePasswordInfo);
                 else
                 {
                     var userInfoDetails = await _userAuthServices.ChangePassword(inputModel);
                     if (userInfoDetails != null)
                         response = response.CreateResponse(userInfoDetails, changePasswordInfo);
                     else
-                        response = response.CreateResponse(BaseValid.createBaseValidError(UsersMessagesAr.errorInvalidUserLoginData), userLoginInfo);
+                        response = response.CreateResponse(BaseValid.createBaseValidError(UsersMessagesAr.errorUserDoesNotExists), changePasswordInfo);
                 }
             }
             catch (Exception ex)

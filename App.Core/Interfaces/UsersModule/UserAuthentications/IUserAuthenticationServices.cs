@@ -15,7 +15,7 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
 
         Task<UserInfo> Signup(UserSignUpDto inputModel);
 
-        Task<BaseActionDone<SendOtpInfo>> SendOtp(SendOtpDTO inputModel);
+        Task<BaseActionDone<CheckUserForOtpInfo>> CheckUserForOtp(CheckUserForOtpDTO inputModel);
 
         Task<VerifyOtpInfo> VerifyOtp(VerifyOtpDTO inputModel);
 

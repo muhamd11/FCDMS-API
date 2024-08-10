@@ -1,4 +1,5 @@
-﻿using App.Core.Consts.Users;
+﻿using App.Core.Consts.SystemBase;
+using App.Core.Consts.Users;
 
 namespace App.Core.Models.Users
 {
@@ -11,7 +12,7 @@ namespace App.Core.Models.Users
         public string? userLoginName { get; set; }
         public EnumUserType? userTypeToken { get; set; }
         public string? fullCode { get; set; }
-        public bool? isDeleted { get; set; }
+        public EnumEntityStatus? activationType { get; set; }
         public string? createdDateTime { get; set; }
         public string? updatedDateTime { get; set; }
     }
@@ -25,7 +26,7 @@ namespace App.Core.Models.Users
         public string? userLoginName { get; set; }
         public EnumUserType? userTypeToken { get; set; }
         public string? fullCode { get; set; }
-        public bool? isDeleted { get; set; }
+        public EnumEntityStatus? activationType { get; set; }
         public string? createdDateTime { get; set; }
         public string? updatedDateTime { get; set; }
     }

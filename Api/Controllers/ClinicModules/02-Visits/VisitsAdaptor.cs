@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.UsersModule.Users;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using System.Linq.Expressions;
 
@@ -19,9 +20,9 @@ namespace Api.Controllers.SystemBase.Visits
                 medications = visit.medications,
                 generalNotes = visit.generalNotes,
                 userPatientComplaining = visit.userPatientComplaining,
-                userPatientInfo = includeUserPatientInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(visit.userPatientData),
+                userPatientInfo = includeUserPatientInfoData ? UsersAdaptor.SelectExpressionUserInfo(visit.userPatientData) : null,
                 fullCode = visit.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).createdDateTime,
             };
@@ -40,7 +41,7 @@ namespace Api.Controllers.SystemBase.Visits
                 generalNotes = visit.generalNotes,
                 userPatientComplaining = visit.userPatientComplaining,
                 fullCode = visit.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).createdDateTime,
             };
@@ -62,7 +63,7 @@ namespace Api.Controllers.SystemBase.Visits
                 generalNotes = visit.generalNotes,
                 userPatientComplaining = visit.userPatientComplaining,
                 fullCode = visit.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).createdDateTime,
             };
@@ -84,10 +85,9 @@ namespace Api.Controllers.SystemBase.Visits
                 generalNotes = visit.generalNotes,
                 userPatientComplaining = visit.userPatientComplaining,
                 fullCode = visit.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).activationType,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).updatedDateTime,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(visit).createdDateTime,
-                //userPatientInfoDetails =  UsersAdaptor.SelectExpressionUserInfoDetails(visit.userPatientData)
             };
         }
     }

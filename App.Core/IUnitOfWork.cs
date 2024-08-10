@@ -47,7 +47,7 @@ namespace App.Core
 
         #region AuthenticationModules
 
-        IBaseRepository<OtpRecord> ForgetPasswords { get; }
+        IBaseRepository<OtpRecord> OtpRecords { get; }
 
         #endregion AuthenticationModules
 

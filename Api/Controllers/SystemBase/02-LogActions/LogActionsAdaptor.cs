@@ -16,7 +16,7 @@ namespace Api.Controllers.SystemBase.LogActions
                 modelName = logAction.modelName,
                 actionDate = logAction.actionDate,
                 actionType = logAction.actionType,
-                userInfoData = includeUserInfoData == false ? null : UsersAdaptor.SelectExpressionUserInfo(logAction.userData),
+                userInfoData = includeUserInfoData ? UsersAdaptor.SelectExpressionUserInfo(logAction.userData) : null,
                 newActionData = logAction.newActionData,
                 oldActionData = logAction.oldActionData
             };

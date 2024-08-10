@@ -50,7 +50,7 @@ namespace App.EF
 
         #region AuthenticationModules
 
-        public IBaseRepository<OtpRecord> ForgetPasswords { get; private set; }
+        public IBaseRepository<OtpRecord> OtpRecords { get; private set; }
 
         #endregion AuthenticationModules
 
@@ -87,7 +87,7 @@ namespace App.EF
 
             #region AuthenticationModules
 
-            ForgetPasswords = new BaseRepository<OtpRecord>(_context);
+            OtpRecords = new BaseRepository<OtpRecord>(_context);
 
             #endregion AuthenticationModules
         }

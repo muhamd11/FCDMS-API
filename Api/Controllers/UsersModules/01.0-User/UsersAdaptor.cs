@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.SystemBase.BaseEntitys;
 using Api.Controllers.SystemBase.SystemRoles;
+using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.Users;
 using System.Linq.Expressions;
 
@@ -18,7 +19,7 @@ namespace Api.Controllers.UsersModule.Users
                 userLoginName = user.userLoginName,
                 userTypeToken = user.userTypeToken,
                 fullCode = user.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).activationType,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
             };
@@ -35,7 +36,7 @@ namespace Api.Controllers.UsersModule.Users
                 userLoginName = user.userLoginName!,
                 userTypeToken = user.userTypeToken,
                 fullCode = user.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).activationType,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
@@ -58,7 +59,7 @@ namespace Api.Controllers.UsersModule.Users
                 userLoginName = user.userLoginName,
                 userTypeToken = user.userTypeToken,
                 fullCode = user.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).activationType,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
             };
@@ -78,7 +79,7 @@ namespace Api.Controllers.UsersModule.Users
                 userLoginName = user.userLoginName,
                 userTypeToken = user.userTypeToken,
                 fullCode = user.fullCode,
-                isDeleted = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).isDeleted,
+                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).activationType,
                 createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).createdDateTime,
                 updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(user).updatedDateTime,
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),

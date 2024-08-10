@@ -4,6 +4,7 @@ using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240809192047_ChangeOtpTypeToString")]
+    partial class ChangeOtpTypeToString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,14 +31,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(max)");
@@ -63,14 +66,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<decimal>("patientBmr")
                         .HasPrecision(30, 18)
@@ -112,14 +115,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset>("operationDate")
                         .HasColumnType("datetimeoffset");
@@ -158,9 +161,6 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
@@ -173,6 +173,9 @@ namespace App.EF.Migrations
                     b.Property<string>("generalNotes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateOnly>("lastPeriodDate")
                         .HasColumnType("date");
@@ -249,14 +252,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(max)");
@@ -331,9 +334,6 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
@@ -346,6 +346,9 @@ namespace App.EF.Migrations
 
                     b.Property<int>("functionsType")
                         .HasColumnType("int");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("isHavePrivilege")
                         .HasColumnType("bit");
@@ -374,14 +377,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int?>("activationType")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(450)");

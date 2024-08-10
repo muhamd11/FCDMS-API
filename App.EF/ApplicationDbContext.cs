@@ -1,4 +1,6 @@
-﻿using App.Core.Helper.Json;
+﻿using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
+using App.Core.Helper.Json;
 using App.Core.Interfaces.GeneralInterfaces;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
@@ -87,7 +89,7 @@ namespace App.EF
                         break;
 
                     case EntityState.Deleted:
-                        entity.isDeleted = true;
+                        entity.activationType = EnumEntityStatus.blocked;
                         entity.updatedDate = DateTimeOffset.UtcNow;
                         break;
                 }
@@ -179,7 +181,7 @@ namespace App.EF
 
         #region AuthenticationModule
 
-        public DbSet<OtpRecord> ForgetPasswords { get; set; }
+        public DbSet<OtpRecord> OtpRecords { get; set; }
 
         #endregion AuthenticationModule
 
