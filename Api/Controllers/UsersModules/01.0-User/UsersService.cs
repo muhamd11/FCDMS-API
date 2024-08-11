@@ -11,6 +11,7 @@ using App.Core.Models.General.PaginationModule;
 using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.Users;
 using App.Core.Models.UsersModule._01._2_UserAuthentications.SignUpModule.DTO;
+using App.Core.Resources.General;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -127,7 +128,6 @@ namespace Api.Controllers.UsersModule.Users
             return BaseActionDone<UserInfo>.GenrateBaseActionDone(isDone, userInfo);
         }
 
-
         public async Task<BaseActionDone<UserInfo>> ChangeUserActivationType(BaseChangeActivationDto inputModel)
         {
             var user = await _unitOfWork.Users.FirstOrDefaultAsync(x => x.userToken == inputModel.elementToken);
@@ -145,7 +145,7 @@ namespace Api.Controllers.UsersModule.Users
                 userPassword = user.userPassword,
                 userProfileData = user.userProfileData,
                 userPatientData = user.userPatientData,
-                
+
                 // Update User Activation Type
                 activationType = inputModel.activationType
             };
@@ -246,7 +246,7 @@ namespace Api.Controllers.UsersModule.Users
                 return user;
             else
             {
-                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.userTypeToken == user.userTypeToken);
+                var systemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.systemRoleUserTypeToken == user.userTypeToken);
                 user.systemRoleToken = systemRole.systemRoleToken;
                 return user;
             }

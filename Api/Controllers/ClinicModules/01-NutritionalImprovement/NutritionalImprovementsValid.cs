@@ -138,7 +138,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-
         public BaseValid isValidChangeActivationTypeNutritionalImprovement(BaseChangeActivationDto inputModel)
         {
             #region isAuthorizedUser *

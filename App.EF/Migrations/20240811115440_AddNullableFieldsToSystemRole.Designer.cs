@@ -4,6 +4,7 @@ using App.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240811115440_AddNullableFieldsToSystemRole")]
+    partial class AddNullableFieldsToSystemRole
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -265,11 +268,11 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("systemRoleUserTypeToken")
-                        .HasColumnType("int");
-
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int>("userTypeToken")
+                        .HasColumnType("int");
 
                     b.HasKey("systemRoleToken");
 
@@ -284,7 +287,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات مطور اساسية",
-                            systemRoleUserTypeToken = 1
+                            userTypeToken = 1
                         },
                         new
                         {
@@ -294,7 +297,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات دكتور اساسية",
-                            systemRoleUserTypeToken = 2
+                            userTypeToken = 2
                         },
                         new
                         {
@@ -304,7 +307,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات موظف اساسية",
-                            systemRoleUserTypeToken = 3
+                            userTypeToken = 3
                         },
                         new
                         {
@@ -314,7 +317,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات مريض اساسية",
-                            systemRoleUserTypeToken = 4
+                            userTypeToken = 4
                         });
                 });
 

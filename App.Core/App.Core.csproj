@@ -44,6 +44,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>VisitsMessagesAr.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\General\ConstantStrings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ConstantStrings.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\General\GeneralMessagesAR.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -53,6 +58,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>LogActionsMessagesAr.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\SystemBase\SystemRoleFunctions\GeneralFunctionText.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>GeneralFunctionText.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\SystemBase\SystemRoles\SystemRolesMessagesAr.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -93,6 +103,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>VisitsMessagesAr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\General\ConstantStrings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ConstantStrings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\General\GeneralMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GeneralMessagesAR.Designer.cs</LastGenOutput>
@@ -100,6 +114,10 @@
     <EmbeddedResource Update="Resources\SystemBase\LogActions\LogActionsMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>LogActionsMessagesAr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\SystemBase\SystemRoleFunctions\GeneralFunctionText.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GeneralFunctionText.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\SystemBase\SystemRoles\SystemRolesMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

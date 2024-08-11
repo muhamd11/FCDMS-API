@@ -13,7 +13,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.userTypeToken,
+                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
@@ -28,7 +28,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.userTypeToken,
+                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
@@ -46,7 +46,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.userTypeToken,
+                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
                 fullCode = systemRole.fullCode!,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,
@@ -64,7 +64,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             {
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
-                systemRoleUserTypeToken = systemRole.userTypeToken,
+                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
                 activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRole).activationType,

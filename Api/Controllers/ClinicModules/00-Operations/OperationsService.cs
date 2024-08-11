@@ -7,7 +7,6 @@ using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
 using App.Core.Models.GeneralModels.BaseRequstModules;
-using App.Core.Models.Users;
 using AutoMapper;
 using System.Linq.Expressions;
 

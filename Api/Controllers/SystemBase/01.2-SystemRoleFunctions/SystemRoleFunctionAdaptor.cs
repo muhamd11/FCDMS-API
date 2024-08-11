@@ -1,5 +1,4 @@
-﻿using Api.Controllers.SystemBase.BaseEntitys;
-using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
+﻿using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel;
 using System.Linq.Expressions;
 

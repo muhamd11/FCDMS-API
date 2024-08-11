@@ -102,7 +102,6 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, nutritionalImprovementInfo);
         }
 
-
         public async Task<BaseActionDone<NutritionalImprovementInfo>> ChangeNutritionalImprovementActivationType(BaseChangeActivationDto inputModel)
         {
             var nutritionalImprovement = await _unitOfWork.NutritionalImprovements.FirstOrDefaultAsync(x => x.nutritionalImprovementToken == inputModel.elementToken);

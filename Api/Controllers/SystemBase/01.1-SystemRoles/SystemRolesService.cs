@@ -57,7 +57,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
             }
 
             if (inputModel.systemRoleUserTypeToken.HasValue)
-                criteria.Add(x => x.userTypeToken == inputModel.systemRoleUserTypeToken.Value);
+                criteria.Add(x => x.systemRoleUserTypeToken == inputModel.systemRoleUserTypeToken.Value);
 
             if (inputModel.activationType is not null)
                 criteria.Add(x => x.activationType == inputModel.activationType);
@@ -104,7 +104,6 @@ namespace Api.Controllers.SystemBase.SystemRoles
             return BaseActionDone<SystemRoleInfo>.GenrateBaseActionDone(isDone, systemRoleInfo);
         }
 
-
         public async Task<BaseActionDone<SystemRoleInfo>> ChangeSystemRoleActivationType(BaseChangeActivationDto inputModel)
         {
             var systemRole = await _unitOfWork.SystemRoles.FirstOrDefaultAsync(x => x.systemRoleToken == inputModel.elementToken);
@@ -114,10 +113,10 @@ namespace Api.Controllers.SystemBase.SystemRoles
                 systemRoleToken = systemRole.systemRoleToken,
                 systemRoleName = systemRole.systemRoleName,
                 systemRoleDescription = systemRole.systemRoleDescription,
-                systemRoleUserTypeToken = systemRole.userTypeToken,
+                systemRoleUserTypeToken = systemRole.systemRoleUserTypeToken,
                 fullCode = systemRole.fullCode,
                 systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
-                
+
                 // Update SystemRole Activation Type
                 activationType = inputModel.activationType
             };
@@ -129,13 +128,13 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             if (!string.IsNullOrEmpty(systemRole.fullCode))
             {
-                systemRole.primaryFullCode = $"{systemRole.userTypeToken.ToString()}_{systemRole.fullCode}";
+                systemRole.primaryFullCode = $"{systemRole.systemRoleUserTypeToken.ToString()}_{systemRole.fullCode}";
                 return systemRole;
             }
             else
             {
-                var totalCounts = _unitOfWork.SystemRoles.Count(x => x.userTypeToken == systemRole.userTypeToken);
-                systemRole.primaryFullCode = $"{systemRole.userTypeToken.ToString()}_{1 + totalCounts}";
+                var totalCounts = _unitOfWork.SystemRoles.Count(x => x.systemRoleUserTypeToken == systemRole.systemRoleUserTypeToken);
+                systemRole.primaryFullCode = $"{systemRole.systemRoleUserTypeToken.ToString()}_{1 + totalCounts}";
                 systemRole.fullCode = (1 + totalCounts).ToString();
                 return systemRole;
             }

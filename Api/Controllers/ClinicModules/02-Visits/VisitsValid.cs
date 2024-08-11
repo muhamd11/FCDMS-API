@@ -137,7 +137,7 @@ namespace Api.Controllers.SystemBase.Visits
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
-        
+
         public BaseValid isValidChangeActivationTypeVisit(BaseChangeActivationDto inputModel)
         {
             #region isAuthorizedUser *

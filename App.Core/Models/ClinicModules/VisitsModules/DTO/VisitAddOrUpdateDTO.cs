@@ -28,5 +28,5 @@ namespace App.Core.Models.ClinicModules.VisitsModules.DTO
 
         [JsonIgnore]
         public EnumActivationType activationType { get; set; }
-    } 
+    }
 }

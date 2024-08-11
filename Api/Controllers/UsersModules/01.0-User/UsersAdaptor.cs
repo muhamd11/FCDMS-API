@@ -41,6 +41,7 @@ namespace Api.Controllers.UsersModule.Users
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
                 userProfileData = user.userProfileData,
                 userPatientInfoData = UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData),
+                UserEmployeeInfoData = UserEmployeesAdaptor.SelectExpressionUserEmployeeInfo(user.userEmployeeData),
             };
         }
 
@@ -84,6 +85,7 @@ namespace Api.Controllers.UsersModule.Users
                 roleData = SystemRolesAdaptor.SelectExpressionSystemRoleInfo(user.roleData),
                 userProfileData = user.userProfileData,
                 userPatientInfoData = user.userPatientData != null ? UserPatientsAdaptor.SelectExpressionUserPatientInfo(user.userPatientData) : new(),
+                UserEmployeeInfoData = user.userPatientData != null ? UserEmployeesAdaptor.SelectExpressionUserEmployeeInfo(user.userEmployeeData) : new(),
             };
         }
     }

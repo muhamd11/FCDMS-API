@@ -1,11 +1,9 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Operations;
-using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.GeneralModels.BaseRequstModules;
-using App.Core.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

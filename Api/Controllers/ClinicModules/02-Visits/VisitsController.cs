@@ -1,7 +1,5 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;

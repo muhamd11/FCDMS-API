@@ -1,5 +1,4 @@
-﻿using App.Core.Consts.GeneralModels;
-using App.Core.Consts.SystemBase;
+﻿using App.Core.Consts.SystemBase;
 using App.Core.Helper.Json;
 using App.Core.Interfaces.GeneralInterfaces;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;

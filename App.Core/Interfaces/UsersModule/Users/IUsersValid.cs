@@ -15,9 +15,9 @@ namespace Api.Controllers.UsersModules.Users.Interfaces
         BaseValid ValidAddOrUpdate(UserAddOrUpdateDTO inputModel, bool isUpdate);
 
         BaseValid ValidUserData(UserAddOrUpdateDTO inputModel);
-        
+
         BaseValid isValidChangeActivationTypeUser(BaseChangeActivationDto inputModel);
-        
+
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
         BaseValid IsValidUserToken(Guid userToken);

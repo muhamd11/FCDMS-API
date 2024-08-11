@@ -8,6 +8,7 @@ using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.Users;
+using App.Core.Resources.SystemBase.SystemRoleFunctions;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 {
@@ -58,7 +59,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
         }
@@ -69,7 +70,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
         }
@@ -80,7 +81,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
         }
@@ -91,7 +92,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
         }
@@ -106,7 +107,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
         }
@@ -125,10 +126,10 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             List<SystemRoleFunction> systemRoleFunctions =
             [
                 .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
-                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,GeneralFunctionText.changeActivationType, EnumBaseCustomFunctions.changeActivationType.ToString()),
             ];
             return systemRoleFunctions;
-         }
+        }
 
         #endregion UserModules
     }

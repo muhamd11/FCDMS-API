@@ -13,6 +13,7 @@ namespace App.Core.Interfaces.SystemBase.NutritionalImprovements
         BaseValid ValidGetAll(BaseSearchDto inputModel);
 
         BaseValid ValidAddOrUpdate(NutritionalImprovementAddOrUpdateDTO inputModel, bool isUpdate);
+
         BaseValid isValidChangeActivationTypeNutritionalImprovement(BaseChangeActivationDto inputModel);
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);

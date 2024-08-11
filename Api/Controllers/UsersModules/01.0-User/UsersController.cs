@@ -220,6 +220,7 @@ namespace Api.Controllers.ClinicModules.Users
             }
             return Ok(response);
         }
+
         #endregion Methods
     }
 }

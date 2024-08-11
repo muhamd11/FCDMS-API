@@ -1,9 +1,8 @@
 ﻿using App.Core.Consts.SystemBase;
-using App.Core.Models.SystemBase.BaseClass;
 
 namespace App.Core.Models.SystemBase._01._2_SystemRoleFunctions.ViewModel
 {
-    public class SystemRoleFunctionInfo 
+    public class SystemRoleFunctionInfo
     {
         public Guid systemRoleToken { get; set; }
         public EnumFunctionsType functionsType { get; set; }

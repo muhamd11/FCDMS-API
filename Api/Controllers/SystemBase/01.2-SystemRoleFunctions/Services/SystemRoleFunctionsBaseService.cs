@@ -1,7 +1,7 @@
 ﻿using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
 using App.Core.Models.SystemBase._01._2_SystemRoleFunctions;
-using System.Security.AccessControl;
+using App.Core.Resources.SystemBase.SystemRoleFunctions;
 
 namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 {
@@ -23,15 +23,15 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         //Base Functions
         //TODO: Add Res File For Custom Function name
-        public SystemRoleFunction GetFunctionView(string moduleId) => GetFunction(moduleId, EnumFunctionsType.view, "عرض");
+        public SystemRoleFunction GetFunctionView(string moduleId) => GetFunction(moduleId, EnumFunctionsType.view, GeneralFunctionText.view);
 
-        public SystemRoleFunction GetFunctionAdd(string moduleId) => GetFunction(moduleId, EnumFunctionsType.add, "إضافة");
+        public SystemRoleFunction GetFunctionAdd(string moduleId) => GetFunction(moduleId, EnumFunctionsType.add, GeneralFunctionText.add);
 
-        public SystemRoleFunction GetFunctionUpdate(string moduleId) => GetFunction(moduleId, EnumFunctionsType.update, "تعديل");
+        public SystemRoleFunction GetFunctionUpdate(string moduleId) => GetFunction(moduleId, EnumFunctionsType.update, GeneralFunctionText.update);
 
-        public SystemRoleFunction GetFunctionDelete(string moduleId) => GetFunction(moduleId, EnumFunctionsType.delete, "حذف");
+        public SystemRoleFunction GetFunctionDelete(string moduleId) => GetFunction(moduleId, EnumFunctionsType.delete, GeneralFunctionText.delete);
 
-        public SystemRoleFunction GetFunctionFinalDelete(string moduleId) => GetFunction(moduleId, EnumFunctionsType.finalDelete, "حذف نهائي");
+        public SystemRoleFunction GetFunctionFinalDelete(string moduleId) => GetFunction(moduleId, EnumFunctionsType.finalDelete, GeneralFunctionText.finalDelete);
 
         public SystemRoleFunction GetFunctionCustomize(string moduleId, string functionText, string customizeFunctionId) => GetFunction(moduleId, EnumFunctionsType.customize, functionText, customizeFunctionId);
 
@@ -41,7 +41,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
             functionText = functionText,
             customizeFunctionId = customizeFuncationId,
             moduleId = moduleId,
-            functionId = customizeFuncationId == "" ? $"{moduleId}_{enumFuncationsType}" :  $"{moduleId}_{enumFuncationsType}_{customizeFuncationId}",
+            functionId = customizeFuncationId == "" ? $"{moduleId}_{enumFuncationsType}" : $"{moduleId}_{enumFuncationsType}_{customizeFuncationId}",
             isHavePrivilege = false
         };
     }

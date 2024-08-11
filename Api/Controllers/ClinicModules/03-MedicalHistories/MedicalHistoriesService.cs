@@ -94,7 +94,6 @@ namespace Api.Controllers.SystemBase.MedicalHistories
             return BaseActionDone<MedicalHistoryInfo>.GenrateBaseActionDone(isDone, medicalHistoryInfo);
         }
 
-
         public async Task<BaseActionDone<MedicalHistoryInfo>> ChangeMedicalHistoryActivationType(BaseChangeActivationDto inputModel)
         {
             var medicalHistory = await _unitOfWork.MedicalHistories.FirstOrDefaultAsync(x => x.medicalHistoryToken == inputModel.elementToken);
@@ -107,7 +106,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                 patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement,
                 patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
                 patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
-                
+
                 // Update MedicalHistory Activation Type
                 activationType = inputModel.activationType
             };

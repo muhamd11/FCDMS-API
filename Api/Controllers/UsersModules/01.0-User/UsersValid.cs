@@ -206,7 +206,7 @@ namespace Api.Controllers.UsersModule.Users
             }
             else
             {
-                var defaultSystemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.userTypeToken == inputModel.userTypeToken);
+                var defaultSystemRole = _unitOfWork.SystemRoles.FirstOrDefault(x => x.systemRoleCanUseDefault == true && x.systemRoleUserTypeToken == inputModel.userTypeToken);
                 if (defaultSystemRole == null)
                     return BaseValid.createBaseValid(SystemRolesMessagesAr.errorNoDefaultRole, EnumStatus.error);
             }
@@ -251,7 +251,8 @@ namespace Api.Controllers.UsersModule.Users
 
         public BaseValid isValidChangeActivationTypeUser(BaseChangeActivationDto inputModel)
         {
-            //TODO: Change Authorize Token in user Change activation 
+            //TODO: Change Authorize Token in user Change activation
+
             #region isAuthorizedUser *
 
             var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize, EnumBaseCustomFunctions.changeActivationType.ToString());
@@ -266,7 +267,7 @@ namespace Api.Controllers.UsersModule.Users
                 if (isValidUserToken.Status != EnumStatus.success)
                     return isValidUserToken;
 
-                if(!ValidationClass.IsEnumValue(inputModel.activationType))
+                if (!ValidationClass.IsEnumValue(inputModel.activationType))
                     return BaseValid.createBaseValid(GeneralMessagesAr.errorActivationType, EnumStatus.error);
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);

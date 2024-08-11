@@ -6,6 +6,6 @@ namespace Api.Controllers.UsersModules.Users.Interfaces
 {
     public interface IUserPatientsValid : ITransientService
     {
-        BaseValid IsValidUserClient(UserPatient inputModel);
+        BaseValid IsValidUserPatient(UserPatient inputModel);
     }
 }

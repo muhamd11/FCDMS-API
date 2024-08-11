@@ -17,6 +17,7 @@ namespace App.Core.Interfaces.SystemBase.Operations
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
         BaseValid ValidOperationToken(Guid operationToken);
+
         BaseValid isValidChangeActivationTypeOperation(BaseChangeActivationDto inputModel);
     }
 }

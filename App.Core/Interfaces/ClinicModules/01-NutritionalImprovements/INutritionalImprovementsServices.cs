@@ -14,7 +14,9 @@ namespace App.Core.Interfaces.SystemBase.NutritionalImprovements
         Task<NutritionalImprovementInfoDetails> GetDetails(NutritionalImprovementGetDetailsDTO inputModel);
 
         Task<BaseActionDone<NutritionalImprovementInfo>> AddOrUpdate(NutritionalImprovementAddOrUpdateDTO inputModel, bool isUpdate);
+
         Task<BaseActionDone<NutritionalImprovementInfo>> ChangeNutritionalImprovementActivationType(BaseChangeActivationDto inputModel);
+
         Task<BaseActionDone<NutritionalImprovementInfo>> DeleteAsync(BaseDeleteDto inputModel);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
-using App.Core.Interfaces.SystemBase.NutritionalImprovements;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.ViewModel;
-using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.GeneralModels.BaseRequstModules;
 using Microsoft.AspNetCore.Mvc;

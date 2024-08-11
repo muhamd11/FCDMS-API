@@ -1,6 +1,4 @@
-﻿using App.Core.Consts.Users;
-
-namespace App.Core.Consts.SystemBase
+﻿namespace App.Core.Consts.SystemBase
 {
     public enum EnumFunctionsType
     {

@@ -1,7 +1,6 @@
 ﻿using App.Core;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.Visits;
-using App.Core.Models.ClinicModules.VisitsModules.DTO;
-using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
@@ -10,7 +9,6 @@ using App.Core.Models.General.PaginationModule;
 using App.Core.Models.GeneralModels.BaseRequstModules;
 using AutoMapper;
 using System.Linq.Expressions;
-using App.Core.Consts.SystemBase;
 
 namespace Api.Controllers.SystemBase.Visits
 {
@@ -108,14 +106,13 @@ namespace Api.Controllers.SystemBase.Visits
                 userPatientComplaining = visit.userPatientComplaining,
                 fullCode = visit.fullCode,
                 fetalInformations = visit.fetalInformations,
-                
+
                 // Update Visit Activation Type
                 activationType = inputModel.activationType
             };
 
             return await AddOrUpdate(VisitAddOrUpdateDTO, true);
         }
-
 
         private Visit SetFullCode(Visit visit)
         {

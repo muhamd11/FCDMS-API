@@ -20,6 +20,5 @@ namespace App.Core.Interfaces.UsersModule.Users
         Task<BaseActionDone<UserInfo>> ChangeUserActivationType(BaseChangeActivationDto inputModel);
 
         Task<BaseActionDone<UserInfo>> DeleteAsync(BaseDeleteDto inputModel);
-
     }
 }
