@@ -20,6 +20,8 @@ namespace App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData
         [JsonIgnore]
         public User userData { get; set; }
 
+        public DateOnly lastPeriodDate { get; set; }
+
         public EnumBloodType userPatientBloodType { get; set; }
 
         public int userPatientChildrenCount { get; set; }

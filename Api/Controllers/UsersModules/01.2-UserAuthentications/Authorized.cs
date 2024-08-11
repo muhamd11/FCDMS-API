@@ -21,7 +21,7 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
             _headerRequest = headerRequest;
         }
 
-        public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType, string? customFuncationId = null)
+        public BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType, string? customFunctionId = null)
         {
             var userToken = _headerRequest.GetUserToken();
             if (userToken is null)
@@ -33,8 +33,8 @@ namespace Api.Controllers.UsersModules._01._2_UserAuthentications
 
             if (user.userTypeToken != EnumUserType.Developer)
             {
-                var systemRoleFunction = customFuncationId is not null
-                    ? _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.moduleId == moduleToken && x.functionsType == functionsType && x.customizeFuncationId == customFuncationId)
+                var systemRoleFunction = customFunctionId is not null
+                    ? _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.moduleId == moduleToken && x.functionsType == functionsType && x.customizeFunctionId == customFunctionId)
                     : _unitOfWork.SystemRoleFunctions.FirstOrDefault(x => x.systemRoleToken == user.systemRoleToken && x.moduleId == moduleToken && x.functionsType == functionsType);
 
                 if (systemRoleFunction?.isHavePrivilege != true)

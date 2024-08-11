@@ -9,6 +9,7 @@ using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Resources.ClinicModules.Operations;
 using App.Core.Resources.General;
 
@@ -153,6 +154,31 @@ namespace Api.Controllers.SystemBase.Operations
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorFullCodeExists, EnumStatus.error);
             else
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+        }
+
+        public BaseValid isValidChangeActivationTypeOperation(BaseChangeActivationDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize, EnumBaseCustomFunctions.changeActivationType.ToString());
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidUserToken = ValidOperationToken(inputModel.elementToken);
+                if (isValidUserToken.Status != EnumStatus.success)
+                    return isValidUserToken;
+
+                if (!ValidationClass.IsEnumValue(inputModel.activationType))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorActivationType, EnumStatus.error);
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
         public BaseValid ValidDelete(BaseDeleteDto inputModel)

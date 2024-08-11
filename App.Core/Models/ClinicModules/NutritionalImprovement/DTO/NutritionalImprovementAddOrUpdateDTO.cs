@@ -1,4 +1,7 @@
-﻿namespace App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO
+﻿using App.Core.Consts.SystemBase;
+using Newtonsoft.Json;
+
+namespace App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO
 {
     public class NutritionalImprovementAddOrUpdateDTO
     {
@@ -6,6 +9,9 @@
         public decimal patientHeightInCm { get; set; }
         public decimal patientWeightInKg { get; set; }
         public Guid userPatientToken { get; set; }
-        public string fullCode { get; set; }
+        public string? fullCode { get; set; }
+
+        [JsonIgnore]
+        public EnumActivationType activationType { get; set; }
     }
 }

@@ -1,10 +1,13 @@
 ﻿using App.Core;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.Operations;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
+using App.Core.Models.Users;
 using AutoMapper;
 using System.Linq.Expressions;
 
@@ -79,6 +82,8 @@ namespace Api.Controllers.SystemBase.Operations
         {
             var operation = _mapper.Map<Operation>(inputModel);
             operation = SetFullCode(operation);
+            operation.activationType = operation.activationType == 0 ? EnumActivationType.active : operation.activationType;
+
             if (isUpdate)
                 _unitOfWork.Operations.Update(operation);
             else
@@ -89,6 +94,25 @@ namespace Api.Controllers.SystemBase.Operations
             var operationInfo = await _unitOfWork.Operations.FirstOrDefaultAsync(x => x.operationToken == operation.operationToken, OperationsAdaptor.SelectExpressionOperationInfo());
 
             return BaseActionDone<OperationInfo>.GenrateBaseActionDone(isDone, operationInfo);
+        }
+
+        public async Task<BaseActionDone<OperationInfo>> ChangeOperationActivationType(BaseChangeActivationDto inputModel)
+        {
+            var operation = await _unitOfWork.Operations.FirstOrDefaultAsync(x => x.operationToken == inputModel.elementToken);
+
+            OperationAddOrUpdateDTO operationAddOrUpdateDTO = new()
+            {
+                operationToken = operation.operationToken,
+                operationName = operation.operationName,
+                operationDate = operation.operationDate,
+                userPatientToken = operation.userPatientToken,
+                fullCode = operation.fullCode,
+
+                // Update operation Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(operationAddOrUpdateDTO, true);
         }
 
         private Operation SetFullCode(Operation operation)

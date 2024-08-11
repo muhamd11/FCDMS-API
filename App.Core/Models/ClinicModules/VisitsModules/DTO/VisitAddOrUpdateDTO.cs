@@ -1,13 +1,18 @@
-﻿namespace App.Core.Models.ClinicModules.VisitsModules.DTO
+﻿using App.Core.Consts.SystemBase;
+using Newtonsoft.Json;
+
+namespace App.Core.Models.ClinicModules.VisitsModules.DTO
 {
     public class VisitAddOrUpdateDTO
     {
         public Guid visitToken { get; set; }
-        public string fullCode { get; set; }
+        public string? fullCode { get; set; }
 
         public DateOnly lastPeriodDate { get; set; }
 
         public DateOnly expectedDateOfBirth { get; set; }
+
+        public DateTimeOffset visitDate { get; set; }
 
         public string userPatientComplaining { get; set; }
 
@@ -20,5 +25,8 @@
         public FetalInformation fetalInformations { get; set; }
 
         public Guid userPatientToken { get; set; }
-    }
+
+        [JsonIgnore]
+        public EnumActivationType activationType { get; set; }
+    } 
 }

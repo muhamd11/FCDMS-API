@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240808095514_AddForgetPassword")]
-    partial class AddForgetPassword
+    [Migration("20240811111657_AddVisitDateFieldToVisit2")]
+    partial class AddVisitDateFieldToVisit2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,14 +31,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(max)");
@@ -66,14 +66,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<decimal>("patientBmr")
                         .HasPrecision(30, 18)
@@ -115,14 +115,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset>("operationDate")
                         .HasColumnType("datetimeoffset");
@@ -161,6 +161,9 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
@@ -171,21 +174,10 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("generalNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateOnly>("lastPeriodDate")
-                        .HasColumnType("date");
 
                     b.Property<string>("medications")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("numberOfChildren")
-                        .HasColumnType("int");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(max)");
@@ -194,11 +186,13 @@ namespace App.EF.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("userPatientComplaining")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("userPatientToken")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("visitDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("visitToken");
 
@@ -252,14 +246,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(max)");
@@ -334,21 +328,19 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("createdDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("fullCode")
+                    b.Property<string>("customizeFunctionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("functionId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("functionText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("functionsType")
                         .HasColumnType("int");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("isHavePrivilege")
                         .HasColumnType("bit");
@@ -357,14 +349,8 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("primaryFullCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("updatedDate")
-                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("systemRoleFunctionToken");
 
@@ -377,14 +363,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("primaryFullCode")
                         .HasColumnType("nvarchar(450)");
@@ -484,24 +470,25 @@ namespace App.EF.Migrations
                     b.ToTable("UserDoctors", "Users");
                 });
 
-            modelBuilder.Entity("App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules.ForgetPassword", b =>
+            modelBuilder.Entity("App.Core.Models.UsersModule._01._2_UserAuthentications.ForgetPasswordModules.OtpRecord", b =>
                 {
-                    b.Property<Guid>("forgetPasswordToken")
+                    b.Property<Guid>("OtpToken")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("expireDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("userOtp")
-                        .HasColumnType("int");
+                    b.Property<string>("userOtp")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("userToken")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("forgetPasswordToken");
+                    b.HasKey("OtpToken");
 
-                    b.ToTable("ForgetPasswords", "Users");
+                    b.ToTable("OtpRecords", "Users");
                 });
 
             modelBuilder.Entity("App.Core.Models.UsersModule._01_1_UserTypes.UserProfile", b =>
@@ -560,6 +547,9 @@ namespace App.EF.Migrations
                     b.Property<Guid>("userPatientToken")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateOnly>("lastPeriodDate")
+                        .HasColumnType("date");
 
                     b.Property<int>("userPatientAge")
                         .HasColumnType("int");
@@ -708,6 +698,9 @@ namespace App.EF.Migrations
                                 .HasPrecision(30, 18)
                                 .HasColumnType("decimal(30,18)");
 
+                            b1.Property<int>("fetalGender")
+                                .HasColumnType("int");
+
                             b1.Property<decimal>("fetalHeartBeatPerMinute")
                                 .HasPrecision(30, 18)
                                 .HasColumnType("decimal(30,18)");
@@ -724,8 +717,7 @@ namespace App.EF.Migrations
                                 .HasForeignKey("visitToken");
                         });
 
-                    b.Navigation("fetalInformations")
-                        .IsRequired();
+                    b.Navigation("fetalInformations");
 
                     b.Navigation("userPatientData");
                 });

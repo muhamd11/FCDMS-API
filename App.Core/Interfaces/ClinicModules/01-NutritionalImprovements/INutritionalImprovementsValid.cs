@@ -2,6 +2,7 @@
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 
 namespace App.Core.Interfaces.SystemBase.NutritionalImprovements
 {
@@ -12,6 +13,7 @@ namespace App.Core.Interfaces.SystemBase.NutritionalImprovements
         BaseValid ValidGetAll(BaseSearchDto inputModel);
 
         BaseValid ValidAddOrUpdate(NutritionalImprovementAddOrUpdateDTO inputModel, bool isUpdate);
+        BaseValid isValidChangeActivationTypeNutritionalImprovement(BaseChangeActivationDto inputModel);
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 

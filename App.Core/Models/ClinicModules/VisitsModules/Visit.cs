@@ -1,4 +1,5 @@
-﻿using App.Core.Consts.SystemBase;
+﻿using App.Core.Consts.GeneralModels;
+using App.Core.Consts.SystemBase;
 using App.Core.Models.SystemBase.BaseClass;
 using App.Core.Models.Users;
 using Microsoft.EntityFrameworkCore;
@@ -15,19 +16,17 @@ namespace App.Core.Models.ClinicModules.VisitsModules
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid visitToken { get; set; }
 
-        public DateOnly lastPeriodDate { get; set; }
-
         public DateOnly expectedDateOfBirth { get; set; }
 
-        public string userPatientComplaining { get; set; }
+        public DateTimeOffset visitDate { get; set; }
 
-        public int numberOfChildren { get; set; }
+        public string? userPatientComplaining { get; set; }
 
-        public string medications { get; set; }
+        public string? medications { get; set; }
 
-        public string generalNotes { get; set; }
+        public string? generalNotes { get; set; }
 
-        public FetalInformation fetalInformations { get; set; }
+        public FetalInformation? fetalInformations { get; set; }
 
         // Relations
         [ForeignKey(nameof(userPatientData))]
@@ -43,5 +42,6 @@ namespace App.Core.Models.ClinicModules.VisitsModules
         public decimal fetalAgeInWeeks { get; set; }
         public decimal fetalAgeInMonths { get; set; }
         public decimal fetalWeightInKg { get; set; }
+        public EnumGenderType fetalGender { get; set; }
     }
 }

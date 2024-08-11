@@ -1,8 +1,11 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Operations;
+using App.Core.Interfaces.UsersModule.Users;
 using App.Core.Models.ClinicModules.OperationsModules;
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequstModules;
+using App.Core.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -175,6 +178,35 @@ namespace Api.Controllers.ClinicModules.Operations
                 {
                     var deletedOperation = await _operationsServices.DeleteAsync(inputModel);
                     response = response.CreateResponse(deletedOperation, operationInfoData);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(operationInfoData);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ChangeOperationActivationType")]
+        public async Task<IActionResult> ChangeOperationActivationType([FromQuery] BaseChangeActivationDto inputModel)
+        {
+            BaseActionResponse<OperationInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidUser = _operationsValid.isValidChangeActivationTypeOperation(inputModel);
+                if (isValidUser.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidUser, operationInfoData);
+                else
+                {
+                    var userData = await _operationsServices.ChangeOperationActivationType(inputModel);
+                    response = response.CreateResponse(userData, operationInfoData);
                 }
             }
             catch (Exception ex)

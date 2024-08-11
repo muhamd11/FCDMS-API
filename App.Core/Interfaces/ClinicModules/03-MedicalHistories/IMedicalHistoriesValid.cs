@@ -2,6 +2,7 @@
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 
 namespace App.Core.Interfaces.SystemBase.MedicalHistories
 {
@@ -12,6 +13,8 @@ namespace App.Core.Interfaces.SystemBase.MedicalHistories
         BaseValid ValidGetAll(BaseSearchDto inputModel);
 
         BaseValid ValidAddOrUpdate(MedicalHistoryAddOrUpdateDTO inputModel, bool isUpdate);
+
+        BaseValid isValidChangeActivationTypeMedicalHistory(BaseChangeActivationDto inputModel);
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 

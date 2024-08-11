@@ -2,6 +2,7 @@
 using App.Core.Models.ClinicModules.OperationsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 
 namespace App.Core.Interfaces.SystemBase.Operations
 {
@@ -15,6 +16,7 @@ namespace App.Core.Interfaces.SystemBase.Operations
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 
-        BaseValid ValidOperationToken(Guid systemRoleToken);
+        BaseValid ValidOperationToken(Guid operationToken);
+        BaseValid isValidChangeActivationTypeOperation(BaseChangeActivationDto inputModel);
     }
 }

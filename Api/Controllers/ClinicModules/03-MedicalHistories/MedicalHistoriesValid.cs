@@ -2,12 +2,14 @@
 using App.Core;
 using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
+using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Resources.ClinicModules.MedicalHistories;
 using App.Core.Resources.General;
 
@@ -129,6 +131,31 @@ namespace Api.Controllers.SystemBase.MedicalHistories
                     return isValidFullCode;
 
                 #endregion fullCode *
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
+        }
+
+        public BaseValid isValidChangeActivationTypeMedicalHistory(BaseChangeActivationDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize, EnumBaseCustomFunctions.changeActivationType.ToString());
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidUserToken = ValidMedicalHistoryToken(inputModel.elementToken);
+                if (isValidUserToken.Status != EnumStatus.success)
+                    return isValidUserToken;
+
+                if (!ValidationClass.IsEnumValue(inputModel.activationType))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorActivationType, EnumStatus.error);
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }

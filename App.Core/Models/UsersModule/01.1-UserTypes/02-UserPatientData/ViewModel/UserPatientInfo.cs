@@ -5,6 +5,7 @@ namespace App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewMo
     public class UserPatientInfo
     {
         public EnumBloodType userPatientBloodType { get; set; }
+        public DateOnly lastPeriodDate { get; set; }
         public int userPatientChildrenCount { get; set; }
         public int userPatientAge { get; set; }
     }

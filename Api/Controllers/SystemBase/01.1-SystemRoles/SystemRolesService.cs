@@ -1,8 +1,10 @@
 ﻿using App.Core;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Models.SystemBase.Roles.ViewModel;
@@ -88,6 +90,7 @@ namespace Api.Controllers.SystemBase.SystemRoles
         {
             var systemRole = _mapper.Map<SystemRole>(inputModel);
             systemRole = SetFullCode(systemRole);
+            systemRole.activationType = systemRole.activationType == 0 ? EnumActivationType.active : systemRole.activationType;
 
             if (isUpdate)
                 _unitOfWork.SystemRoles.Update(systemRole);
@@ -99,6 +102,27 @@ namespace Api.Controllers.SystemBase.SystemRoles
             var systemRoleInfo = await _unitOfWork.SystemRoles.FirstOrDefaultAsync(x => x.systemRoleToken == systemRole.systemRoleToken, SystemRolesAdaptor.SelectExpressionSystemRoleDetails());
 
             return BaseActionDone<SystemRoleInfo>.GenrateBaseActionDone(isDone, systemRoleInfo);
+        }
+
+
+        public async Task<BaseActionDone<SystemRoleInfo>> ChangeSystemRoleActivationType(BaseChangeActivationDto inputModel)
+        {
+            var systemRole = await _unitOfWork.SystemRoles.FirstOrDefaultAsync(x => x.systemRoleToken == inputModel.elementToken);
+
+            SystemRoleAddOrUpdateDTO SystemRoleAddOrUpdateDTO = new()
+            {
+                systemRoleToken = systemRole.systemRoleToken,
+                systemRoleName = systemRole.systemRoleName,
+                systemRoleDescription = systemRole.systemRoleDescription,
+                systemRoleUserTypeToken = systemRole.userTypeToken,
+                fullCode = systemRole.fullCode,
+                systemRoleCanUseDefault = systemRole.systemRoleCanUseDefault,
+                
+                // Update SystemRole Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(SystemRoleAddOrUpdateDTO, true);
         }
 
         private SystemRole SetFullCode(SystemRole systemRole)

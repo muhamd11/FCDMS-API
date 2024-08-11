@@ -13,12 +13,10 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
             {
                 systemRoleToken = systemRoleFunction.systemRoleToken,
                 functionsType = systemRoleFunction.functionsType,
+                functionText = systemRoleFunction.functionText,
                 functionId = systemRoleFunction.functionId,
                 moduleId = systemRoleFunction.moduleId,
                 isHavePrivilege = systemRoleFunction.isHavePrivilege,
-                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).activationType,
-                updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).updatedDateTime,
-                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).createdDateTime
             };
         }
 
@@ -31,12 +29,10 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions
             {
                 systemRoleToken = systemRoleFunction.systemRoleToken,
                 functionsType = systemRoleFunction.functionsType,
+                functionText = systemRoleFunction.functionText,
                 functionId = systemRoleFunction.functionId,
                 moduleId = systemRoleFunction.moduleId,
                 isHavePrivilege = systemRoleFunction.isHavePrivilege,
-                activationType = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).activationType,
-                updatedDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).updatedDateTime,
-                createdDateTime = BaseEntitiesAdaptor.SelectExpressionBaseEntityInfo(systemRoleFunction).createdDateTime
             };
         }
     }

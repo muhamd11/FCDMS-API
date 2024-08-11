@@ -1,12 +1,16 @@
 ﻿using App.Core;
 using App.Core.Interfaces.SystemBase.Visits;
+using App.Core.Models.ClinicModules.VisitsModules.DTO;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using AutoMapper;
 using System.Linq.Expressions;
+using App.Core.Consts.SystemBase;
 
 namespace Api.Controllers.SystemBase.Visits
 {
@@ -76,6 +80,7 @@ namespace Api.Controllers.SystemBase.Visits
         {
             var visit = _mapper.Map<Visit>(inputModel);
             visit = SetFullCode(visit);
+            visit.activationType = visit.activationType == 0 ? EnumActivationType.active : visit.activationType;
 
             if (isUpdate)
                 _unitOfWork.Visits.Update(visit);
@@ -88,6 +93,29 @@ namespace Api.Controllers.SystemBase.Visits
 
             return BaseActionDone<VisitInfo>.GenrateBaseActionDone(isDone, visitInfo);
         }
+
+        public async Task<BaseActionDone<VisitInfo>> ChangeVisitActivationType(BaseChangeActivationDto inputModel)
+        {
+            var visit = await _unitOfWork.Visits.FirstOrDefaultAsync(x => x.visitToken == inputModel.elementToken);
+
+            VisitAddOrUpdateDTO VisitAddOrUpdateDTO = new()
+            {
+                visitToken = visit.visitToken,
+                userPatientToken = visit.userPatientToken,
+                expectedDateOfBirth = visit.expectedDateOfBirth,
+                medications = visit.medications,
+                generalNotes = visit.generalNotes,
+                userPatientComplaining = visit.userPatientComplaining,
+                fullCode = visit.fullCode,
+                fetalInformations = visit.fetalInformations,
+                
+                // Update Visit Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(VisitAddOrUpdateDTO, true);
+        }
+
 
         private Visit SetFullCode(Visit visit)
         {

@@ -6,6 +6,7 @@ using App.Core.Models.ClinicModules.NutritionalImprovementsModules.ViewModel;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -99,6 +100,26 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
             var nutritionalImprovementInfo = await _unitOfWork.NutritionalImprovements.FirstOrDefaultAsync(x => x.nutritionalImprovementToken == nutritionalImprovement.nutritionalImprovementToken, NutritionalImprovementsAdaptor.SelectExpressionNutritionalImprovementInfo());
 
             return BaseActionDone<NutritionalImprovementInfo>.GenrateBaseActionDone(isDone, nutritionalImprovementInfo);
+        }
+
+
+        public async Task<BaseActionDone<NutritionalImprovementInfo>> ChangeNutritionalImprovementActivationType(BaseChangeActivationDto inputModel)
+        {
+            var nutritionalImprovement = await _unitOfWork.NutritionalImprovements.FirstOrDefaultAsync(x => x.nutritionalImprovementToken == inputModel.elementToken);
+
+            NutritionalImprovementAddOrUpdateDTO NutritionalImprovementAddOrUpdateDTO = new()
+            {
+                nutritionalImprovementToken = nutritionalImprovement.nutritionalImprovementToken,
+                userPatientToken = nutritionalImprovement.userPatientToken,
+                patientHeightInCm = nutritionalImprovement.patientHeightInCm,
+                patientWeightInKg = nutritionalImprovement.patientWeightInKg,
+                fullCode = nutritionalImprovement.fullCode,
+
+                // Update NutritionalImprovement Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(NutritionalImprovementAddOrUpdateDTO, true);
         }
 
         private NutritionalImprovement SetFullCode(NutritionalImprovement nutritionalImprovement)

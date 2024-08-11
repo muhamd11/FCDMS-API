@@ -22,6 +22,7 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
         }
 
         //Base Functions
+        //TODO: Add Res File For Custom Function name
         public SystemRoleFunction GetFunctionView(string moduleId) => GetFunction(moduleId, EnumFunctionsType.view, "عرض");
 
         public SystemRoleFunction GetFunctionAdd(string moduleId) => GetFunction(moduleId, EnumFunctionsType.add, "إضافة");
@@ -32,15 +33,15 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         public SystemRoleFunction GetFunctionFinalDelete(string moduleId) => GetFunction(moduleId, EnumFunctionsType.finalDelete, "حذف نهائي");
 
-        public SystemRoleFunction GetFunctionCustomize(string moduleId, string functionText, string customizeFuncationId) => GetFunction(moduleId, EnumFunctionsType.customize, functionText, customizeFuncationId);
+        public SystemRoleFunction GetFunctionCustomize(string moduleId, string functionText, string customizeFunctionId) => GetFunction(moduleId, EnumFunctionsType.customize, functionText, customizeFunctionId);
 
-        private SystemRoleFunction GetFunction(string moduleId, EnumFunctionsType enumFuncationsType, string functionText, string customizeFuncationId = "") => new SystemRoleFunction()
+        private SystemRoleFunction GetFunction(string moduleId, EnumFunctionsType enumFuncationsType, string functionText, string? customizeFuncationId = "") => new SystemRoleFunction()
         {
             functionsType = enumFuncationsType,
-            functionText = "",
-            customizeFuncationId = customizeFuncationId,
+            functionText = functionText,
+            customizeFunctionId = customizeFuncationId,
             moduleId = moduleId,
-            functionId = $"{moduleId}_{enumFuncationsType}_{customizeFuncationId}",
+            functionId = customizeFuncationId == "" ? $"{moduleId}_{enumFuncationsType}" :  $"{moduleId}_{enumFuncationsType}_{customizeFuncationId}",
             isHavePrivilege = false
         };
     }

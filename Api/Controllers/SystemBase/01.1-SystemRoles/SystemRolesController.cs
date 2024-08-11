@@ -1,6 +1,7 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Models.SystemBase.Roles.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -175,6 +176,35 @@ namespace Api.Controllers.ClinicModules.SystemRoles
                 {
                     var deletedSystemRole = await _systemRolesServices.DeleteAsync(inputModel);
                     response = response.CreateResponse(deletedSystemRole, systemRoleInfoData);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(systemRoleInfoData);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ChangeSystemRoleActivationType")]
+        public async Task<IActionResult> ChangeSystemRoleActivationType([FromQuery] BaseChangeActivationDto inputModel)
+        {
+            BaseActionResponse<SystemRoleInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidUser = _systemRolesValid.isValidChangeActivationTypeSystemRole(inputModel);
+                if (isValidUser.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidUser, systemRoleInfoData);
+                else
+                {
+                    var userData = await _systemRolesServices.ChangeSystemRoleActivationType(inputModel);
+                    response = response.CreateResponse(userData, systemRoleInfoData);
                 }
             }
             catch (Exception ex)

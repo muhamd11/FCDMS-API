@@ -6,6 +6,6 @@ namespace App.Core.Interfaces.UsersModule.UserAuthentications
 {
     public interface IAuthorized : ITransientService
     {
-        BaseValid  IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType, string? customFuncationId = null);
+        BaseValid IsAuthorizedUser(string moduleToken, EnumFunctionsType functionsType, string? customFunctionId = null);
     }
 }

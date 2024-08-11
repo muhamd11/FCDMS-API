@@ -1,4 +1,4 @@
-﻿using App.Core.Consts.Users;
+﻿using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
@@ -52,19 +52,64 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
 
         #region ClinicModules
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleOperations() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Operation));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleOperations()
+        {
+            string moduleId = nameof(Operation);
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
+            return systemRoleFunctions;
+        }
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleNutritionalImprovement() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(NutritionalImprovement));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleNutritionalImprovement()
+        {
+            string moduleId = nameof(NutritionalImprovement);
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
+            return systemRoleFunctions;
+        }
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleVisit() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(Visit));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleVisit()
+        {
+            string moduleId = nameof(Visit);
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
+            return systemRoleFunctions;
+        }
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleMedicalHistory() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(MedicalHistory));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleMedicalHistory()
+        {
+            string moduleId = nameof(MedicalHistory);
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
+            return systemRoleFunctions;
+        }
 
         #endregion ClinicModules
 
         #region SystemBase
 
-        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRole() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRole));
+        private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRole()
+        {
+            string moduleId = nameof(SystemRole);
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
+            return systemRoleFunctions;
+        }
 
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleSystemRoleFunction() => _systemRoleFunctionsBaseService.GetFunctionBasic(nameof(SystemRoleFunction));
 
@@ -77,8 +122,11 @@ namespace Api.Controllers.SystemBase._01._2_SystemRoleFunctions.Services
         private IEnumerable<SystemRoleFunction> GetPrivilageModuleUser()
         {
             string moduleId = nameof(User);
-            List<SystemRoleFunction> systemRoleFunctions = [_systemRoleFunctionsBaseService.GetFunctionView(moduleId)];
-            systemRoleFunctions.Add(_systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumUserCustomFunctions.changeActivationType.ToString()));
+            List<SystemRoleFunction> systemRoleFunctions =
+            [
+                .. _systemRoleFunctionsBaseService.GetFunctionBasic(moduleId),
+                _systemRoleFunctionsBaseService.GetFunctionCustomize(moduleId,"تغير حالة التفعيل", EnumBaseCustomFunctions.changeActivationType.ToString()),
+            ];
             return systemRoleFunctions;
          }
 

@@ -1,8 +1,11 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.NutritionalImprovements;
+using App.Core.Interfaces.SystemBase.NutritionalImprovements;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.DTO;
 using App.Core.Models.ClinicModules.NutritionalImprovementsModules.ViewModel;
+using App.Core.Models.ClinicModules.NutritionalImprovementsModules;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -175,6 +178,35 @@ namespace Api.Controllers.SystemBase.NutritionalImprovements
                 {
                     var deletedNutritionalImprovement = await _nutritionalImprovementsServices.DeleteAsync(inputModel);
                     response = response.CreateResponse(deletedNutritionalImprovement, nutritionalImprovementInfoData);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(nutritionalImprovementInfoData);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ChangeNutritionalImprovementActivationType")]
+        public async Task<IActionResult> ChangeNutritionalImprovementActivationType([FromQuery] BaseChangeActivationDto inputModel)
+        {
+            BaseActionResponse<NutritionalImprovementInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidUser = _nutritionalImprovementsValid.isValidChangeActivationTypeNutritionalImprovement(inputModel);
+                if (isValidUser.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidUser, nutritionalImprovementInfoData);
+                else
+                {
+                    var userData = await _nutritionalImprovementsServices.ChangeNutritionalImprovementActivationType(inputModel);
+                    response = response.CreateResponse(userData, nutritionalImprovementInfoData);
                 }
             }
             catch (Exception ex)

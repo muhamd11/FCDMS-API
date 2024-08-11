@@ -6,6 +6,7 @@ using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.SystemBase.Roles;
 using App.Core.Models.SystemBase.Roles.DTO;
 using App.Core.Resources.General;
@@ -131,6 +132,31 @@ namespace Api.Controllers.SystemBase.SystemRoles
                     return isValidSystemRole;
 
                 #endregion ValidateSystemRole
+
+                return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
+            }
+            else
+                return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
+        }
+
+        public BaseValid isValidChangeActivationTypeSystemRole(BaseChangeActivationDto inputModel)
+        {
+            #region isAuthorizedUser *
+
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize, EnumBaseCustomFunctions.changeActivationType.ToString());
+            if (isAuthorizedUser.Status != EnumStatus.success)
+                return isAuthorizedUser;
+
+            #endregion isAuthorizedUser *
+
+            if (inputModel is not null)
+            {
+                var isValidUserToken = ValidSystemRoleToken(inputModel.elementToken);
+                if (isValidUserToken.Status != EnumStatus.success)
+                    return isValidUserToken;
+
+                if (!ValidationClass.IsEnumValue(inputModel.activationType))
+                    return BaseValid.createBaseValid(GeneralMessagesAr.errorActivationType, EnumStatus.error);
 
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             }

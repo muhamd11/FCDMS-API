@@ -1,6 +1,7 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using App.Core.Models.SystemBase.Roles.DTO;
 
 namespace App.Core.Interfaces.SystemBase.SystemRoles
@@ -12,6 +13,8 @@ namespace App.Core.Interfaces.SystemBase.SystemRoles
         BaseValid ValidGetAll(BaseSearchDto inputModel);
 
         BaseValid ValidAddOrUpdate(SystemRoleAddOrUpdateDTO inputModel, bool isUpdate);
+
+        BaseValid isValidChangeActivationTypeSystemRole(BaseChangeActivationDto inputModel);
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 

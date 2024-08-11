@@ -1,4 +1,5 @@
-﻿using App.Core.Consts.Users;
+﻿using App.Core.Consts.SystemBase;
+using App.Core.Consts.Users;
 
 namespace App.Core.Models.SystemBase.Roles.DTO
 {
@@ -9,6 +10,8 @@ namespace App.Core.Models.SystemBase.Roles.DTO
         public string systemRoleDescription { get; set; }
         public EnumUserType systemRoleUserTypeToken { get; set; }
         public bool systemRoleCanUseDefault { get; set; }
-        public string fullCode { get; set; }
+        public string? fullCode { get; set; }
+
+        public EnumActivationType activationType { get; set; }
     }
 }

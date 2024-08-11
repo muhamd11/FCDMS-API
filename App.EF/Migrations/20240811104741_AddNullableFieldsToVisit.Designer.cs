@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240810100535_ChangeIsDeletedToEnitityStatus")]
-    partial class ChangeIsDeletedToEnitityStatus
+    [Migration("20240811104741_AddNullableFieldsToVisit")]
+    partial class AddNullableFieldsToVisit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,11 +31,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
@@ -66,11 +66,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
@@ -115,11 +115,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(450)");
@@ -161,11 +161,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<DateOnly>("expectedDateOfBirth")
                         .HasColumnType("date");
@@ -174,14 +174,12 @@ namespace App.EF.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("generalNotes")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("lastPeriodDate")
                         .HasColumnType("date");
 
                     b.Property<string>("medications")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("numberOfChildren")
@@ -194,7 +192,6 @@ namespace App.EF.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("userPatientComplaining")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("userPatientToken")
@@ -252,11 +249,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
@@ -334,16 +331,14 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("createdDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
-
-                    b.Property<string>("fullCode")
+                    b.Property<string>("customizeFunctionId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("functionId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("functionText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -357,14 +352,8 @@ namespace App.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("primaryFullCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("systemRoleToken")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset?>("updatedDate")
-                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("systemRoleFunctionToken");
 
@@ -377,11 +366,11 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int?>("activationType")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("createdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("entityStatus")
-                        .HasColumnType("int");
 
                     b.Property<string>("fullCode")
                         .HasColumnType("nvarchar(max)");
@@ -709,6 +698,9 @@ namespace App.EF.Migrations
                                 .HasPrecision(30, 18)
                                 .HasColumnType("decimal(30,18)");
 
+                            b1.Property<int>("fetalGender")
+                                .HasColumnType("int");
+
                             b1.Property<decimal>("fetalHeartBeatPerMinute")
                                 .HasPrecision(30, 18)
                                 .HasColumnType("decimal(30,18)");
@@ -725,8 +717,7 @@ namespace App.EF.Migrations
                                 .HasForeignKey("visitToken");
                         });
 
-                    b.Navigation("fetalInformations")
-                        .IsRequired();
+                    b.Navigation("fetalInformations");
 
                     b.Navigation("userPatientData");
                 });

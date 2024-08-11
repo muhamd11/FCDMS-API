@@ -6,13 +6,12 @@ namespace App.Core.Models.ClinicModules.VisitsModules
     public class VisitInfo : BaseEntityInfo
     {
         public Guid visitToken { get; set; }
-        public DateOnly lastPeriodDate { get; set; }
 
         public DateOnly expectedDateOfBirth { get; set; }
 
-        public string userPatientComplaining { get; set; }
+        public string visitDate { get; set; }
 
-        public int numberOfChildren { get; set; }
+        public string userPatientComplaining { get; set; }
 
         public string medications { get; set; }
 

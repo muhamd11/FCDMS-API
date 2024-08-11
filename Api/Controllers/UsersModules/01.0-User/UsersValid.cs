@@ -13,7 +13,6 @@ using App.Core.Models.Users;
 using App.Core.Resources.General;
 using App.Core.Resources.SystemBase.SystemRoles;
 using App.Core.Resources.UsersModules.User;
-using Microsoft.Identity.Client;
 
 namespace Api.Controllers.UsersModule.Users
 {
@@ -255,7 +254,7 @@ namespace Api.Controllers.UsersModule.Users
             //TODO: Change Authorize Token in user Change activation 
             #region isAuthorizedUser *
 
-            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize);
+            var isAuthorizedUser = _authorized.IsAuthorizedUser(moduleToken, EnumFunctionsType.customize, EnumBaseCustomFunctions.changeActivationType.ToString());
             if (isAuthorizedUser.Status != EnumStatus.success)
                 return isAuthorizedUser;
 

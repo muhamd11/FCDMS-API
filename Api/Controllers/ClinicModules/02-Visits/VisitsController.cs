@@ -1,8 +1,11 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.Visits;
+using App.Core.Interfaces.SystemBase.Visits;
+using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules;
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -175,6 +178,35 @@ namespace Api.Controllers.ClinicModules.Visits
                 {
                     var deletedVisit = await _visitsServices.DeleteAsync(inputModel);
                     response = response.CreateResponse(deletedVisit, visitInfoData);
+                }
+            }
+            catch (Exception ex)
+            {
+                response = response.CreateResponseCatch(visitInfoData);
+                _logger.LogError(ex, ex.Message);
+            }
+            finally
+            {
+                watch.Stop();
+                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+            }
+            return Ok(response);
+        }
+
+        [HttpPost("ChangeVisitActivationType")]
+        public async Task<IActionResult> ChangeVisitActivationType([FromQuery] BaseChangeActivationDto inputModel)
+        {
+            BaseActionResponse<VisitInfo> response = new();
+            var watch = Stopwatch.StartNew();
+            try
+            {
+                var isValidUser = _visitsValid.isValidChangeActivationTypeVisit(inputModel);
+                if (isValidUser.Status != EnumStatus.success)
+                    response = response.CreateResponse(isValidUser, visitInfoData);
+                else
+                {
+                    var userData = await _visitsServices.ChangeVisitActivationType(inputModel);
+                    response = response.CreateResponse(userData, visitInfoData);
                 }
             }
             catch (Exception ex)

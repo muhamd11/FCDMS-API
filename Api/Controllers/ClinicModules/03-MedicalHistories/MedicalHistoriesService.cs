@@ -1,4 +1,5 @@
 ﻿using App.Core;
+using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.MedicalHistories;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules;
 using App.Core.Models.ClinicModules.MedicalHistoriesModules.DTO;
@@ -6,6 +7,7 @@ using App.Core.Models.ClinicModules.MedicalHistoriesModules.ViewModel;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 using AutoMapper;
 using System.Linq.Expressions;
 
@@ -78,6 +80,7 @@ namespace Api.Controllers.SystemBase.MedicalHistories
             var medicalHistory = _mapper.Map<MedicalHistory>(inputModel);
             medicalHistory = SetFullCode(medicalHistory);
             AddPatientMeasurement(medicalHistory);
+            medicalHistory.activationType = medicalHistory.activationType == 0 ? EnumActivationType.active : medicalHistory.activationType;
 
             if (isUpdate)
                 _unitOfWork.MedicalHistories.Update(medicalHistory);
@@ -89,6 +92,27 @@ namespace Api.Controllers.SystemBase.MedicalHistories
             var medicalHistoryInfo = await _unitOfWork.MedicalHistories.FirstOrDefaultAsync(x => x.medicalHistoryToken == medicalHistory.medicalHistoryToken, MedicalHistoriesAdaptor.SelectExpressionMedicalHistoryInfo());
 
             return BaseActionDone<MedicalHistoryInfo>.GenrateBaseActionDone(isDone, medicalHistoryInfo);
+        }
+
+
+        public async Task<BaseActionDone<MedicalHistoryInfo>> ChangeMedicalHistoryActivationType(BaseChangeActivationDto inputModel)
+        {
+            var medicalHistory = await _unitOfWork.MedicalHistories.FirstOrDefaultAsync(x => x.medicalHistoryToken == inputModel.elementToken);
+
+            MedicalHistoryAddOrUpdateDTO MedicalHistoryAddOrUpdateDTO = new()
+            {
+                medicalHistoryToken = medicalHistory.medicalHistoryToken,
+                userPatientToken = medicalHistory.userPatientToken,
+                fullCode = medicalHistory.fullCode,
+                patientBloodPressureMeasurement = medicalHistory.patientBloodPressureMeasurement,
+                patientSugarMeasurement = medicalHistory.patientSugarMeasurement,
+                patientThyroidSensitivityMeasurement = medicalHistory.patientThyroidSensitivityMeasurement,
+                
+                // Update MedicalHistory Activation Type
+                activationType = inputModel.activationType
+            };
+
+            return await AddOrUpdate(MedicalHistoryAddOrUpdateDTO, true);
         }
 
         private MedicalHistory SetFullCode(MedicalHistory medicalHistory)

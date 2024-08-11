@@ -19,6 +19,6 @@ namespace App.Core.Interfaces.SystemBase._01._2_SystemRoleFincations
 
         public SystemRoleFunction GetFunctionFinalDelete(string moduleId);
 
-        public SystemRoleFunction GetFunctionCustomize(string moduleId, string functionText, string customizeFuncationId);
+        public SystemRoleFunction GetFunctionCustomize(string moduleId, string functionText, string customizeFunctionId);
     }
 }

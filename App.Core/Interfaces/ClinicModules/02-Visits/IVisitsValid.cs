@@ -2,6 +2,7 @@
 using App.Core.Models.ClinicModules.VisitsModules.DTO;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.GeneralModels.BaseRequstModules;
 
 namespace App.Core.Interfaces.SystemBase.Visits
 {
@@ -12,6 +13,8 @@ namespace App.Core.Interfaces.SystemBase.Visits
         BaseValid ValidGetAll(BaseSearchDto inputModel);
 
         BaseValid ValidAddOrUpdate(VisitAddOrUpdateDTO inputModel, bool isUpdate);
+
+        BaseValid isValidChangeActivationTypeVisit(BaseChangeActivationDto inputModel);
 
         BaseValid ValidDelete(BaseDeleteDto inputModel);
 

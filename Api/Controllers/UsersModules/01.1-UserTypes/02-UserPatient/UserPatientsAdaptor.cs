@@ -11,6 +11,7 @@ namespace Api.Controllers.UsersModule.Users
             return user => new UserPatientInfo
             {
                 userPatientAge = user.userPatientAge,
+                lastPeriodDate=user.lastPeriodDate,
                 userPatientBloodType = user.userPatientBloodType,
                 userPatientChildrenCount = user.userPatientChildrenCount,
             };
@@ -24,6 +25,7 @@ namespace Api.Controllers.UsersModule.Users
             return new UserPatientInfo
             {
                 userPatientAge = user.userPatientAge,
+                lastPeriodDate = user.lastPeriodDate,
                 userPatientBloodType = user.userPatientBloodType,
                 userPatientChildrenCount = user.userPatientChildrenCount,
             };
