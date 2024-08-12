@@ -1,6 +1,6 @@
 ﻿using App.Core.Consts.GeneralModels;
 using App.Core.Interfaces.SystemBase.LogActions;
-using App.Core.Models.General.BaseRequstModules;
+using App.Core.Models.SystemBase._02_LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions.ViewModel;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +42,7 @@ namespace Api.Controllers.ClinicModules.LogActions
         #region Methods
 
         [HttpGet("GetLogActionDetails")]
-        public async Task<IActionResult> GetLogActionDetails([FromQuery] BaseGetDetailsDto inputModel)
+        public async Task<IActionResult> GetLogActionDetails([FromQuery] LogActionGetDetails inputModel)
         {
             BaseGetDetailsResponse<LogActionInfoDetails> response = new();
             var watch = Stopwatch.StartNew();

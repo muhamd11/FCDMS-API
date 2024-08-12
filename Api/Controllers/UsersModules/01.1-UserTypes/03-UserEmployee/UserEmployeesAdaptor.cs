@@ -1,7 +1,6 @@
-﻿using App.Core.Models.UsersModule._01._1_UserTypes._02_UserClientData.ViewModel;
+﻿using App.Core.Consts.GeneralModels;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee;
 using App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.ViewModel;
-using App.Core.Models.UsersModule._01_1_UserTypes._02_UserPatientData;
 using System.Linq.Expressions;
 
 namespace Api.Controllers.UsersModule.Users
@@ -12,9 +11,9 @@ namespace Api.Controllers.UsersModule.Users
         {
             return user => new UserEmployeeInfo
             {
-                userGender = user.userGender,
+                userGender = (EnumGenderType)user.userGender!,
                 userNationality = user.userNationality,
-                userNationalId= user.userNationalId
+                userNationalId = user.userNationalId
             };
         }
 
@@ -25,7 +24,7 @@ namespace Api.Controllers.UsersModule.Users
 
             return new UserEmployeeInfo
             {
-                userGender = user.userGender,
+                userGender = (EnumGenderType)user.userGender!,
                 userNationality = user.userNationality,
                 userNationalId = user.userNationalId
             };

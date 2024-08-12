@@ -1,6 +1,6 @@
 ﻿using App.Core.Interfaces.General.Scrutor;
-using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.SystemBase._02_LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions.DTO;
 
 namespace App.Core.Interfaces.SystemBase.LogActions
@@ -9,8 +9,8 @@ namespace App.Core.Interfaces.SystemBase.LogActions
     {
         BaseValid ValidGetAll(LogActionSearchDto inputModel);
 
-        BaseValid ValidGetDetails(BaseGetDetailsDto inputModel);
+        BaseValid ValidGetDetails(LogActionGetDetails inputModel);
 
-        BaseValid ValidLogActionToken(Guid logActionToken);
+        BaseValid ValidLogActionToken(ulong logActionId);
     }
 }

@@ -48,12 +48,7 @@ namespace App.EF.Migrations
                     customizeFunctionId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     moduleId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     functionId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    isHavePrivilege = table.Column<bool>(type: "bit", nullable: false),
-                    fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    activationType = table.Column<int>(type: "int", nullable: true),
-                    createdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    updatedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true)
+                    isHavePrivilege = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -67,8 +62,8 @@ namespace App.EF.Migrations
                 {
                     systemRoleToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     systemRoleName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    systemRoleDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    userTypeToken = table.Column<int>(type: "int", nullable: false),
+                    systemRoleDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    systemRoleUserTypeToken = table.Column<int>(type: "int", nullable: false),
                     systemRoleCanUseDefault = table.Column<bool>(type: "bit", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -254,7 +249,10 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     userEmployeeToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    userGender = table.Column<int>(type: "int", nullable: true),
+                    userNationality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    userNationalId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -274,6 +272,7 @@ namespace App.EF.Migrations
                 {
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     userToken = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    lastPeriodDate = table.Column<DateOnly>(type: "date", nullable: false),
                     userPatientBloodType = table.Column<int>(type: "int", nullable: false),
                     userPatientChildrenCount = table.Column<int>(type: "int", nullable: false),
                     userPatientAge = table.Column<int>(type: "int", nullable: false)
@@ -325,17 +324,16 @@ namespace App.EF.Migrations
                 columns: table => new
                 {
                     visitToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    lastPeriodDate = table.Column<DateOnly>(type: "date", nullable: false),
                     expectedDateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
-                    userPatientComplaining = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    numberOfChildren = table.Column<int>(type: "int", nullable: false),
-                    medications = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    generalNotes = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    fetalInformations_fetalHeartBeatPerMinute = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
-                    fetalInformations_fetalAgeInWeeks = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
-                    fetalInformations_fetalAgeInMonths = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
-                    fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: false),
-                    fetalInformations_fetalGender = table.Column<int>(type: "int", nullable: false),
+                    visitDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    userPatientComplaining = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    medications = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    generalNotes = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    fetalInformations_fetalHeartBeatPerMinute = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: true),
+                    fetalInformations_fetalAgeInWeeks = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: true),
+                    fetalInformations_fetalAgeInMonths = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: true),
+                    fetalInformations_fetalWeightInKg = table.Column<decimal>(type: "decimal(30,18)", precision: 30, scale: 18, nullable: true),
+                    fetalInformations_fetalGender = table.Column<int>(type: "int", nullable: true),
                     userPatientToken = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     fullCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     primaryFullCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -358,13 +356,13 @@ namespace App.EF.Migrations
             migrationBuilder.InsertData(
                 schema: "SystemBase",
                 table: "SystemRoles",
-                columns: new[] { "systemRoleToken", "activationType", "createdDate", "fullCode", "primaryFullCode", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "updatedDate", "userTypeToken" },
+                columns: new[] { "systemRoleToken", "activationType", "createdDate", "fullCode", "primaryFullCode", "systemRoleCanUseDefault", "systemRoleDescription", "systemRoleName", "systemRoleUserTypeToken", "updatedDate" },
                 values: new object[,]
                 {
-                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", null, 3 },
-                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", null, 4 },
-                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", null, 1 },
-                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", null, 2 }
+                    { new Guid("1b14e306-a0cd-4334-a30d-3f4d92b5ae68"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "3", null, true, "مضافة من قبل النظام", "صلاحيات موظف اساسية", 3, null },
+                    { new Guid("2b979b0d-66d7-4b2d-b048-e448c902b1fe"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "4", null, true, "مضافة من قبل النظام", "صلاحيات مريض اساسية", 4, null },
+                    { new Guid("ad792233-ba34-40f0-afb6-ed4c742abb1f"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "1", null, true, "مضافة من قبل النظام", "صلاحيات مطور اساسية", 1, null },
+                    { new Guid("f0a30312-33ad-4969-b904-cb2edfdaccc6"), null, new DateTimeOffset(new DateTime(2022, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 2, 0, 0, 0)), "2", null, true, "مضافة من قبل النظام", "صلاحيات دكتور اساسية", 2, null }
                 });
 
             migrationBuilder.InsertData(

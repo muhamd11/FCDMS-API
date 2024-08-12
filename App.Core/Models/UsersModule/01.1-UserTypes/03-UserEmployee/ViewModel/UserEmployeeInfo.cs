@@ -1,5 +1,4 @@
-﻿using App.Core.Consts.ClinicModules;
-using App.Core.Consts.GeneralModels;
+﻿using App.Core.Consts.GeneralModels;
 
 namespace App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.ViewModel
 {
@@ -7,8 +6,8 @@ namespace App.Core.Models.UsersModule._01._1_UserTypes.UserEmployee.ViewModel
     {
         public EnumGenderType userGender { get; set; }
 
-        public string userNationality { get; set; }
+        public string? userNationality { get; set; }
 
-        public string userNationalId { get; set; }
+        public string? userNationalId { get; set; }
     }
 }

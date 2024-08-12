@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240811111657_AddVisitDateFieldToVisit2")]
-    partial class AddVisitDateFieldToVisit2
+    [Migration("20240812145511_InitialDB")]
+    partial class InitialDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -262,18 +262,17 @@ namespace App.EF.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("systemRoleDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("systemRoleName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("systemRoleUserTypeToken")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("updatedDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("userTypeToken")
-                        .HasColumnType("int");
 
                     b.HasKey("systemRoleToken");
 
@@ -288,7 +287,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات مطور اساسية",
-                            userTypeToken = 1
+                            systemRoleUserTypeToken = 1
                         },
                         new
                         {
@@ -298,7 +297,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات دكتور اساسية",
-                            userTypeToken = 2
+                            systemRoleUserTypeToken = 2
                         },
                         new
                         {
@@ -308,7 +307,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات موظف اساسية",
-                            userTypeToken = 3
+                            systemRoleUserTypeToken = 3
                         },
                         new
                         {
@@ -318,7 +317,7 @@ namespace App.EF.Migrations
                             systemRoleCanUseDefault = true,
                             systemRoleDescription = "مضافة من قبل النظام",
                             systemRoleName = "صلاحيات مريض اساسية",
-                            userTypeToken = 4
+                            systemRoleUserTypeToken = 4
                         });
                 });
 
@@ -440,6 +439,15 @@ namespace App.EF.Migrations
                     b.Property<Guid>("userEmployeeToken")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("userGender")
+                        .HasColumnType("int");
+
+                    b.Property<string>("userNationalId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userNationality")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("userToken")
                         .HasColumnType("uniqueidentifier");

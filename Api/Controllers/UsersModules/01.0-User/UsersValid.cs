@@ -5,6 +5,7 @@ using App.Core.Consts.SystemBase;
 using App.Core.Helper.Validations;
 using App.Core.Interfaces.SystemBase.SystemRoles;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
+using App.Core.Interfaces.UsersModule.UserTypes.UserEmployees;
 using App.Core.Interfaces.UsersModule.UserTypes.UserProfiles;
 using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
@@ -24,18 +25,20 @@ namespace Api.Controllers.UsersModule.Users
         private readonly IAuthorized _authorized;
         private readonly ISystemRolesValid _systemRolesValid;
         private readonly IUserProfileValid _userProfileValid;
+        private readonly IUserEmployeesValid _userEmployeeValid;
         private readonly string moduleToken = nameof(User);
 
         #endregion Members
 
         #region Constructor
 
-        public UsersValid(IUnitOfWork unitOfWork, IAuthorized authorized, ISystemRolesValid systemRolesValid, IUserProfileValid userProfileValid)
+        public UsersValid(IUnitOfWork unitOfWork, IAuthorized authorized, ISystemRolesValid systemRolesValid, IUserProfileValid userProfileValid, IUserEmployeesValid userEmployeeValid)
         {
             _unitOfWork = unitOfWork;
             _authorized = authorized;
             _systemRolesValid = systemRolesValid;
             _userProfileValid = userProfileValid;
+            _userEmployeeValid = userEmployeeValid;
         }
 
         #endregion Constructor
@@ -245,6 +248,17 @@ namespace Api.Controllers.UsersModule.Users
             }
 
             #endregion validUserProfile
+
+            #region ValidUserEmployee
+
+            if (inputModel.userEmployeeData != null)
+            {
+                var isValidUserEmployee = _userEmployeeValid.IsValidUserEmployee(inputModel.userEmployeeData);
+                if (isValidUserEmployee.Status != EnumStatus.success)
+                    return isValidUserEmployee;
+            }
+
+            #endregion ValidUserEmployee
 
             return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
         }

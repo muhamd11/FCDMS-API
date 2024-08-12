@@ -48,6 +48,17 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
     //HttpContextAccessor
     builder.Services.AddHttpContextAccessor();
+
+    //Enable CORS
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy("AllowAll", builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+    });
 }
 
 var app = builder.Build();
@@ -55,6 +66,9 @@ var app = builder.Build();
     app.UseHttpsRedirection();
 
     app.UseMiddleware<ExceptionMiddleware>();
+
+    // Enable CORS 
+    app.UseCors("AllowAll");
 
     app.UseAuthorization();
 

@@ -1,5 +1,4 @@
-﻿using App.Core.Consts.GeneralModels;
-using App.Core.Consts.Users;
+﻿using App.Core.Consts.Users;
 using App.Core.Helper;
 using App.Core.Models.Users;
 using App.Core.Resources.General;

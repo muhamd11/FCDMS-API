@@ -1,8 +1,8 @@
 ﻿using App.Core;
 using App.Core.Interfaces.SystemBase.LogActions;
-using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
 using App.Core.Models.General.PaginationModule;
+using App.Core.Models.SystemBase._02_LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions.ViewModel;
@@ -64,11 +64,11 @@ namespace Api.Controllers.SystemBase.LogActions
             return criteria;
         }
 
-        public async Task<LogActionInfoDetails> GetDetails(BaseGetDetailsDto inputModel)
+        public async Task<LogActionInfoDetails> GetDetails(LogActionGetDetails inputModel)
         {
             var select = LogActionsAdaptor.SelectExpressionLogActionDetails();
 
-            Expression<Func<LogAction, bool>> criteria = (x) => x.logActionId.ToString() == inputModel.elementToken.ToString();
+            Expression<Func<LogAction, bool>> criteria = (x) => x.logActionId == inputModel.logActionId;
 
             List<Expression<Func<LogAction, object>>> includes = [];
 

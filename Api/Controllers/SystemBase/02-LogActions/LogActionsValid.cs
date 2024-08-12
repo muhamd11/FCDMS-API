@@ -4,8 +4,8 @@ using App.Core.Consts.GeneralModels;
 using App.Core.Consts.SystemBase;
 using App.Core.Interfaces.SystemBase.LogActions;
 using App.Core.Interfaces.UsersModule.UserAuthentications;
-using App.Core.Models.General.BaseRequstModules;
 using App.Core.Models.General.LocalModels;
+using App.Core.Models.SystemBase._02_LogActions.DTO;
 using App.Core.Models.SystemBase.LogActions;
 using App.Core.Models.SystemBase.LogActions.DTO;
 using App.Core.Resources.General;
@@ -54,7 +54,7 @@ namespace Api.Controllers.SystemBase.LogActions
 
                 if (inputModel.elementToken is not null)
                 {
-                    var isValidLogActionToken = ValidLogActionToken((Guid)inputModel.elementToken);
+                    var isValidLogActionToken = ValidLogActionToken(inputModel.logActionId);
                     if (isValidLogActionToken.Status != EnumStatus.success)
                         return isValidLogActionToken;
                 }
@@ -78,7 +78,7 @@ namespace Api.Controllers.SystemBase.LogActions
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid ValidGetDetails(BaseGetDetailsDto inputModel)
+        public BaseValid ValidGetDetails(LogActionGetDetails inputModel)
         {
             #region isAuthorizedUser *
 
@@ -91,7 +91,7 @@ namespace Api.Controllers.SystemBase.LogActions
 
             if (inputModel is not null)
             {
-                var isValidLogActionToken = ValidLogActionToken(inputModel.elementToken);
+                var isValidLogActionToken = ValidLogActionToken(inputModel.logActionId);
                 if (isValidLogActionToken.Status != EnumStatus.success)
                     return isValidLogActionToken;
 
@@ -101,9 +101,9 @@ namespace Api.Controllers.SystemBase.LogActions
                 return BaseValid.createBaseValid(GeneralMessagesAr.errorNoData, EnumStatus.error);
         }
 
-        public BaseValid ValidLogActionToken(Guid logActionToken)
+        public BaseValid ValidLogActionToken(ulong logActionId)
         {
-            var logAction = _unitOfWork.LogActions.FirstOrDefault(x => x.logActionId.ToString() == logActionToken.ToString());
+            var logAction = _unitOfWork.LogActions.FirstOrDefault(x => x.logActionId == logActionId);
             if (logAction is not null)
                 return BaseValid.createBaseValid(GeneralMessagesAr.operationSuccess, EnumStatus.success);
             else

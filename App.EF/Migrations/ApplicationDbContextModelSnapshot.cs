@@ -437,15 +437,13 @@ namespace App.EF.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("userGender")
+                    b.Property<int?>("userGender")
                         .HasColumnType("int");
 
                     b.Property<string>("userNationalId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("userNationality")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("userToken")

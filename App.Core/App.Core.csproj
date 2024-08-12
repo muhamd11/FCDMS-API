@@ -69,6 +69,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>SystemRolesMessagesAr.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\UsersModules\UserTypes\UserEmployee\UsersEmployeeMessagesAr.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>UsersEmployeeMessagesAr.resx</DependentUpon>
+    </Compile>
     <Compile Update="Resources\UsersModules\UserTypes\UserPatients\UserPatientsMessagesAr.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -122,6 +127,10 @@
     <EmbeddedResource Update="Resources\SystemBase\SystemRoles\SystemRolesMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>SystemRolesMessagesAr.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\UsersModules\UserTypes\UserEmployee\UsersEmployeeMessagesAr.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>UsersEmployeeMessagesAr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\UsersModules\UserTypes\UserPatients\UserPatientsMessagesAr.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
