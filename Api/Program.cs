@@ -33,6 +33,11 @@ var builder = WebApplication.CreateBuilder(args);
     .AddClasses(c => c.AssignableTo<ITransientService>())
     .AsImplementedInterfaces()
     .WithTransientLifetime());
+    
+    builder.Services.Scan(s => s.FromAssemblies(assembly)
+    .AddClasses(c => c.AssignableTo<ITransientServiceT<object>>())
+    .AsImplementedInterfaces()
+    .WithTransientLifetime());
     builder.Services.Scan(s => s.FromAssemblies(assembly)
     .AddClasses(c => c.AssignableTo<ISingletonService>())
     .AsImplementedInterfaces()

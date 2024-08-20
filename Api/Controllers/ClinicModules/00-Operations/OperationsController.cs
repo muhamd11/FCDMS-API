@@ -17,13 +17,12 @@ namespace Api.Controllers.ClinicModules.Operations
 
         //services
         private readonly ILogger<OperationsController> _logger;
-
         private readonly IOperationsValid _operationsValid;
+        private readonly IBaseActionResponse _baseActionResponse;
         private readonly IOperationsServices _operationsServices;
 
         //paramters
         private readonly string operationInfoData = "operationInfoData";
-
         private readonly string operationsInfoData = "operationsInfoData";
         private readonly string operationInfoDetails = "operationInfoDetails";
 
@@ -31,11 +30,15 @@ namespace Api.Controllers.ClinicModules.Operations
 
         #region Constructor
 
-        public OperationsController(IOperationsValid operationsValid, IOperationsServices operationsServices, ILogger<OperationsController> logger)
+        public OperationsController(IOperationsValid operationsValid,
+                                    IOperationsServices operationsServices,
+                                    IBaseActionResponse baseActionResponse,
+                                    ILogger<OperationsController> logger)
         {
             _logger = logger;
             _operationsValid = operationsValid;
             _operationsServices = operationsServices;
+            _baseActionResponse = baseActionResponse;
         }
 
         #endregion Constructor
@@ -104,28 +107,28 @@ namespace Api.Controllers.ClinicModules.Operations
         public async Task<IActionResult> AddOperation([FromBody] OperationAddOrUpdateDTO inputModel)
         {
             string operationInfoData = "operationInfoData";
-            BaseActionResponse<OperationInfo> response = new();
+            var response = new Dictionary<string, object>();
             var watch = Stopwatch.StartNew();
             try
             {
                 var isValidOperation = _operationsValid.ValidAddOrUpdate(inputModel, false);
                 if (isValidOperation.Status != EnumStatus.success)
-                    response = response.CreateResponse(isValidOperation, operationInfoData);
+                    response = _baseActionResponse.CreateResponse(isValidOperation, operationInfoData);
                 else
                 {
                     var operationData = await _operationsServices.AddOrUpdate(inputModel, false);
-                    response = response.CreateResponse(operationData, operationInfoData);
+                    response = _baseActionResponse.CreateResponse(operationData, operationInfoData);
                 }
             }
             catch (Exception ex)
             {
-                response = response.CreateResponseCatch(operationInfoData);
+                response = _baseActionResponse.CreateResponseCatch(operationInfoData);
                 _logger.LogError(ex, ex.Message);
             }
             finally
             {
                 watch.Stop();
-                response[nameof(response.executionTimeMilliseconds)] = watch.ElapsedMilliseconds;
+                response["executionTimeMilliseconds"] = watch.ElapsedMilliseconds;
             }
             return Ok(response);
         }

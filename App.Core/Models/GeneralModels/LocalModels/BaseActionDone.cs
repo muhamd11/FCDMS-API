@@ -8,7 +8,6 @@ namespace App.Core.Models.General.LocalModels
         public EnumStatus Status { get; set; }
         public string Message { get; set; }
         public T? Data { get; set; }
-
         public static BaseActionDone<T> GenrateBaseActionDone(int countRowEffectInDB, T data)
         {
             return new BaseActionDone<T>()
@@ -19,4 +18,8 @@ namespace App.Core.Models.General.LocalModels
             };
         }
     }
+   
+
+
+
 }
